@@ -8,7 +8,6 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy(LazyThreadSafetyMode.PUBLICATION) {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
