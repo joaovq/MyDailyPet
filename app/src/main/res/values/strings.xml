@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">MyDailyPet</string>
+    <string name="app_name">My Daily Pet</string>
+    <!--Home Screen-->
+    <string name="title_home_menu">Home</string>
+    <string name="title_profile_menu">Profile</string>
+    <string name="text_not_reminder_yet_home">Not reminders today or you not add reminders</string>
+    <string name="text_reminders">Reminders</string>
+    <string name="text_my_pets">My Pets</string>
+    <string name="text_add_reminder">Add reminder</string>
+    <string name="text_login">Login</string>
+    <string name="text_logout">Logout</string>
+    <string name="text_add_pet">Add Pet</string>
+    <string name="text_daily">Daily</string>
+    <string name="text_category">Category</string>
+    <string name="home_label">Home</string>
 </resources>
