@@ -18,4 +18,12 @@
     <dimen name="text_size_20sp">20sp</dimen>
     <dimen name="text_size_24sp">24sp</dimen>
     <dimen name="text_size_28sp">28sp</dimen>
+
+    <dimen name="card_item_category_size">89dp</dimen>
+    <dimen name="card_item_category_corner_radius">16dp</dimen>
+    <dimen name="stroke_width_app">0.5dp</dimen>
+    <dimen name="collapsing_toolb_height">120dp</dimen>
+    <dimen name="size_card_view_image_pet">50dp</dimen>
+    <dimen name="corner_radius_image_pet">10dp</dimen>
+    <dimen name="min_height_layout_reminders">120dp</dimen>
 </resources>
