@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">My Daily Pet</string>
+    <string name="label_name">Name</string>
+    <string name="label_type">Type</string>
+    <string name="label_date">Date</string>
+    <string name="text_male">Male</string>
+    <string name="text_female">Female</string>
+    <string name="select_sex_pet">Select sex pet</string>
+    <string name="message_success">Success</string>
+    <string name="message_error">Error in process. See you log</string>
+
+
     <!--Home Screen-->
     <string name="title_home_menu">Home</string>
     <string name="title_profile_menu">Profile</string>
@@ -13,4 +23,13 @@
     <string name="text_daily">Daily</string>
     <string name="text_category">Category</string>
     <string name="home_label">Home</string>
+    <!--Add Pet Screen-->
+    <string name="title_add_pet">Add pet</string>
+    <string name="hint_add_birth">Add birth</string>
+    <string name="btn_text_add_my_pet">Add my pet</string>
+    <string name="label_sex">Sex</string>
+    <string name="subtitle_add_pet">Add your pet and start your daily</string>
+    <string name="label_weight">Weight</string>
+    <string name="hint_weight">0.00</string>
+    <string name="label_weight_metric">Pounds</string>
 </resources>
