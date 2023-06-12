@@ -10,4 +10,7 @@ data class Pet(
     val nickname: String = "",
     val type: String = "",
     val imageUrl: String = "",
+    val weight: Double = 0.0,
+    val birth: String = "",
+    val sex: SexType = SexType.NOT_IDENTIFIED
 ) : Parcelable
