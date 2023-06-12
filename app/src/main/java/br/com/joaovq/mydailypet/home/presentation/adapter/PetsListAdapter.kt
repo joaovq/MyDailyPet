@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.core.util.extension.loadImage
 import br.com.joaovq.mydailypet.core.util.extension.rotateX
 import br.com.joaovq.mydailypet.databinding.ItemPetListBinding
 
@@ -17,8 +18,9 @@ class PetsListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pet: Pet) {
             binding.apply {
-                tvNickname.text = pet.nickname
+                tvNickname.text = pet.name
                 tvType.text = pet.type
+                ivPet.loadImage(url = pet.imageUrl)
                 root.setOnClickListener {
                     rvTasksPet.isVisible = !rvTasksPet.isVisible
                     ivDropdown.rotateX()

@@ -5,17 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.core.util.extension.animateView
 import br.com.joaovq.mydailypet.core.util.extension.toast
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
+import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
+import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val binding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
     }
 
+    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var mPetsAdapter: PetsListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,15 +42,15 @@ class HomeFragment : Fragment() {
         setListenersOfView()
         initToolbar()
         animateView()
+        initStates()
     }
 
     private fun initRecyclerView() {
         with(binding.rvMyPetsList) {
             adapter = PetsListAdapter {
             }.also {
-                it.submitList(mockPets)
+                mPetsAdapter = it
             }
-            setHasFixedSize(true)
         }
     }
 
@@ -64,5 +75,29 @@ class HomeFragment : Fragment() {
     private fun animateView() {
         binding.tvReminders.animateView(animationId = androidx.appcompat.R.anim.abc_slide_in_top)
         binding.rvMyPetsList.animateView(animationId = R.anim.slide_in_left)
+        binding.ltCategories.ltAddPetCategory.root.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
+            )
+        }
+    }
+
+    private fun initStates() {
+        lifecycleScope.launch {
+            homeViewModel.homeState.collectLatest { stateCollected ->
+                stateCollected?.let {
+                    when (it) {
+                        is HomeUiState.Error -> {
+                            toast(text = getString(it.message))
+                        }
+
+                        is HomeUiState.Success -> {
+                            /*TODO add limit 3 in screen and show others with button see more*/
+                            mPetsAdapter.submitList(it.data)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
