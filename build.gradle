@@ -9,6 +9,10 @@ buildscript {
         espresso_version = "3.5.1"
         nav_version = "2.6.0"
         mockkVersion = "1.13.5"
+        jacoco_version = "0.8.8"
+        fragment_version = "1.5.6"
+        room_version = "2.5.1"
+        glide_version = "4.15.0"
     }
     dependencies {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
