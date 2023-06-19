@@ -77,6 +77,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/space_10dp"
+                            android:minHeight="@dimen/accessibility_min_height"
                             app:layout_constraintBottom_toBottomOf="parent">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/iv_calendar"
@@ -115,17 +117,41 @@
                         android:orientation="vertical"
                         android:overScrollMode="never"
                         android:nestedScrollingEnabled="false"
+                        tools:itemCount="1"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:listitem="@layout/item_pet_list"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/lt_categories"/>
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_see_more"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="@dimen/space_16dp"
+                        android:layout_gravity="end"
+                        android:paddingHorizontal="@dimen/space_10dp"
+                        android:gravity="center"
+                        android:minHeight="@dimen/accessibility_min_height"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_see_more"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/color_primary"
+                            android:text="@string/text_see_more"
+                            android:layout_gravity="center"
+                            android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_arrow_see_more"
+                            android:layout_width="wrap_content"
+                            app:srcCompat="@drawable/ic_arrow_right"
+                            android:layout_height="wrap_content"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
                     <include
                         android:id="@+id/lt_categories"
                         layout="@layout/layout_categories"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"/>
+                    <!--TODO OPTIONAL implements categories with compose view-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
