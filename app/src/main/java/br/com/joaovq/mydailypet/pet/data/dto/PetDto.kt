@@ -1,9 +1,10 @@
-package br.com.joaovq.mydailypet.core.data.local.dto
+package br.com.joaovq.mydailypet.pet.data.dto
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.joaovq.mydailypet.core.domain.model.SexType
+import br.com.joaovq.mydailypet.pet.domain.model.SexType
+import java.util.Date
 
 @Entity("pet_tb")
 data class PetDto(
@@ -14,7 +15,8 @@ data class PetDto(
     val nickname: String = "",
     val type: String = "",
     val weight: Double = 0.0,
-    val birth: String = "",
+    val birth: Date? = null,
     @ColumnInfo(name = "image_url")
     val imageUrl: String = "",
+    val animal: String? = "",
 )

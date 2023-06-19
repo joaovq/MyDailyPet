@@ -1,7 +1,8 @@
-package br.com.joaovq.mydailypet.core.data.local.localdatasource
+package br.com.joaovq.mydailypet.pet.data.localdatasource
 
-import br.com.joaovq.mydailypet.core.data.local.dao.PetDao
-import br.com.joaovq.mydailypet.core.data.local.dto.PetDto
+import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
+import br.com.joaovq.mydailypet.pet.data.dao.PetDao
+import br.com.joaovq.mydailypet.pet.data.dto.PetDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class PetLocalDataSource @Inject constructor(
         return try {
             petDao.getAll()
         } catch (e: Exception) {
+            e.printStackTrace()
             emptyFlow()
         }
     }
