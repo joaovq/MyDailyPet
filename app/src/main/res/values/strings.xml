@@ -32,4 +32,6 @@
     <string name="label_weight">Weight</string>
     <string name="hint_weight">0.00</string>
     <string name="label_weight_metric">Pounds</string>
+    <string name="text_see_more">See more</string>
+    <string name="label_animal">Animal</string>
 </resources>
