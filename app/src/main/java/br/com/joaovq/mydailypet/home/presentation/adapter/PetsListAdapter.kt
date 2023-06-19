@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.core.util.extension.loadImage
 import br.com.joaovq.mydailypet.core.util.extension.rotateX
 import br.com.joaovq.mydailypet.databinding.ItemPetListBinding
