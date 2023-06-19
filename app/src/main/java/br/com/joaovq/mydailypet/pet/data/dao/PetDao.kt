@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.data.local.dao
+package br.com.joaovq.mydailypet.pet.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import br.com.joaovq.mydailypet.core.data.local.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.dto.PetDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao

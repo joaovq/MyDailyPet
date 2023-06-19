@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.domain.model
+package br.com.joaovq.mydailypet.pet.domain.model
 
 enum class SexType {
     MALE,
