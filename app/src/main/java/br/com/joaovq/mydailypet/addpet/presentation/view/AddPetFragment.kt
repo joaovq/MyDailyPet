@@ -16,15 +16,18 @@ import androidx.navigation.fragment.findNavController
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.addpet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.addpet.presentation.viewmodel.AddPetViewModel
-import br.com.joaovq.mydailypet.core.domain.model.SexType
+import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.core.util.extension.simpleDatePickerDialog
 import br.com.joaovq.mydailypet.core.util.extension.toast
 import br.com.joaovq.mydailypet.core.util.permission.CameraPermissionManager
 import br.com.joaovq.mydailypet.core.util.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
+import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class AddPetFragment : Fragment() {
@@ -37,6 +40,7 @@ class AddPetFragment : Fragment() {
     private lateinit var pickImagePermissionManager: PickImagePermissionManager
     private lateinit var registerPickImage: ActivityResultLauncher<PickVisualMediaRequest>
     private var mImageUri: Uri? = null
+    private var mBirth: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +101,10 @@ class AddPetFragment : Fragment() {
         binding.etBirthAddPet.setOnClickListener {
             simpleDatePickerDialog { year, month, dayOfMonth ->
                 val dateString = "$dayOfMonth/$month/$year"
-                binding.etBirthAddPet.setText(dateString)
+                val instance = Calendar.getInstance()
+                instance.set(year, month, dayOfMonth)
+                mBirth = instance.time
+                binding.etBirthAddPet.setText(mBirth.format())
             }
         }
         binding.ivPhotoAddPet.setOnClickListener {
@@ -121,8 +128,9 @@ class AddPetFragment : Fragment() {
                 type = binding.atctvTypeAddPet.text.toString(),
                 weight = binding.etWeightAddPet.text.toString().toDouble(),
                 sex = sexType,
-                birth = binding.etBirthAddPet.text.toString(),
+                birth = mBirth,
                 photoPath = imageUriString,
+                animal = binding.atctvAnimalAddPet.text.toString(),
             ),
         )
     }
