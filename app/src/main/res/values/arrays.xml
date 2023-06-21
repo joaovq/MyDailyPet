@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex">
+        <item>@string/select_sex_pet</item>
+        <item>@string/text_male</item>
+        <item>@string/text_female</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>Schnauzer</item>
+        <item>Doberman</item>
+        <item>None</item>
+        <item>Blue Arara</item>
+    </string-array>
+</resources>

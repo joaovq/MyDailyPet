@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".addpet.presentation.view.AddPetFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tb_add_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:navigationIcon="@drawable/ic_close"
+            app:subtitle="@string/subtitle_add_pet"
+            app:subtitleTextColor="@color/color_on_secondary"
+            app:title="@string/title_add_pet"
+            app:titleMargin="0dp"
+            app:titleMarginBottom="0dp" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:paddingVertical="@dimen/space_10dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_add_pet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_photo_add_pet"
+                    android:layout_width="@dimen/size_foto_pet_profile"
+                    android:layout_height="@dimen/size_foto_pet_profile"
+                    android:layout_marginVertical="@dimen/space_10dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:color/darker_gray" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_name_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/label_name"
+                    app:layout_constraintStart_toStartOf="@id/til_name_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/iv_photo_add_pet" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_name_add_pet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_20dp"
+                    app:endIconDrawable="@drawable/ic_close"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_name_add_pet">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_name_add_pet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_field_app"
+                        android:textColor="@color/color_primary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_type_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/label_type"
+                    app:layout_constraintStart_toStartOf="@id/til_name_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/til_name_add_pet" />
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/atctv_type_add_pet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_20dp"
+                    android:background="@drawable/bg_field_app"
+                    android:padding="@dimen/space_10dp"
+                    android:textColor="@color/color_primary"
+                    app:endIconDrawable="@drawable/ic_close"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_type_add_pet" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_animal_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/label_animal"
+                    app:layout_constraintStart_toStartOf="@id/atctv_type_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/atctv_type_add_pet" />
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/atctv_animal_add_pet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_20dp"
+                    android:background="@drawable/bg_field_app"
+                    android:padding="@dimen/space_10dp"
+                    android:textColor="@color/color_primary"
+                    app:endIconDrawable="@drawable/ic_close"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_animal_add_pet" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_weight_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/label_weight"
+                    app:layout_constraintStart_toStartOf="@id/atctv_animal_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/atctv_animal_add_pet" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_weight_metric_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_20dp"
+                    android:text="@string/label_weight_metric"
+                    android:textColor="@color/color_on_secondary"
+                    app:layout_constraintStart_toEndOf="@id/til_weight_add_pet"
+                    app:layout_constraintTop_toTopOf="@id/til_weight_add_pet"
+                    app:layout_constraintBottom_toBottomOf="@id/til_weight_add_pet"
+                     />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_weight_add_pet"
+                    android:layout_width="@dimen/width_date_field"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false"
+                    app:layout_constraintStart_toStartOf="@id/atctv_type_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_weight_add_pet"
+                    app:startIconTint="@color/color_primary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_weight_add_pet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_field_app"
+                        android:hint="@string/hint_weight"
+                        android:inputType="numberDecimal|number"
+                        android:textColor="@color/color_primary"
+                        android:textColorHint="@color/color_primary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_date_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/label_date"
+                    app:layout_constraintStart_toStartOf="@id/til_name_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/til_weight_add_pet" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_birth_add_pet"
+                    android:layout_width="@dimen/width_date_field"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false"
+                    app:layout_constraintStart_toStartOf="@id/atctv_type_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_date_add_pet"
+                    app:startIconDrawable="@drawable/ic_calendar"
+                    app:startIconTint="@color/color_primary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_birth_add_pet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_field_app"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/hint_add_birth"
+                        android:textColor="@color/color_primary"
+                        android:textColorHint="@color/color_primary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_sex_add_pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/label_sex"
+                    app:layout_constraintStart_toStartOf="@id/til_birth_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/til_birth_add_pet" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/sp_sex_add_pet"
+                    android:layout_width="@dimen/width_spinner_sex_app"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_field_app"
+                    android:entries="@array/sex"
+                    android:minHeight="@dimen/min_height_app"
+                    android:padding="@dimen/space_10dp"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintStart_toStartOf="@id/til_birth_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_sex_add_pet" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_10dp"
+            android:text="@string/btn_text_add_my_pet"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

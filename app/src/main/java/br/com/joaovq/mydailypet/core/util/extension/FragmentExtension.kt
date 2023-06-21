@@ -1,10 +1,12 @@
 package br.com.joaovq.mydailypet.core.util.extension
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import java.util.Calendar
 
 fun Fragment.toast(
     context: Context = requireContext(),
@@ -28,4 +30,14 @@ fun Fragment.snackbar(
         }
     }
     snackbar.show()
+}
+
+fun Fragment.simpleDatePickerDialog(action: ((year: Int, month: Int, dayOfMonth: Int) -> Unit)) {
+    val datePickerDialog = DatePickerDialog(requireContext())
+    val instance = Calendar.getInstance()
+    datePickerDialog.setOnDateSetListener { picker, year, month, dayOfMonth ->
+        action(year, month, dayOfMonth)
+    }
+    datePickerDialog.datePicker.maxDate = instance.timeInMillis
+    datePickerDialog.show()
 }

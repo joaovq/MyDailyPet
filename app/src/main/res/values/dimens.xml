@@ -26,4 +26,11 @@
     <dimen name="size_card_view_image_pet">50dp</dimen>
     <dimen name="corner_radius_image_pet">10dp</dimen>
     <dimen name="min_height_layout_reminders">120dp</dimen>
+    <dimen name="corner_radius_field_app">10dp</dimen>
+    <dimen name="field_height_app">50dp</dimen>
+    <dimen name="width_date_field">180dp</dimen>
+    <dimen name="size_foto_pet_profile">120dp</dimen>
+    <dimen name="min_height_app">48dp</dimen>
+    <dimen name="width_spinner_sex_app">150dp</dimen>
+    <dimen name="accessibility_min_height">48dp</dimen>
 </resources>
