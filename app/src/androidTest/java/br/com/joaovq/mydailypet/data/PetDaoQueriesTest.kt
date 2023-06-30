@@ -10,7 +10,7 @@ import br.com.joaovq.mydailypet.core.data.local.database.MyDailyPetDatabase
 import br.com.joaovq.mydailypet.pet.data.dao.PetDao
 import br.com.joaovq.mydailypet.pet.data.dto.PetDto
 import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.mydailypet.core.domain.model.Pet
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.firstOrNull
