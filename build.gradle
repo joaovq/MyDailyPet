@@ -11,6 +11,7 @@ buildscript {
         mockkVersion = "1.13.5"
         jacoco_version = "0.8.8"
         fragment_version = "1.5.6"
+        fragment_testing_version = "1.6.0"
         room_version = "2.5.1"
         glide_version = "4.15.0"
         datastore_version = "1.0.0"
