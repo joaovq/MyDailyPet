@@ -9,17 +9,27 @@
         android:id="@+id/homeFragment"
         android:name="br.com.joaovq.mydailypet.home.presentation.view.HomeFragment"
         android:label="@string/home_label"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_addPetFragment"
-            app:destination="@id/addPetFragment"
-            app:enterAnim="@anim/slide_up"
-            app:popExitAnim="@anim/slide_up_out"
-            />
+            app:destination="@id/addPetFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_petFragment"
+            app:destination="@id/petFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPetFragment"
         android:name="br.com.joaovq.mydailypet.addpet.presentation.view.AddPetFragment"
         android:label="fragment_add_pet"
         tools:layout="@layout/fragment_add_pet" />
+    <fragment
+        android:id="@+id/petFragment"
+        android:name="br.com.joaovq.mydailypet.pet.presentation.view.PetFragment"
+        android:label="PetFragment"
+        tools:layout="@layout/fragment_pet">
+        <argument
+            android:name="id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 </navigation>

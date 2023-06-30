@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout>
+
     <data>
-        <import type="android.graphics.drawable.Drawable"/>
+
+        <import type="android.graphics.drawable.Drawable" />
+
         <variable
             name="icon"
             type="Drawable" />
+
         <variable
             name="text"
             type="String" />
     </data>
+
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="@dimen/card_item_category_size"
         android:layout_height="@dimen/card_item_category_size"
@@ -16,28 +21,30 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_margin="@dimen/space_16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        app:strokeColor="?attr/colorOnSecondary"
+        app:strokeWidth="0.8dp"
         style="@style/Theme.MyDailyPet.Card">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Add pet"
-                android:textColor="@color/color_primary"
+                android:textColor="?attr/colorPrimary"
                 android:text="@{text}"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_10dp"
-                app:tint="@color/color_primary"
+                app:tint="?attr/colorPrimary"
                 android:src="@{icon}"
                 tools:src="@drawable/ic_foot_pet"
                 />

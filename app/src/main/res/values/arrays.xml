@@ -6,10 +6,14 @@
         <item>@string/text_female</item>
     </string-array>
 
-    <string-array name="type">
-        <item>Schnauzer</item>
-        <item>Doberman</item>
-        <item>None</item>
-        <item>Blue Arara</item>
+    <string-array name="breed">
+        <item>@string/text_schnauzer</item>
+        <item>@string/text_doberman</item>
+        <item>@string/text_none</item>
+        <item>@string/text_arara</item>
+    </string-array>
+    <string-array name="picture_alert_items">
+        <item>@string/text_get_picture_alert_item</item>
+        <item>@string/text_take_picture</item>
     </string-array>
 </resources>
