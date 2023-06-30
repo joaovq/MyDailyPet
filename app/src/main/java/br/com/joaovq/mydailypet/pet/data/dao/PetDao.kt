@@ -17,6 +17,9 @@ interface PetDao {
     @Query("SELECT * FROM pet_tb")
     fun getAll(): Flow<List<PetDto>>
 
+    @Query("SELECT * FROM pet_tb where id=:id")
+    fun getById(id: Int): Flow<PetDto>
+
     @Query(
         "SELECT * FROM pet_tb WHERE name LIKE :name" +
             " OR nickname LIKE :name",

@@ -1,10 +1,10 @@
 package br.com.joaovq.mydailypet.pet.data.converters
 
 import androidx.room.TypeConverter
-import br.com.joaovq.mydailypet.pet.domain.model.SexType
-import br.com.joaovq.mydailypet.pet.domain.model.SexType.FEMALE
-import br.com.joaovq.mydailypet.pet.domain.model.SexType.MALE
-import br.com.joaovq.mydailypet.pet.domain.model.SexType.NOT_IDENTIFIED
+import br.com.joaovq.mydailypet.core.domain.model.SexType
+import br.com.joaovq.mydailypet.core.domain.model.SexType.FEMALE
+import br.com.joaovq.mydailypet.core.domain.model.SexType.MALE
+import br.com.joaovq.mydailypet.core.domain.model.SexType.NOT_IDENTIFIED
 
 class SexTypeConverter {
     @TypeConverter

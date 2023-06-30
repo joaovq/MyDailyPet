@@ -1,23 +1,26 @@
 package br.com.joaovq.mydailypet.home.presentation.view
 
-import android.app.AlarmManager
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.AlarmManagerCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.joaovq.mydailypet.R
+import br.com.joaovq.mydailypet.core.util.app.AppMenuItem
 import br.com.joaovq.mydailypet.core.util.extension.animateView
+import br.com.joaovq.mydailypet.core.util.extension.createPopMenu
+import br.com.joaovq.mydailypet.core.util.extension.gone
+import br.com.joaovq.mydailypet.core.util.extension.navWithAnim
 import br.com.joaovq.mydailypet.core.util.extension.toast
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
 import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
+import br.com.joaovq.mydailypet.core.domain.model.Pet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,9 +30,10 @@ class HomeFragment : Fragment() {
     private val binding by lazy {
         FragmentHomeBinding.inflate(layoutInflater)
     }
-
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var mPetsAdapter: PetsListAdapter
+    private var petId: Int? = null
+    private var petsList: List<Pet>? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,12 +50,18 @@ class HomeFragment : Fragment() {
         initToolbar()
         animateView()
         initStates()
+        binding.ltNavBar.bottomNavApp.gone()
     }
 
     private fun initRecyclerView() {
         with(binding.rvMyPetsList) {
-            adapter = PetsListAdapter {
-            }.also {
+            adapter = PetsListAdapter(
+                setOnClickListItem = {},
+                setOnLongClickListItem = { view, id ->
+                    petId = id
+                    showPopUpMenuPet(view, id)
+                },
+            ).also {
                 mPetsAdapter = it
             }
         }
@@ -62,18 +72,21 @@ class HomeFragment : Fragment() {
             toast(text = "Click add reminder")
         }
         binding.ltCategories.ltAddPetCategory.root.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navWithAnim(
                 HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
             )
         }
         binding.llSeeMore.setOnClickListener {
-            toast(text = "Click see more")
+            petsList?.let {
+                mPetsAdapter.submitList(it)
+            }
         }
     }
 
     private fun initToolbar() {
         /*TODO set visible if authenticate*/
         /*binding.tbHome.menu[1].isVisible = true*/
+        binding.tbHome.menu[0].isVisible = false
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.login_item -> {
@@ -99,12 +112,41 @@ class HomeFragment : Fragment() {
                         }
 
                         is HomeUiState.Success -> {
-                            /*TODO add limit 3 in screen and show others with button see more*/
-                            mPetsAdapter.submitList(it.data)
+                            mPetsAdapter.submitList(
+                                when {
+                                    it.data.size > 3 -> it.data.slice((0..2))
+                                    else -> it.data
+                                },
+                            )
+                            petsList = it.data
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun showPopUpMenuPet(view: View, id: Int) {
+        val appMenuItem = renderMenuItems(id)
+        createPopMenu(view, items = appMenuItem).show()
+    }
+
+    private fun renderMenuItems(id: Int): List<AppMenuItem> {
+        return listOf(
+            AppMenuItem(
+                R.string.see_details_pet_item_menu,
+            ) {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToPetFragment(id),
+                )
+            },
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        petId?.let {
+            petId = null
         }
     }
 }

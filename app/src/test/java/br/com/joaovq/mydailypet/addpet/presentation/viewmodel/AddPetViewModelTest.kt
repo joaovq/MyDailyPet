@@ -29,7 +29,7 @@ class AddPetViewModelTest {
     private val petDto = PetDto()
     val action = AddPetAction.Submit(
         name = petDto.name,
-        type = petDto.type,
+        type = petDto.breed,
         weight = petDto.weight,
         sex = petDto.sex,
         birth = petDto.birth,

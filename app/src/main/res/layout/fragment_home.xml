@@ -15,12 +15,14 @@
                     android:layout_width="match_parent"
                     app:title="Home"
                     app:logo="@drawable/ic_round_logo_2"
-                    app:titleTextColor="@color/color_primary"
+                    app:layout_collapseMode="pin"
+                    app:logoDescription="@string/app_name"
+                    app:titleTextAppearance="@style/Theme.MyDailyPet.TextAppearanceTitleToolbar"
                     android:background="@android:color/transparent"
                     android:layout_height="?attr/actionBarSize"
                     app:menu="@menu/toolbar_menu"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                    app:layout_collapseMode="pin"/>
+                    app:titleTextColor="?attr/colorPrimary" />
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,13 +30,17 @@
             tools:context=".home.presentation.view.HomeFragment"
             android:gravity="center"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_reminders"
                         android:layout_width="wrap_content"
@@ -42,7 +48,7 @@
                         android:layout_marginStart="@dimen/space_20dp"
                         android:layout_marginVertical="@dimen/space_10dp"
                         android:textSize="@dimen/text_size_20sp"
-                        android:textColor="@color/color_primary"
+                        android:textColor="?attr/colorPrimary"
                         android:textStyle="bold"
                         android:layout_height="wrap_content"/>
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,7 +91,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:srcCompat="@drawable/ic_calendar"
-                                android:tint="@color/color_primary"
+                                android:tint="?attr/colorPrimary"
                                 />
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/tv_add_reminder"
@@ -93,7 +99,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/text_add_reminder"
                                 android:layout_margin="@dimen/space_10dp"
-                                android:textColor="@color/color_primary"
+                                android:textColor="?attr/colorPrimary"
                                 android:textStyle="bold"
                                 android:layout_marginEnd="@dimen/space_16dp"
                                 />
@@ -106,7 +112,7 @@
                         android:layout_marginStart="@dimen/space_20dp"
                         android:layout_marginVertical="@dimen/space_10dp"
                         android:textSize="@dimen/text_size_20sp"
-                        android:textColor="@color/color_primary"
+                        android:textColor="?attr/colorPrimary"
                         android:textStyle="bold"
                         android:layout_height="wrap_content"/>
                     <androidx.recyclerview.widget.RecyclerView
@@ -135,7 +141,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_see_more"
                             android:layout_width="wrap_content"
-                            android:textColor="@color/color_primary"
+                            android:textColor="?attr/colorPrimary"
                             android:text="@string/text_see_more"
                             android:layout_gravity="center"
                             android:layout_height="wrap_content"/>
@@ -155,15 +161,10 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_app"
-            android:layout_width="match_parent"
-            android:layout_gravity="bottom"
-            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-            app:labelVisibilityMode="selected"
-            app:menu="@menu/bottom_nav_menu"
-            style="@style/Theme.MyDailyPet.BottomNav"
-            android:background="@drawable/bg_bottom_nav_app"
-            android:layout_height="wrap_content"/>
+
+        <include
+            android:id="@+id/lt_nav_bar"
+            layout="@layout/layout_bottom_nav_home"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

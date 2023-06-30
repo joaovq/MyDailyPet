@@ -19,6 +19,15 @@ class PetLocalDataSource @Inject constructor(
         }
     }
 
+    override fun getById(id: Int): Flow<PetDto> {
+        return try {
+            petDao.getById(id)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyFlow()
+        }
+    }
+
     override suspend fun update(entity: PetDto) {
         try {
             petDao.updatePet(entity)

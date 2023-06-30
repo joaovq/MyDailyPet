@@ -16,7 +16,7 @@ import br.com.joaovq.mydailypet.pet.data.dto.PetDto
     entities = [
         PetDto::class,
     ],
-    version = 4,
+    version = 2,
 )
 @TypeConverters(
     value = [
@@ -38,11 +38,9 @@ abstract class MyDailyPetDatabase : RoomDatabase() {
                         context,
                         MyDailyPetDatabase::class.java,
                         "my_daily_pet_db",
-                    ).addMigrations(
+                    ).fallbackToDestructiveMigration()/*addMigrations(
                         DatabaseMigrations.Migration1To2,
-                        DatabaseMigrations.Migration2To3,
-                        DatabaseMigrations.Migration3To4,
-                    ).build()
+                    )*/.build()
                 }
                 return instance as MyDailyPetDatabase
             }

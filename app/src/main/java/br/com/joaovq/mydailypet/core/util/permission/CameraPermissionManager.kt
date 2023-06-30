@@ -10,12 +10,14 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class CameraPermissionManager private constructor(private val fragment: Fragment) :
+class CameraPermissionManager private constructor(
+    private val fragment: Fragment,
+    private val action: (Boolean) -> Unit,
+) :
     PermissionManager {
     private val permissions: Permissions = Permissions.Camera
     private var rationaleMessage: String = ""
     private var rationale: () -> Unit = {}
-    private var action: (Boolean) -> Unit = {}
     private var registerForActivity: ActivityResultLauncher<Array<String>> =
         fragment.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions(),
@@ -65,7 +67,9 @@ class CameraPermissionManager private constructor(private val fragment: Fragment
     }
 
     companion object {
-        fun from(fragment: Fragment) = CameraPermissionManager(fragment = fragment)
+        fun from(fragment: Fragment, action: (Boolean) -> Unit) =
+            CameraPermissionManager(fragment = fragment, action)
+
         const val RATIONALE_TITLE = "Camera use"
         const val RATIONALE_POSITIVE_BUTTON = "SETTINGS"
         const val RATIONALE_NEGATIVE_BUTTON = "CANCEL"

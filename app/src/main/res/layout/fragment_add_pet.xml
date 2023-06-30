@@ -9,6 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorSecondary"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -16,8 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:navigationIcon="@drawable/ic_close"
+            app:titleTextAppearance="@style/Theme.MyDailyPet.TextAppearanceTitleToolbar"
             app:subtitle="@string/subtitle_add_pet"
             app:subtitleTextColor="@color/color_on_secondary"
             app:title="@string/title_add_pet"
@@ -25,12 +27,30 @@
             app:titleMarginBottom="0dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pb_add_pet_frag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="?attr/colorPrimary"
+        android:foregroundTint="?attr/colorPrimary"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateOnly="true"
+        android:progressBackgroundTint="?attr/colorPrimary"
+        android:progressTint="?attr/colorPrimary"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_add_pet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <ScrollView
+            android:id="@+id/sv_add_pet"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:overScrollMode="never"
@@ -45,16 +65,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <include
                     android:id="@+id/iv_photo_add_pet"
                     android:layout_width="@dimen/size_foto_pet_profile"
                     android:layout_height="@dimen/size_foto_pet_profile"
                     android:layout_marginVertical="@dimen/space_10dp"
+                    layout="@layout/layout_photo_pet"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@android:color/darker_gray" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_label_name_add_pet"
@@ -80,30 +100,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_field_app"
-                        android:textColor="@color/color_primary" />
+                        android:textColor="?attr/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_label_type_add_pet"
+                    android:id="@+id/tv_label_breed_add_pet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_10dp"
                     android:layout_marginTop="@dimen/space_20dp"
-                    android:text="@string/label_type"
+                    android:text="@string/label_breed"
                     app:layout_constraintStart_toStartOf="@id/til_name_add_pet"
                     app:layout_constraintTop_toBottomOf="@id/til_name_add_pet" />
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/atctv_type_add_pet"
+                    android:id="@+id/atctv_bredd_add_pet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/space_20dp"
                     android:background="@drawable/bg_field_app"
                     android:padding="@dimen/space_10dp"
-                    android:textColor="@color/color_primary"
+                    android:cursorVisible="true"
+                    android:textColor="?attr/colorPrimary"
                     app:endIconDrawable="@drawable/ic_close"
                     app:endIconMode="clear_text"
-                    app:layout_constraintTop_toBottomOf="@id/tv_label_type_add_pet" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_breed_add_pet" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_label_animal_add_pet"
@@ -112,8 +133,8 @@
                     android:layout_marginStart="@dimen/space_10dp"
                     android:layout_marginTop="@dimen/space_20dp"
                     android:text="@string/label_animal"
-                    app:layout_constraintStart_toStartOf="@id/atctv_type_add_pet"
-                    app:layout_constraintTop_toBottomOf="@id/atctv_type_add_pet" />
+                    app:layout_constraintStart_toStartOf="@id/atctv_bredd_add_pet"
+                    app:layout_constraintTop_toBottomOf="@id/atctv_bredd_add_pet" />
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/atctv_animal_add_pet"
@@ -122,7 +143,8 @@
                     android:layout_marginHorizontal="@dimen/space_20dp"
                     android:background="@drawable/bg_field_app"
                     android:padding="@dimen/space_10dp"
-                    android:textColor="@color/color_primary"
+                    android:textColor="?attr/colorPrimary"
+                    android:cursorVisible="true"
                     app:endIconDrawable="@drawable/ic_close"
                     app:endIconMode="clear_text"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_animal_add_pet" />
@@ -153,9 +175,9 @@
                     android:layout_width="@dimen/width_date_field"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false"
-                    app:layout_constraintStart_toStartOf="@id/atctv_type_add_pet"
+                    app:layout_constraintStart_toStartOf="@id/atctv_bredd_add_pet"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_weight_add_pet"
-                    app:startIconTint="@color/color_primary">
+                    app:startIconTint="?attr/colorPrimary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_weight_add_pet"
@@ -163,9 +185,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_field_app"
                         android:hint="@string/hint_weight"
-                        android:inputType="numberDecimal|number"
-                        android:textColor="@color/color_primary"
-                        android:textColorHint="@color/color_primary" />
+                        android:digits="0123456789"
+                        android:inputType="numberDecimal"
+                        android:textColor="?attr/colorPrimary"
+                        android:textColorHint="?attr/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -184,10 +207,10 @@
                     android:layout_width="@dimen/width_date_field"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false"
-                    app:layout_constraintStart_toStartOf="@id/atctv_type_add_pet"
+                    app:layout_constraintStart_toStartOf="@id/atctv_bredd_add_pet"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_date_add_pet"
                     app:startIconDrawable="@drawable/ic_calendar"
-                    app:startIconTint="@color/color_primary">
+                    app:startIconTint="?attr/colorPrimary">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_birth_add_pet"
@@ -197,8 +220,8 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:hint="@string/hint_add_birth"
-                        android:textColor="@color/color_primary"
-                        android:textColorHint="@color/color_primary" />
+                        android:textColor="?attr/colorPrimary"
+                        android:textColorHint="?attr/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -221,8 +244,6 @@
                     android:spinnerMode="dialog"
                     app:layout_constraintStart_toStartOf="@id/til_birth_add_pet"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_sex_add_pet" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -230,7 +251,7 @@
             android:id="@+id/btn_add_pet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_10dp"
+            android:layout_marginBottom="@dimen/space_10dp"
             android:text="@string/btn_text_add_my_pet"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />

@@ -8,7 +8,7 @@ import br.com.joaovq.mydailypet.core.presentation.BaseViewModel
 import br.com.joaovq.mydailypet.di.IODispatcher
 import br.com.joaovq.mydailypet.pet.data.dto.PetDto
 import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.mydailypet.core.domain.model.Pet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
