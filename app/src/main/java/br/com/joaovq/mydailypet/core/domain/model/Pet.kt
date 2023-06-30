@@ -1,7 +1,6 @@
-package br.com.joaovq.mydailypet.pet.domain.model
+package br.com.joaovq.mydailypet.core.domain.model
 
 import android.os.Parcelable
-import br.com.joaovq.mydailypet.core.domain.model.EmittingAnimal
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -15,7 +14,8 @@ data class Pet(
     val animal: String = "",
     val weight: Double = 0.0,
     val birth: Date? = null,
-    val sex: SexType = SexType.NOT_IDENTIFIED
+    val sex: SexType = SexType.NOT_IDENTIFIED,
+    val attachs: List<Attach> = listOf(),
 ) : Parcelable, EmittingAnimal {
     override fun emitting() {
         TODO("Emitting sound for animal")
