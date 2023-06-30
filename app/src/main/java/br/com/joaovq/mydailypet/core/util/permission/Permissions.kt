@@ -2,11 +2,20 @@ package br.com.joaovq.mydailypet.core.util.permission
 
 import android.Manifest
 import android.os.Build
+import androidx.annotation.RequiresApi
 
+@RequiresApi(Build.VERSION_CODES.R)
 sealed class Permissions(val permissions: Array<String>) {
     object Camera : Permissions(arrayOf(CAMERA))
     object PickImage :
-        Permissions(arrayOf(READ_IMAGES, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE))
+        Permissions(
+            arrayOf(
+                READ_IMAGES,
+                WRITE_EXTERNAL_STORAGE,
+                READ_EXTERNAL_STORAGE,
+                MANAGE_EXTERNAL_STORAGE,
+            ),
+        )
 
     companion object {
         const val CAMERA = Manifest.permission.CAMERA
@@ -17,5 +26,6 @@ sealed class Permissions(val permissions: Array<String>) {
         }
         const val WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
         const val READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
+        const val MANAGE_EXTERNAL_STORAGE = Manifest.permission.MANAGE_EXTERNAL_STORAGE
     }
 }
