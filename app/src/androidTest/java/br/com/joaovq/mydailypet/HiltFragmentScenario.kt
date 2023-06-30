@@ -34,7 +34,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
         }
         activity.supportFragmentManager
             .beginTransaction()
-            .replace(android.R.id.content, fragment, "")
+            .replace(R.id.fcv_main, fragment, "")
             .commitNow()
         fragment.action()
     }
