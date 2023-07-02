@@ -53,4 +53,8 @@
     <string name="text_take_picture">Take picture</string>
     <string name="text_schnauzer">Schnauzer</string>
     <string name="text_doberman">Doberman</string>
+    <!--Settings-->
+    <string name="title_dark_mode">Dark mode</string>
+    <string name="template_version">Version %s</string>
+    <string name="text_select_birth">Select Birth</string>
 </resources>

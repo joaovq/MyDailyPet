@@ -53,9 +53,7 @@
             android:id="@+id/sv_add_pet"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:overScrollMode="never"
-            android:paddingVertical="@dimen/space_10dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_add_pet"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -69,7 +67,7 @@
                     android:id="@+id/iv_photo_add_pet"
                     android:layout_width="@dimen/size_foto_pet_profile"
                     android:layout_height="@dimen/size_foto_pet_profile"
-                    android:layout_marginVertical="@dimen/space_10dp"
+                    android:layout_marginVertical="@dimen/space_16dp"
                     layout="@layout/layout_photo_pet"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -121,6 +119,7 @@
                     android:background="@drawable/bg_field_app"
                     android:padding="@dimen/space_10dp"
                     android:cursorVisible="true"
+                    android:textCursorDrawable="?attr/colorPrimary"
                     android:textColor="?attr/colorPrimary"
                     app:endIconDrawable="@drawable/ic_close"
                     app:endIconMode="clear_text"
@@ -143,6 +142,7 @@
                     android:layout_marginHorizontal="@dimen/space_20dp"
                     android:background="@drawable/bg_field_app"
                     android:padding="@dimen/space_10dp"
+                    android:textCursorDrawable="?attr/colorPrimary"
                     android:textColor="?attr/colorPrimary"
                     android:cursorVisible="true"
                     app:endIconDrawable="@drawable/ic_close"
@@ -175,6 +175,7 @@
                     android:layout_width="@dimen/width_date_field"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false"
+                    app:endIconMode="clear_text"
                     app:layout_constraintStart_toStartOf="@id/atctv_bredd_add_pet"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_weight_add_pet"
                     app:startIconTint="?attr/colorPrimary">
@@ -242,18 +243,23 @@
                     android:minHeight="@dimen/min_height_app"
                     android:padding="@dimen/space_10dp"
                     android:spinnerMode="dialog"
+                    android:layout_marginBottom="@dimen/space_20dp"
                     app:layout_constraintStart_toStartOf="@id/til_birth_add_pet"
-                    app:layout_constraintTop_toBottomOf="@id/tv_label_sex_add_pet" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_sex_add_pet"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_add_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_10dp"
-            android:text="@string/btn_text_add_my_pet"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_add_pet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:text="@string/btn_text_add_my_pet"
+        android:padding="@dimen/space_20dp"
+        app:icon="@drawable/ic_round_plus"
+        app:iconTint="?attr/colorSecondary"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/space_20dp"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
