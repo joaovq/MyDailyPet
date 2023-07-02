@@ -1,9 +1,9 @@
-package br.com.joaovq.mydailypet.pet.data.dto
+package br.com.joaovq.mydailypet.pet.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.joaovq.mydailypet.core.domain.model.SexType
+import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import java.util.Date
 
 @Entity("pet_tb")

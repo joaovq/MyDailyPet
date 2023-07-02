@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
-import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
+import br.com.joaovq.mydailypet.pet.data.model.PetDto
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.PetIntent
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.PetState
 import br.com.joaovq.mydailypet.testutil.TestUtil

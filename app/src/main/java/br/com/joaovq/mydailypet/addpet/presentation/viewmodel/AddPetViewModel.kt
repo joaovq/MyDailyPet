@@ -3,12 +3,10 @@ package br.com.joaovq.mydailypet.addpet.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.mydailypet.addpet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.addpet.presentation.viewstate.AddPetUiState
-import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.core.presentation.BaseViewModel
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.mydailypet.core.presenter.BaseViewModel
 import br.com.joaovq.mydailypet.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
-import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
-import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.domain.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddPetViewModel @Inject constructor(
-    private val localDataSource: LocalDataSource<PetDto>,
+    private val petRepository: PetRepository,
     @IODispatcher private val dispatcher: CoroutineDispatcher,
 ) : BaseViewModel<AddPetAction, AddPetUiState>() {
 
@@ -52,7 +50,7 @@ class AddPetViewModel @Inject constructor(
             _state.apply {
                 this.value = AddPetUiState(isLoading = true)
                 try {
-                    localDataSource.insert(pet.toDto())
+                    petRepository.insertPet(pet)
                     this.value = this.value.copy(
                         isLoading = false,
                         isSuccesful = true,

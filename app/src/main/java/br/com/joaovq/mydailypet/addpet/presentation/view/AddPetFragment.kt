@@ -19,16 +19,18 @@ import androidx.navigation.fragment.findNavController
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.addpet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.addpet.presentation.viewmodel.AddPetViewModel
+import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import br.com.joaovq.mydailypet.core.util.app.TextWatcherProvider
 import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.core.util.extension.simpleDatePickerDialog
+import br.com.joaovq.mydailypet.core.util.extension.snackbar
 import br.com.joaovq.mydailypet.core.util.extension.toast
 import br.com.joaovq.mydailypet.core.util.permission.CameraPermissionManager
 import br.com.joaovq.mydailypet.core.util.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
-import br.com.joaovq.mydailypet.core.domain.model.SexType
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -40,7 +42,6 @@ class AddPetFragment : Fragment() {
     private val binding by lazy {
         FragmentAddPetBinding.inflate(layoutInflater)
     }
-
     private val addPetViewModel: AddPetViewModel by viewModels()
     private lateinit var cameraPermissionManager: CameraPermissionManager
     private lateinit var pickImagePermissionManager: PickImagePermissionManager
@@ -49,8 +50,6 @@ class AddPetFragment : Fragment() {
     private var mImageUri: Uri? = null
     private var mBirth: Date? = null
     private var currentWeight = ""
-    private var weightValue = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerPickImage = registerForActivityResult(
@@ -92,6 +91,16 @@ class AddPetFragment : Fragment() {
         setListenersOfView()
         setAdapterType()
         initStates()
+        animateView()
+    }
+
+    private fun animateView() {
+        lifecycleScope.launch {
+            with(binding.btnAddPet) {
+                delay(3000)
+                shrink()
+            }
+        }
     }
 
     private fun setAdapterType() {
@@ -115,7 +124,7 @@ class AddPetFragment : Fragment() {
 
     private fun setListenersOfView() {
         binding.etBirthAddPet.setOnClickListener {
-            simpleDatePickerDialog(title = "Select Birth") { date ->
+            simpleDatePickerDialog(title = getString(R.string.text_select_birth)) { date ->
                 mBirth = date
                 binding.etBirthAddPet.setText(mBirth.format())
             }
@@ -134,20 +143,27 @@ class AddPetFragment : Fragment() {
     }
 
     private fun formatDoubleValueEditable(editable: Editable?) {
-        var value = editable.toString()
-        if (value != currentWeight) {
-            weightValue = if (currentWeight.isBlank()) {
-                value
-            } else {
-                weightValue + value.last()
-                TODO("Catch event for delete string")
+        val value = editable.toString()
+        try {
+            if (value != currentWeight) {
+                val weightValue = value.replace(".", "")
+                currentWeight = if (value.isNotBlank()) {
+                    (
+                        weightValue.toBigDecimal().divide(BigDecimal.valueOf(100))
+                            .setScale(2, RoundingMode.HALF_UP)
+                        ).toString()
+                } else {
+                    ""
+                }
+                editable!!.filters = arrayOfNulls<InputFilter>(0)
+                editable.replace(0, editable.length, currentWeight, 0, currentWeight.length)
             }
-            currentWeight = (
-                weightValue.toBigDecimal().divide(BigDecimal.valueOf(100))
-                    .setScale(2, RoundingMode.HALF_UP)
-                ).toString()
-            editable!!.filters = arrayOfNulls<InputFilter>(0)
-            editable.replace(0, editable.length, currentWeight, 0, currentWeight.length)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            when (e) {
+                is NumberFormatException -> snackbar(message = "Contact your provider")
+                else -> snackbar(message = "unexpected error")
+            }
         }
     }
 
@@ -186,7 +202,7 @@ class AddPetFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             when (e) {
-                is NumberFormatException -> toast(text = "Weight are need number")
+                is NumberFormatException -> snackbar(message = "Weight are need number")
             }
         }
     }

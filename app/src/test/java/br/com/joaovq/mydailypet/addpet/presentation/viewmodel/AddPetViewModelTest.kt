@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.addpet.presentation.viewmodel
 
 import br.com.joaovq.mydailypet.addpet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.addpet.presentation.viewstate.AddPetUiState
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.model.PetDto
 import br.com.joaovq.mydailypet.pet.data.localdatasource.PetLocalDataSource
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
 import io.mockk.MockKAnnotations

@@ -1,12 +1,11 @@
 package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.core.presentation.BaseViewModel
+import br.com.joaovq.mydailypet.core.presenter.BaseViewModel
 import br.com.joaovq.mydailypet.di.IODispatcher
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
 import br.com.joaovq.mydailypet.pet.domain.mappers.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,9 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val localDataSource: LocalDataSource<PetDto>,
+    private val petRepository: PetRepository,
     @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<HomeAction, HomeUiState?>() {
+
     override val _state: MutableStateFlow<HomeUiState?> = MutableStateFlow(null)
     val homeState = _state.asStateFlow()
     private val _isLoading = MutableStateFlow(false)
@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
     private fun getPets() {
         viewModelScope.launch(coroutineDispatcher) {
             try {
-                localDataSource.getAll().onStart {
+                petRepository.getAll().onStart {
                     _isLoading.value = true
                 }.collectLatest { pets ->
                     _state.value = HomeUiState.Success(

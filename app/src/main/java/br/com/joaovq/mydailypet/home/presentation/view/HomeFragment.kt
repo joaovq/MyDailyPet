@@ -20,7 +20,7 @@ import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
 import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
-import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -90,6 +90,12 @@ class HomeFragment : Fragment() {
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.login_item -> {
+                }
+
+                R.id.settings_item -> {
+                    findNavController().navWithAnim(
+                        HomeFragmentDirections.actionHomeFragmentToSettingsFragment(),
+                    )
                 }
             }
             true

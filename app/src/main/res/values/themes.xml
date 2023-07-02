@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MyDailyPet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -13,6 +13,7 @@
         <item name="actionMenuTextColor">@color/color_primary</item>
         <item name="materialCalendarTheme">@style/Theme.MyDailyPet.DatePickerOverlay</item>
         <item name="materialAlertDialogTheme">@style/Theme.MyDailyPet.AlertDialogs</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="Theme.MyDailyPet" parent="Base.Theme.MyDailyPet" >

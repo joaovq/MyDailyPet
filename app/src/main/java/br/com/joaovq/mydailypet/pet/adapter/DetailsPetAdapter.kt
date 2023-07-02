@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.domain.model.Attach
-import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.domain.model.Attach
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.databinding.ItemAttachPetBinding
 import br.com.joaovq.mydailypet.databinding.ItemTitleLayoutBinding
 

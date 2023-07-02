@@ -1,10 +1,9 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.core.presentation.BaseViewModel
+import br.com.joaovq.mydailypet.core.presenter.BaseViewModel
 import br.com.joaovq.mydailypet.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
 import br.com.joaovq.mydailypet.pet.domain.mappers.toDomain
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.PetIntent
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.PetState
@@ -19,9 +18,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+const val PET_TAG_LOG_VM = "pet-view-model"
+
 @HiltViewModel
 class PetScreenViewModel @Inject constructor(
-    private val localDataSource: LocalDataSource<PetDto>,
+    private val petRepository: PetRepository,
     @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<PetIntent, PetState>() {
     override val _state: MutableStateFlow<PetState> = MutableStateFlow(PetState.Initial)
@@ -38,9 +39,9 @@ class PetScreenViewModel @Inject constructor(
     private fun getPet(id: Int) {
         viewModelScope.launch(coroutineDispatcher) {
             try {
-                localDataSource.getById(id).onStart {
+                petRepository.getById(id).onStart {
                     _isLoading.value = true
-                }.onEach { Timber.tag("pet").d(it.toString()) }.collectLatest {
+                }.onEach { Timber.tag(PET_TAG_LOG_VM).d(it.toString()) }.collectLatest {
                     _state.value = PetState.Success(it.toDomain())
                     _isLoading.value = false
                 }

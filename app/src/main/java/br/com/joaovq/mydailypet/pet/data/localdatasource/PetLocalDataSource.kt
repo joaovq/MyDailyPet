@@ -1,8 +1,8 @@
 package br.com.joaovq.mydailypet.pet.data.localdatasource
 
-import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
+import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
 import br.com.joaovq.mydailypet.pet.data.dao.PetDao
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.model.PetDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class PetLocalDataSource @Inject constructor(
         }
     }
 
-    override suspend fun deleteAll(entity: PetDto) {
+    override suspend fun deleteAll() {
         try {
             petDao.deleteAll()
         } catch (e: Exception) {
