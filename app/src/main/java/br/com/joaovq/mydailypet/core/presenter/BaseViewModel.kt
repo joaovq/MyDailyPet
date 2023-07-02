@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.presentation
+package br.com.joaovq.mydailypet.core.presenter
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

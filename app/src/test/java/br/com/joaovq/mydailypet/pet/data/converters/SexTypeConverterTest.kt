@@ -1,8 +1,9 @@
 package br.com.joaovq.mydailypet.pet.data.converters
 
-import br.com.joaovq.mydailypet.core.domain.model.SexType.FEMALE
-import br.com.joaovq.mydailypet.core.domain.model.SexType.MALE
-import br.com.joaovq.mydailypet.core.domain.model.SexType.NOT_IDENTIFIED
+import br.com.joaovq.mydailypet.data.converters.SexTypeConverter
+import br.com.joaovq.mydailypet.pet.domain.model.SexType.FEMALE
+import br.com.joaovq.mydailypet.pet.domain.model.SexType.MALE
+import br.com.joaovq.mydailypet.pet.domain.model.SexType.NOT_IDENTIFIED
 import io.mockk.MockKAnnotations
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotSame

@@ -1,8 +1,8 @@
 package br.com.joaovq.mydailypet.pet.data.localdatasource
 
-import br.com.joaovq.mydailypet.core.data.local.localdatasource.LocalDataSource
+import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
 import br.com.joaovq.mydailypet.pet.data.dao.PetDao
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.model.PetDto
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifyAll

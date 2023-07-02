@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.data.local.database
+package br.com.joaovq.mydailypet.data.local.database
 
 import android.content.Context
 import androidx.room.Database
@@ -7,10 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import br.com.joaovq.mydailypet.pet.data.converters.DateTypeConverter
-import br.com.joaovq.mydailypet.pet.data.converters.SexTypeConverter
+import br.com.joaovq.mydailypet.data.converters.DateTypeConverter
+import br.com.joaovq.mydailypet.data.converters.SexTypeConverter
 import br.com.joaovq.mydailypet.pet.data.dao.PetDao
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
+import br.com.joaovq.mydailypet.pet.data.model.PetDto
 
 @Database(
     entities = [

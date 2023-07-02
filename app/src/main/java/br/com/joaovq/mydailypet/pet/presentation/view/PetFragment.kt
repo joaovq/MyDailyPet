@@ -16,7 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import br.com.joaovq.mydailypet.core.domain.model.Attach
+import br.com.joaovq.mydailypet.pet.domain.model.Attach
 import br.com.joaovq.mydailypet.core.util.extension.formatToInterval
 import br.com.joaovq.mydailypet.core.util.extension.gone
 import br.com.joaovq.mydailypet.core.util.extension.loadImage

@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.pet.adapter
 
 import androidx.annotation.StringRes
-import br.com.joaovq.mydailypet.core.domain.model.Attach
+import br.com.joaovq.mydailypet.pet.domain.model.Attach
 
 sealed interface DetailItem {
     data class TitleItem(@StringRes val textTitle: Int) : DetailItem

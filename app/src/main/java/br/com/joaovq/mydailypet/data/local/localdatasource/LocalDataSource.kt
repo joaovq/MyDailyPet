@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.data.local.localdatasource
+package br.com.joaovq.mydailypet.data.local.localdatasource
 
 import kotlinx.coroutines.flow.Flow
 
@@ -8,5 +8,5 @@ interface LocalDataSource<T> {
     suspend fun insert(entity: T)
     suspend fun update(entity: T)
     suspend fun delete(entity: T)
-    suspend fun deleteAll(entity: T)
+    suspend fun deleteAll()
 }

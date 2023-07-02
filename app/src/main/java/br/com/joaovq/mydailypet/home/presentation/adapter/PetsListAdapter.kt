@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.joaovq.mydailypet.core.util.extension.loadImage
 import br.com.joaovq.mydailypet.core.util.extension.rotateX
 import br.com.joaovq.mydailypet.databinding.ItemPetListBinding
-import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 
 class PetsListAdapter(
     private val setOnClickListItem: () -> Unit,

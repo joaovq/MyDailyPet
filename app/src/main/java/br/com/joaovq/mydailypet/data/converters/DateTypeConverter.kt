@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.pet.data.converters
+package br.com.joaovq.mydailypet.data.converters
 
 import androidx.room.TypeConverter
 import java.util.Date

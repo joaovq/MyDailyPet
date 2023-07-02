@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.pet.domain.mappers
 
-import br.com.joaovq.mydailypet.pet.data.dto.PetDto
-import br.com.joaovq.mydailypet.core.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 
 fun PetDto.toDomain() = Pet(
     this.id,
