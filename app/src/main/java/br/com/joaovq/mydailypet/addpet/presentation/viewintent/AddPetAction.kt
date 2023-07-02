@@ -1,6 +1,6 @@
 package br.com.joaovq.mydailypet.addpet.presentation.viewintent
 
-import br.com.joaovq.mydailypet.core.domain.model.SexType
+import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import java.util.Date
 
 sealed class AddPetAction {
