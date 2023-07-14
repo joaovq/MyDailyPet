@@ -17,7 +17,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,10 +43,6 @@ android {
         viewBinding true
         dataBinding true
     }
-    buildFeatures {
-        viewBinding true
-        dataBinding true
-    }
     packagingOptions {
         resources.excludes.add("META-INF/*")
     }
@@ -59,7 +55,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:$ktx_version_core")
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation ("com.google.android.material:material:$material_version")
@@ -79,7 +74,7 @@ dependencies {
     androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
     androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
 
-    def hilt_version = "2.44"
+    def hilt_version = "2.45"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 
@@ -100,9 +95,18 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:" + datastore_version)
     implementation ("com.jakewharton.timber:timber:" + timber_version)
     implementation("org.jacoco:org.jacoco.core:$jacoco_version")
+
+    //Gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    implementation "de.hdodenhof:circleimageview:$circular_image_view_version"
+
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+    implementation("androidx.hilt:hilt-work:$hilt_work_version")
 }
 kapt {
-    correctErrorTypes = true
+    correctErrorTypes true
+    showProcessorStats true
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
