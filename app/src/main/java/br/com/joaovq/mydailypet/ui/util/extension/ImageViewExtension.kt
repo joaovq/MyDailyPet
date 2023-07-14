@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.extension
+package br.com.joaovq.mydailypet.ui.util.extension
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView

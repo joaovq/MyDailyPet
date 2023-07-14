@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.extension
+package br.com.joaovq.mydailypet.ui.util.extension
 
 import android.view.View
 import androidx.core.view.isVisible
