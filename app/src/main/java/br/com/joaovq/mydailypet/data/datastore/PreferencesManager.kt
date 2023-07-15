@@ -8,18 +8,19 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 const val DARKMODE_PREFERENCE_KEY = "dark-mode"
+const val IS_NEW_USER_PREFERENCE_KEY = "new-user"
 
 interface DataStorePreferences {
-    suspend fun getBooleanValue(key: String): Boolean
+    suspend fun getBooleanValue(key: String, defaultValue: Boolean = false): Boolean
     suspend fun setBooleanValue(key: String, value: Boolean): Boolean
 }
 
 class PreferencesManager @Inject constructor(
     private val preferences: DataStore<Preferences>,
 ) : DataStorePreferences {
-    override suspend fun getBooleanValue(key: String): Boolean {
+    override suspend fun getBooleanValue(key: String, defaultValue: Boolean): Boolean {
         val booleanPreferenceKey = booleanPreferencesKey(key)
-        return preferences.data.first()[booleanPreferenceKey] ?: false
+        return preferences.data.first()[booleanPreferenceKey] ?: defaultValue
     }
 
     override suspend fun setBooleanValue(key: String, value: Boolean): Boolean {
