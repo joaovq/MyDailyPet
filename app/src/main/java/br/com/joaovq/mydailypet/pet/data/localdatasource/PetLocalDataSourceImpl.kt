@@ -7,9 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
-class PetLocalDataSource @Inject constructor(
+interface PetLocalDataSource : LocalDataSource<PetDto>
+
+class PetLocalDataSourceImpl @Inject constructor(
     private val petDao: PetDao,
-) : LocalDataSource<PetDto> {
+): PetLocalDataSource {
     override fun getAll(): Flow<List<PetDto>> {
         return try {
             petDao.getAll()

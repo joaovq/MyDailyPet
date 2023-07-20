@@ -1,15 +1,15 @@
 package br.com.joaovq.mydailypet.pet.domain.repository
 
-import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
+import br.com.joaovq.mydailypet.pet.data.localdatasource.PetLocalDataSource
 import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
 import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PetRepositoryImpl @Inject constructor(
-    private val petLocalDataSource: LocalDataSource<PetDto>,
+    private val petLocalDataSource: PetLocalDataSource,
 ) : PetRepository {
     override suspend fun getAll(): Flow<List<PetDto>> =
         petLocalDataSource.getAll()

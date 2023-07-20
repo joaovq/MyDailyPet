@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.pet.data.repository
 
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import kotlinx.coroutines.flow.Flow
 
 interface PetRepository {

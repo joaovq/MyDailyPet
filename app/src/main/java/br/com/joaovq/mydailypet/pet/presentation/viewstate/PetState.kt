@@ -4,6 +4,6 @@ import br.com.joaovq.mydailypet.pet.domain.model.Pet
 
 sealed class PetState {
     data class Success(val pet: Pet) : PetState()
-    object Initial: PetState()
+    object Initial : PetState()
     data class Error(val message: String) : PetState()
 }

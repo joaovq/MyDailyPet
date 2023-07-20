@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.permission
+package br.com.joaovq.mydailypet.ui.permission
 
 import android.content.Intent
 import android.content.pm.PackageManager

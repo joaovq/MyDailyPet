@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.permission
+package br.com.joaovq.mydailypet.ui.permission
 
 import android.content.pm.PackageManager
 import android.os.Build
@@ -6,6 +6,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import br.com.joaovq.mydailypet.R
+import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
 
 class PickImagePermissionManager private constructor(
     private val fragment: Fragment,
@@ -13,7 +15,11 @@ class PickImagePermissionManager private constructor(
 ) : PermissionManager {
     private val permissions: Permissions = Permissions.PickImage
     private var rationaleMessage: String = ""
-    private var rationale: () -> Unit = {}
+    private var rationale: () -> Unit = {
+        fragment.simpleAlertDialog(
+            message = R.string.rationale_message_pick_image,
+        )
+    }
     private var registerForActivity: ActivityResultLauncher<Array<String>> =
         fragment.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions(),
@@ -48,7 +54,7 @@ class PickImagePermissionManager private constructor(
                     rationale()
                 }
 
-                else -> registerForActivity.launch(Permissions.Camera.permissions)
+                else -> registerForActivity.launch(Permissions.PickImage.permissions)
             }
         } else {
             action(true)

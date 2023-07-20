@@ -1,14 +1,14 @@
-package br.com.joaovq.mydailypet.pet.adapter
+package br.com.joaovq.mydailypet.pet.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.pet.domain.model.Attach
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.databinding.ItemAttachPetBinding
 import br.com.joaovq.mydailypet.databinding.ItemTitleLayoutBinding
+import br.com.joaovq.mydailypet.pet.domain.model.Attach
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 
 class DetailsPetAdapter(private val onClickEvent: OnClickEvent) :
     ListAdapter<DetailItem, DetailPetViewHolder>(DetailDiffUtil) {

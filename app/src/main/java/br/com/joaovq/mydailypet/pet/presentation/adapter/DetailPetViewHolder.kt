@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.pet.adapter
+package br.com.joaovq.mydailypet.pet.presentation.adapter
 
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
