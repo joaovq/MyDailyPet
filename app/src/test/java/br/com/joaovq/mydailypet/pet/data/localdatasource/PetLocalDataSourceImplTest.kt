@@ -3,6 +3,7 @@ package br.com.joaovq.mydailypet.pet.data.localdatasource
 import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
 import br.com.joaovq.mydailypet.pet.data.dao.PetDao
 import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.mydailypet.testutil.TestUtil
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifyAll
@@ -20,7 +21,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class PetLocalDataSourceTest {
+class PetLocalDataSourceImplTest {
     @get:Rule
     val mockkRule = MockKRule(this)
 
@@ -34,8 +35,8 @@ class PetLocalDataSourceTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        localDataSource = PetLocalDataSource(petDao)
-        petDto = PetDto()
+        localDataSource = PetLocalDataSourceImpl(petDao)
+        petDto = TestUtil.petDto
     }
 
     @Test
