@@ -13,7 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.launchFragmentInHiltContainer
-import br.com.joaovq.mydailypet.pet.adapter.DetailPetViewHolder
+import br.com.joaovq.mydailypet.pet.presentation.adapter.DetailPetViewHolder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -60,7 +60,7 @@ class PetFragmentTest {
             .perform(
                 swipeUp(),
             )
-        onView(withId(R.id.ll_share_details_pet))
+        onView(withId(R.id.item_share_pet))
             .check(matches(isDisplayed()))
             .inRoot(RootMatchers.isTouchable())
             .withFailureHandler { error, _ ->

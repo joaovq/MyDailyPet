@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import br.com.joaovq.mydailypet.data.local.database.MyDailyPetDatabase
+import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
 import br.com.joaovq.mydailypet.pet.data.dao.PetDao
 import br.com.joaovq.mydailypet.pet.data.model.PetDto
 import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith
 class PetDaoQueriesTest {
     private var petDao: PetDao? = null
     private lateinit var db: MyDailyPetDatabase
+    private val birthAlarm = NotificationAlarmItem(0L, "", "")
 
     @Before
     fun setUp() {
@@ -41,7 +43,7 @@ class PetDaoQueriesTest {
     @Throws(Exception::class)
     fun insertPet() {
         runBlocking {
-            val pet = Pet()
+            val pet = Pet(birthAlarm = birthAlarm)
             var firstOrNull: List<PetDto>? = listOf()
             db.withTransaction {
                 petDao?.insertPet(petDto = pet.toDto())
@@ -63,7 +65,7 @@ class PetDaoQueriesTest {
 
     @Test
     fun testDeletePet(): Unit = runBlocking {
-        val pet = Pet(id = 2)
+        val pet = Pet(id = 2, birthAlarm =  birthAlarm)
         quickInsert()
         db.withTransaction {
             petDao?.deletePet(petDto = pet.toDto())
@@ -75,7 +77,7 @@ class PetDaoQueriesTest {
 
     @Test
     fun testDeleteAllPet(): Unit = runBlocking {
-        val pet = Pet()
+        val pet = Pet(birthAlarm = birthAlarm)
         quickInsert()
         petDao?.deleteAll()
         val firstOrNull = petDao?.getAll()?.firstOrNull()
@@ -83,7 +85,7 @@ class PetDaoQueriesTest {
     }
 
     private fun quickInsert() = runBlocking {
-        val pet = Pet()
+        val pet = Pet(birthAlarm = birthAlarm)
         db.withTransaction {
             petDao?.insertPet(petDto = pet.toDto())
             petDao?.insertPet(petDto = pet.toDto())
