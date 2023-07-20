@@ -17,7 +17,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,7 +59,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation ("com.google.android.material:material:$material_version")
     implementation ("androidx.constraintlayout:constraintlayout:" + constraint_layout_version)
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     testImplementation ("junit:junit:" + junit_version)
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
@@ -71,7 +70,9 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-idling-resource:$espresso_version")
 
     testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation "io.mockk:mockk-android:${mockkVersion}"
     androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
+    testImplementation "io.mockk:mockk-agent:${mockkVersion}"
     androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
 
     def hilt_version = "2.45"
