@@ -41,16 +41,30 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_reminders"
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
-                        android:text="@string/text_reminders"
-                        android:layout_marginStart="@dimen/space_20dp"
-                        android:layout_marginVertical="@dimen/space_10dp"
-                        android:textSize="@dimen/text_size_20sp"
-                        android:textColor="?attr/colorPrimary"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_reminders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/space_10dp"
+                            android:layout_marginStart="@dimen/space_20dp"
+                            android:text="@string/text_reminders"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="@dimen/text_size_20sp"
+                            android:textStyle="bold" />
+
+                        <include
+                            android:id="@+id/btn_help_today_reminders"
+                            layout="@layout/layout_item_button_help"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -58,63 +72,85 @@
                         android:minHeight="@dimen/min_height_layout_reminders"
                         android:layout_marginBottom="@dimen/space_10dp"
                         android:background="@drawable/bg_reminders_home">
+
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/vp_reminders"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:orientation="horizontal"
                             android:visibility="gone"
-                            tools:visibility="visible"
-                            app:layout_constraintTop_toTopOf="parent"
+                            android:tooltipText="@string/tooltip_view_pager_reminders"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_height="0dp"/>
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:targetApi="o"
+                            tools:visibility="visible" />
+
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_not_reminders"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             android:text="@string/text_not_reminder_yet_home"
                             android:textColor="@color/color_on_secondary"
-                            android:layout_margin="@dimen/space_10dp"/>
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/ll_add_reminder"
+                            android:layout_margin="@dimen/space_10dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_add_reminder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/space_14dp"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/accessibility_min_height"
+                        android:orientation="horizontal"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:paddingHorizontal="@dimen/space_10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_calendar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingHorizontal="@dimen/space_10dp"
-                            android:minHeight="@dimen/accessibility_min_height"
-                            app:layout_constraintBottom_toBottomOf="parent">
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/iv_calendar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_calendar"
-                                android:tint="?attr/colorPrimary"
-                                />
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_add_reminder"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/text_add_reminder"
-                                android:layout_margin="@dimen/space_10dp"
-                                android:textColor="?attr/colorPrimary"
-                                android:textStyle="bold"
-                                android:layout_marginEnd="@dimen/space_16dp"
-                                />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_my_pets"
+                            android:tint="?attr/colorPrimary"
+                            app:srcCompat="@drawable/ic_calendar" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_add_reminder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/space_10dp"
+                            android:layout_marginEnd="@dimen/space_16dp"
+                            android:text="@string/text_add_reminder"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
-                        android:text="@string/text_my_pets"
-                        android:layout_marginStart="@dimen/space_20dp"
-                        android:layout_marginVertical="@dimen/space_10dp"
-                        android:textSize="@dimen/text_size_20sp"
-                        android:textColor="?attr/colorPrimary"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_my_pets"
+                            android:layout_width="wrap_content"
+                            android:text="@string/text_my_pets"
+                            android:layout_marginStart="@dimen/space_20dp"
+                            android:layout_marginVertical="@dimen/space_10dp"
+                            android:textSize="@dimen/text_size_20sp"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content" />
+                        <include
+                            android:id="@+id/btn_help_my_pets"
+                            layout="@layout/layout_item_button_help"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_my_pets_list"
                         android:layout_width="match_parent"
@@ -142,13 +178,14 @@
                             android:id="@+id/tv_see_more"
                             android:layout_width="wrap_content"
                             android:textColor="?attr/colorPrimary"
-                            android:text="@string/text_see_more"
+                            android:text="@string/text_see_all"
                             android:layout_gravity="center"
                             android:layout_height="wrap_content"/>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/iv_arrow_see_more"
                             android:layout_width="wrap_content"
                             app:srcCompat="@drawable/ic_arrow_right"
+                            android:rotation="90"
                             android:layout_height="wrap_content"/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                     <include
@@ -165,6 +202,7 @@
         <include
             android:id="@+id/lt_nav_bar"
             layout="@layout/layout_bottom_nav_home"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
