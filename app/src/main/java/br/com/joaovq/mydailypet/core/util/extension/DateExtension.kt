@@ -20,10 +20,10 @@ fun Date?.format(
 }
 
 fun Date.calculateInterval(
-    interval: Long,
     action: (year: Int, month: Int, days: Int) -> Unit,
 ) {
     try {
+        val interval = System.currentTimeMillis() - this.time
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val instance = Calendar.getInstance()
             instance.time = this
@@ -70,4 +70,10 @@ fun Date.calculateIntervalNextBirthday(): Long {
             TimeUnit.DAYS.toMillis(365L)
         }
     }
+}
+
+fun Calendar.compareSameDate(date: Date): Boolean {
+    val calendarDate = Calendar.getInstance()
+    calendarDate.time = date
+    return calendarDate.get(Calendar.DATE) == this.get(Calendar.DATE)
 }

@@ -7,9 +7,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import br.com.joaovq.mydailypet.core.util.extension.setNightThemeApp
 import br.com.joaovq.mydailypet.data.datastore.DARKMODE_PREFERENCE_KEY
 import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
-import br.com.joaovq.mydailypet.core.util.extension.setNightThemeApp
 import br.com.joaovq.mydailypet.databinding.ActivityCustomSplashScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
