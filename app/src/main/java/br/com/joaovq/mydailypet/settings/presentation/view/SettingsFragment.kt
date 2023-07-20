@@ -8,23 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.core.util.extension.setNightThemeApp
-import br.com.joaovq.mydailypet.data.datastore.DARKMODE_PREFERENCE_KEY
-import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
 import br.com.joaovq.mydailypet.databinding.FragmentSettingsBinding
+import br.com.joaovq.mydailypet.settings.presentation.viewmodel.SettingsViewModel
+import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
 
-    @Inject
-    lateinit var preferencesManager: PreferencesManager
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,8 +47,9 @@ class SettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
         lifecycleScope.launch {
-            binding.swtDarkMode.isChecked =
-                preferencesManager.getBooleanValue(DARKMODE_PREFERENCE_KEY)
+            settingsViewModel.isDarkMode.collectLatest { isDarkMode ->
+                binding.swtDarkMode.isChecked = isDarkMode
+            }
         }
     }
 
@@ -63,9 +64,14 @@ class SettingsFragment : Fragment() {
     private fun setListeners() {
         binding.swtDarkMode.setOnCheckedChangeListener { _, isChecked ->
             lifecycleScope.launch {
-                preferencesManager.setBooleanValue(DARKMODE_PREFERENCE_KEY, isChecked)
+                settingsViewModel.setPreferenceIsDarkMode(isChecked)
                 requireContext().setNightThemeApp(isChecked)
             }
+        }
+        binding.llAboutSettings.setOnClickListener {
+            findNavController().navWithAnim(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsAboutFragment(),
+            )
         }
     }
 
