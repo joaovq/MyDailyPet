@@ -25,12 +25,22 @@
     <dimen name="collapsing_toolb_height">120dp</dimen>
     <dimen name="size_card_view_image_pet">50dp</dimen>
     <dimen name="corner_radius_image_pet">10dp</dimen>
-    <dimen name="min_height_layout_reminders">120dp</dimen>
+    <dimen name="min_height_layout_reminders">140dp</dimen>
     <dimen name="corner_radius_field_app">10dp</dimen>
     <dimen name="field_height_app">50dp</dimen>
-    <dimen name="width_date_field">180dp</dimen>
-    <dimen name="size_foto_pet_profile">180dp</dimen>
+    <dimen name="width_date_field">210dp</dimen>
+    <dimen name="size_foto_pet_profile">210dp</dimen>
     <dimen name="min_height_app">48dp</dimen>
-    <dimen name="width_spinner_sex_app">150dp</dimen>
+    <dimen name="width_spinner_sex_app">180dp</dimen>
     <dimen name="accessibility_min_height">48dp</dimen>
+
+    <!--Add Reminder Screen-->
+    <dimen name="max_width_text_reminder">200dp</dimen>
+    <dimen name="size_image_pet_selector">40dp</dimen>
+    <dimen name="size_image_bottom_sheet_success">150dp</dimen>
+    <dimen name="max_width_pet_actions">110dp</dimen>
+    <dimen name="width_time_field">200dp</dimen>
+    <dimen name="size_image_on_boarding">290dp</dimen>
+    <dimen name="min_size_btn_help_app">28dp</dimen>
+    <dimen name="max_length_description">100</dimen>
 </resources>
