@@ -2,13 +2,15 @@ package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
-import br.com.joaovq.mydailypet.pet.data.localdatasource.PetLocalDataSource
+import br.com.joaovq.mydailypet.pet.domain.usecases.DeletePetUseCase
+import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
+import br.com.joaovq.mydailypet.reminder.domain.usecases.GetAllReminderUseCase
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerifyAll
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
-import io.mockk.verifyAll
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
@@ -30,19 +32,30 @@ class HomeViewModelTest {
     val testRule = MainDispatcherRule()
 
     @MockK(relaxed = true)
-    private lateinit var localDataSource: PetLocalDataSource
+    private lateinit var getAllPetsUseCase: GetAllPetsUseCase
+
+    @MockK
+    private lateinit var getAllRemindersUseCase: GetAllReminderUseCase
+
+    @MockK(relaxed = true)
+    private lateinit var deletePetUseCase: DeletePetUseCase
 
     private lateinit var homeViewModel: HomeViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        homeViewModel = HomeViewModel(localDataSource, UnconfinedTestDispatcher())
+        homeViewModel = HomeViewModel(
+            getAllPetsUseCase,
+            getAllRemindersUseCase,
+            deletePetUseCase,
+            UnconfinedTestDispatcher(),
+        )
     }
 
     @Test
     fun `GIVEN request WHEN get pets THEN state success`() = runTest {
-        coEvery { localDataSource.getAll() } returns flow {
+        coEvery { getAllPetsUseCase() } returns flow {
             emit(listOf())
         }
         assertNull(homeViewModel.homeState.value)
@@ -50,17 +63,17 @@ class HomeViewModelTest {
             homeViewModel.dispatchIntent(HomeAction.GetPets)
         }
         assertEquals(HomeUiState.Success(listOf()), homeViewModel.homeState.value)
-        verifyAll { localDataSource.getAll() }
+        coVerifyAll { getAllPetsUseCase() }
     }
 
     @Test
     fun `GIVEN action submit WHEN dispatch intent throws exception THEN state error`() = runTest {
-        coEvery { localDataSource.getAll() } throws Exception()
+        coEvery { getAllPetsUseCase() } throws Exception()
         assertNull(homeViewModel.homeState.value)
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             homeViewModel.dispatchIntent(HomeAction.GetPets)
         }
         assertTrue(homeViewModel.homeState.value is HomeUiState.Error)
-        verifyAll { localDataSource.getAll() }
+        coVerifyAll { getAllPetsUseCase() }
     }
 }
