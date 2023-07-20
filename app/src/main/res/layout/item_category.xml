@@ -37,13 +37,13 @@
                 android:layout_height="wrap_content"
                 tools:text="Add pet"
                 android:textColor="?attr/colorPrimary"
+                android:textAlignment="center"
                 android:text="@{text}"
                 android:textStyle="bold" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_10dp"
                 app:tint="?attr/colorPrimary"
                 android:src="@{icon}"
                 tools:src="@drawable/ic_foot_pet"
