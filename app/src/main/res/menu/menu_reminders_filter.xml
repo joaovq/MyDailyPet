@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_delete_all_reminders_list"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/title_delete_all_reminders"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_filter_list"
+        android:icon="@drawable/ic_filter_list"
+        android:title="@string/title_filter_list"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/item_all_reminders_menu"
+                android:title="@string/text_all_reminders" />
+            <item
+                android:id="@+id/item_today_menu_filter"
+                android:title="@string/text_today" />
+        </menu>
+    </item>
+</menu>
