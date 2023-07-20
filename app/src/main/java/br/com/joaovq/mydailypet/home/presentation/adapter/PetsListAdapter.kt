@@ -1,5 +1,6 @@
 package br.com.joaovq.mydailypet.home.presentation.adapter
 
+import android.animation.LayoutTransition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,35 +8,41 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import br.com.joaovq.mydailypet.core.util.extension.loadImage
-import br.com.joaovq.mydailypet.core.util.extension.rotateX
 import br.com.joaovq.mydailypet.databinding.ItemPetListBinding
+import br.com.joaovq.mydailypet.home.presentation.adapter.task.TaskListAdapter
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.mydailypet.ui.util.extension.loadImage
+import br.com.joaovq.mydailypet.ui.util.extension.rotateX
 
 class PetsListAdapter(
-    private val setOnClickListItem: () -> Unit,
-    private val setOnLongClickListItem: (view: View, id: Int) -> Unit,
+    private val setOnLongClickListItem: (view: View, pet: Pet) -> Unit,
 ) : ListAdapter<Pet, PetsListAdapter.PetsListViewHolder>(ItemPetDiff) {
     inner class PetsListViewHolder(private val binding: ItemPetListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pet: Pet) {
             binding.apply {
-                tvNickname.text = pet.name
-                tvType.text = pet.type
+                tvNamePet.text = pet.name
+                tvType.text = pet.breed
                 ivPet.loadImage(url = pet.imageUrl)
+                rvTasksPet.adapter = TaskListAdapter().also {
+                    it.renderList(pet.tasks)
+                }
+                root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
                 root.setOnClickListener {
                     rvTasksPet.isVisible = !rvTasksPet.isVisible
                     ivDropdown.rotateX()
-                    setOnClickListItem()
                 }
                 root.setOnLongClickListener { view ->
-                    setOnLongClickListItem(view, pet.id)
+                    setOnLongClickListItem(view, pet)
                     true
                 }
             }
         }
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).id.toLong()
+    }
     override fun onViewRecycled(holder: PetsListViewHolder) {
         holder.itemView.setOnLongClickListener(null)
         super.onViewRecycled(holder)

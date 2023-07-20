@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.permission
+package br.com.joaovq.mydailypet.ui.permission
 
 import android.Manifest
 import android.os.Build
@@ -7,6 +7,9 @@ import androidx.annotation.RequiresApi
 @RequiresApi(Build.VERSION_CODES.R)
 sealed class Permissions(val permissions: Array<String>) {
     object Camera : Permissions(arrayOf(CAMERA))
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    object Notification : Permissions(arrayOf(POST_NOTIFICATION))
     object PickImage :
         Permissions(
             arrayOf(
@@ -27,5 +30,8 @@ sealed class Permissions(val permissions: Array<String>) {
         const val WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
         const val READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
         const val MANAGE_EXTERNAL_STORAGE = Manifest.permission.MANAGE_EXTERNAL_STORAGE
+
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        const val POST_NOTIFICATION = Manifest.permission.POST_NOTIFICATIONS
     }
 }

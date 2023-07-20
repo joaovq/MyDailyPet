@@ -1,6 +1,7 @@
-package br.com.joaovq.mydailypet.pet.domain.model
+package br.com.joaovq.mydailypet.tasks.domain.model
 
 import android.os.Parcelable
+import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 

@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.app
+package br.com.joaovq.mydailypet.ui
 
 import androidx.annotation.StringRes
 

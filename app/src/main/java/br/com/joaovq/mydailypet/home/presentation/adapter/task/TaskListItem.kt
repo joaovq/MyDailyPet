@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.home.presentation.adapter.task
 
 import androidx.annotation.StringRes
-import br.com.joaovq.mydailypet.pet.domain.model.Task
+import br.com.joaovq.mydailypet.tasks.domain.model.Task
 
 sealed interface TaskListItem {
     data class TitleItem(@StringRes val title: Int) : TaskListItem

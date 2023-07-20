@@ -7,7 +7,7 @@ import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.databinding.ItemNotYetTaskPetListBinding
 import br.com.joaovq.mydailypet.databinding.ItemTaskBinding
 import br.com.joaovq.mydailypet.databinding.ItemTitleLayoutBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Task
+import br.com.joaovq.mydailypet.tasks.domain.model.Task
 
 sealed class TaskListViewHolder(binding: ViewBinding) :
     RecyclerView.ViewHolder(binding.root) {

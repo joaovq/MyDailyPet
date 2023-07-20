@@ -8,7 +8,7 @@ import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.ItemNotYetTaskPetListBinding
 import br.com.joaovq.mydailypet.databinding.ItemTaskBinding
 import br.com.joaovq.mydailypet.databinding.ItemTitleLayoutBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Task
+import br.com.joaovq.mydailypet.tasks.domain.model.Task
 
 class TaskListAdapter : ListAdapter<TaskListItem, TaskListViewHolder>(TaskListDiffUtil) {
 
