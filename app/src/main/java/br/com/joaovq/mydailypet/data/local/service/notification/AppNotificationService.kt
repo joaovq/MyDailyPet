@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.data.local.service
+package br.com.joaovq.mydailypet.data.local.service.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
