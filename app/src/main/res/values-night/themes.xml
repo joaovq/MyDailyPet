@@ -12,6 +12,10 @@
         <item name="actionMenuTextColor">@color/color_primary_dark</item>
         <item name="materialCalendarTheme">@style/Theme.MyDailyPet.DatePickerOverlay</item>
         <item name="materialAlertDialogTheme">@style/Theme.MyDailyPet.AlertDialogs</item>
+        <item name="materialTimePickerTheme">@style/Theme.MyDailyPet.TimePickerOverlay</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.MyDailyPet.ToggleAmPm</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_ios</item>
     </style>
 
     <style name="Theme.MyDailyPet.Card">
@@ -44,5 +48,20 @@
 
     <style name="Theme.MyDailyPet.AlertDialogs" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="android:background">@color/color_secondary_dark</item>
+    </style>
+    <style name="Theme.MyDailyPet.TimePickerOverlay" parent="@style/ThemeOverlay.Material3.MaterialTimePicker">
+        <item name="android:backgroundTint">@color/color_secondary_dark</item>
+        <item name="colorPrimary">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/color_on_primary_dark</item>
+        <item name="colorOnSurface">@color/color_primary_dark</item>
+        <item name="chipStyle">@style/Widget.MyDailyPet.Chip</item>
+    </style>
+    <style name="Widget.MyDailyPet.Chip" parent="Widget.Material3.MaterialTimePicker.Display">
+        <item name="android:textColor">@color/color_primary</item>
+        <item name="rippleColor">@color/color_on_primary</item>
+    </style>
+    <style name="Widget.MyDailyPet.ToggleAmPm" parent="@style/Widget.Material3.MaterialTimePicker.Button">
+        <item name="backgroundTint">@color/color_on_primary</item>
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 </resources>

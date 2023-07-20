@@ -20,7 +20,7 @@
     <string name="text_logout">Deslogar</string>
     <string name="text_add_pet">Adicionar Pet</string>
     <string name="text_reminders_daily">Rotina</string>
-    <string name="text_category">Categoria</string>
+    <string name="text_tasks">Categoria</string>
     <string name="home_label">Tela inicial</string>
     <string name="title_add_pet">Adicionar Pet</string>
     <string name="hint_add_birth">Adicionar data de nascimento</string>
@@ -94,4 +94,15 @@
     <string name="title_filter_list">Filtragem da lista</string>
     <string name="text_all_reminders">Todos os lembretes</string>
     <string name="message_alert_add_reminder_not_found_pet">Adicione pelo menos um pet para criar um lembrete</string>
+    <string name="title_action_mode_edit_reminder">Edite o lembrete</string>
+    <string name="hint_add_description">Adicione a descrição</string>
+    <string name="hint_name_reminder">Nome do lembrete</string>
+    <string name="text_today">Hoje</string>
+    <string name="title_share_pet">Compartilhe o seu pet</string>
+    <string name="delete_pet_title_pop_menu">Delete o pet</string>
+    <string name="title_alert_delete_pet">Deletar esse pet?</string>
+    <string name="message_alert_delete_pet_list">Você vai deletar todos os dados deste pet.</string>
+    <string name="text_not_implemented">Funcionalidade ainda não implementada. Uma atualização em breve trará esta funcionalidade.</string>
+    <string name="title_choser_share">Compartilhar com...</string>
+    <string name="text_error_occurred_contact_provider">Ocorreu um erro. Contate o provedor para poder resolver este erro</string>
 </resources>
