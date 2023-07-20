@@ -16,6 +16,6 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_settings"
         android:iconTint="@color/color_primary"
-        android:title="@string/text_logout"
+        android:title="@string/text_settings"
         tools:targetApi="o" />
 </menu>

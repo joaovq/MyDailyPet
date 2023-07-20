@@ -8,6 +8,7 @@ import java.util.Date
 data class Attach(
     val name: String,
     val insertedAt: Date = Date(),
-    val type: String,
+    val type: String /*TODO create enum for types*/,
     val path: String,
+    val pet: Pet,
 ) : Parcelable
