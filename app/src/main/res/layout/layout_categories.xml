@@ -16,13 +16,13 @@
             android:id="@+id/lt_daily_category"
             layout="@layout/item_category"
             bind:icon="@{@drawable/ic_calendar}"
-            bind:text="@{@string/text_daily}"
+            bind:text="@{@string/text_reminders_daily}"
             />
         <include
             android:id="@+id/lt_category"
             layout="@layout/item_category"
             bind:icon="@{@drawable/ic_add_box_category}"
-            bind:text="@{@string/text_category}"
+            bind:text="@{@string/text_tasks}"
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
