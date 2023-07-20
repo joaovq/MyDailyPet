@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".reminder.presentation.view.AddReminderFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tb_reminder"
+            style="@style/Theme.MyDailyPet.TextAppearanceTitleToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_arrow_back_ios"
+            app:title="@string/text_reminder"
+            app:menu="@menu/toolbar_menu_add_reminder"
+            app:titleCentered="true" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_name_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/text_put_an_name_for_your_reminder"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_name_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_20dp"
+                    app:endIconDrawable="@drawable/ic_close"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_name_reminder">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_name_reminder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_field_app"
+                        android:textColor="?attr/colorPrimary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_description_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:text="@string/text_put_an_description_reminder"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_name_reminder" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_description_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/space_20dp"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="100"
+                    app:endIconDrawable="@drawable/ic_close"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_description_reminder">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_description_reminder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:maxLength="100"
+                        android:minHeight="130dp"
+                        android:background="@drawable/bg_field_app"
+                        android:textColor="?attr/colorPrimary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_to_date_reminder"
+                    android:layout_width="@dimen/width_date_field"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_20dp"
+                    app:hintEnabled="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_description_reminder"
+                    app:startIconDrawable="@drawable/ic_calendar"
+                    app:startIconTint="?attr/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_to_date_reminder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_field_app"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/hint_add_to_date"
+                        android:textColor="?attr/colorPrimary"
+                        android:textColorHint="?attr/colorPrimary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_time_reminder"
+                    android:layout_width="@dimen/width_time_field"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:layout_marginStart="@dimen/space_20dp"
+                    app:hintEnabled="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_to_date_reminder"
+                    app:startIconDrawable="@drawable/ic_time"
+                    app:startIconTint="?attr/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_time_reminder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_field_app"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/hint_add_time"
+                        android:textColor="?attr/colorPrimary"
+                        android:textColorHint="?attr/colorPrimary" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <RadioGroup
+                    android:id="@+id/rg_select_time_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    app:layout_constraintStart_toEndOf="@id/til_time_reminder"
+                    app:layout_constraintTop_toTopOf="@id/til_time_reminder"
+                    app:layout_constraintBottom_toBottomOf="@id/til_time_reminder">
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rb_am_pm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_am_pm_add_reminder"
+                        />
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rb_24_hrs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_24_hrs_time_add_reminder"
+                        />
+                </RadioGroup>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_label_select_pet_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    android:text="@string/text_select_pet_for_reminder"
+                    app:layout_constraintTop_toBottomOf="@id/til_time_reminder"
+                    app:layout_constraintStart_toStartOf="@id/sp_select_pet_reminder"
+                    app:layout_constraintBottom_toTopOf="@id/sp_select_pet_reminder"/>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/sp_select_pet_reminder"
+                    android:layout_width="@dimen/width_spinner_sex_app"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_field_app"
+                    android:minHeight="@dimen/min_height_app"
+                    android:padding="@dimen/space_10dp"
+                    android:layout_marginBottom="@dimen/space_20dp"
+                    app:layout_constraintStart_toStartOf="@id/til_to_date_reminder"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_select_pet_reminder"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_add_reminder"
+        android:textColor="?attr/colorSecondary"
+        app:backgroundTint="?attr/colorPrimary"
+        app:icon="@drawable/ic_round_plus"
+        android:layout_gravity="bottom|end"
+        app:iconTint="?attr/colorSecondary"
+        android:layout_margin="@dimen/space_20dp"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
