@@ -14,14 +14,6 @@ fun View.visible() {
 fun View.gone() {
     this.isVisible = false
 }
-
-fun View.rotateX(degree: Float = 180f) {
-    this.rotationX = when {
-        this.rotationX % 360f == 0f -> degree
-        else -> degree * 2
-    }
-}
-
 fun AppCompatActivity.hideKeyboard() {
     val ipmm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
