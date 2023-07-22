@@ -10,6 +10,8 @@ import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPets
 import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
 import br.com.joaovq.mydailypet.pet.domain.usecases.GetPet
 import br.com.joaovq.mydailypet.pet.domain.usecases.GetPetUseCase
+import br.com.joaovq.mydailypet.pet.domain.usecases.SaveImageInInternalStorage
+import br.com.joaovq.mydailypet.pet.domain.usecases.SaveImagePetUseCase
 import br.com.joaovq.mydailypet.pet.domain.usecases.UpdateInfosPet
 import br.com.joaovq.mydailypet.pet.domain.usecases.UpdateInfosPetUseCase
 import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateAnimal
@@ -34,6 +36,16 @@ import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateDateTimeReminde
 import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateDateTimeReminderUseCase
 import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateFieldText
 import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateFieldTextUseCase
+import br.com.joaovq.mydailypet.tasks.data.repository.TaskRepository
+import br.com.joaovq.mydailypet.tasks.domain.repository.TaskRepositoryImpl
+import br.com.joaovq.mydailypet.tasks.domain.usecases.CreateTask
+import br.com.joaovq.mydailypet.tasks.domain.usecases.CreateTaskUseCase
+import br.com.joaovq.mydailypet.tasks.domain.usecases.DeleteTask
+import br.com.joaovq.mydailypet.tasks.domain.usecases.DeleteTaskUseCase
+import br.com.joaovq.mydailypet.tasks.domain.usecases.GetAllTasks
+import br.com.joaovq.mydailypet.tasks.domain.usecases.GetAllTasksUseCase
+import br.com.joaovq.mydailypet.tasks.domain.usecases.UpdateTask
+import br.com.joaovq.mydailypet.tasks.domain.usecases.UpdateTaskUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -51,6 +63,11 @@ abstract class DomainModule {
     abstract fun bindReminderRepository(
         reminderRepositoryImpl: ReminderRepositoryImpl,
     ): ReminderRepository
+
+    @Binds
+    abstract fun bindTaskRepository(
+        taskRepositoryImpl: TaskRepositoryImpl,
+    ): TaskRepository
 
     @Binds
     abstract fun bindsGetPet(
@@ -126,4 +143,29 @@ abstract class DomainModule {
     abstract fun bindCreatePet(
         createPet: CreatePet,
     ): CreatePetUseCase
+
+    @Binds
+    abstract fun bindCreateTask(
+        createTask: CreateTask,
+    ): CreateTaskUseCase
+
+    @Binds
+    abstract fun bindGetAllTask(
+        getAllTasks: GetAllTasks,
+    ): GetAllTasksUseCase
+
+    @Binds
+    abstract fun bindDeleteTask(
+        deleteTask: DeleteTask,
+    ): DeleteTaskUseCase
+
+    @Binds
+    abstract fun bindUpdateTask(
+        updateTask: UpdateTask,
+    ): UpdateTaskUseCase
+
+    @Binds
+    abstract fun bindSaveImageInInternalStorage(
+        saveImageInInternalStorage: SaveImageInInternalStorage,
+    ): SaveImagePetUseCase
 }
