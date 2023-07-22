@@ -14,10 +14,10 @@ import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
 import br.com.joaovq.mydailypet.databinding.FragmentAddReminderBinding
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.reminder.presentation.adapter.SelectorPetsAdapter
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEvents
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.AddPetReminderViewModel
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
+import br.com.joaovq.mydailypet.ui.adapter.SelectorPetsAdapter
 import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
 import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
 import br.com.joaovq.mydailypet.ui.util.extension.simpleBottomSheetDialog
@@ -51,7 +51,6 @@ class AddReminderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initStates()
-        getArgs()
         setToolbarView()
         setListenersOfView()
         animateShrinkExtendedFabButton(fabButton = binding.fabAddReminder)
@@ -61,6 +60,11 @@ class AddReminderFragment : Fragment() {
         args.let {
             binding.etNameReminder.setText(it.name)
             binding.etDescriptionReminder.setText(it.description)
+            it.pet?.let { petSafe ->
+                binding.spSelectPetReminder.adapter =
+                    SelectorPetsAdapter(requireContext(), listOf(petSafe))
+                binding.spSelectPetReminder.isEnabled = false
+            }
         }
     }
 
@@ -75,6 +79,7 @@ class AddReminderFragment : Fragment() {
 
                     is AddReminderUiState.Success -> {
                         initSelectorPet(petState.data)
+                        getArgs()
                     }
 
                     AddReminderUiState.SubmittedSuccess -> {
@@ -108,7 +113,6 @@ class AddReminderFragment : Fragment() {
                     it.errorMessage.stringOrBlank(requireContext())
             }
         }
-        binding.rgSelectTimeMode.isSelected = true
     }
 
     private fun setInitialView() {
@@ -179,7 +183,13 @@ class AddReminderFragment : Fragment() {
         }
     }
 
-    private fun adjustTime(hour: Int, minute: Int) = "$hour$DELIMITER_TIMER$minute"
+    private fun adjustTime(hour: Int, minute: Int): String {
+        return if (minute < 10) {
+            "$hour${DELIMITER_TIMER}0$minute"
+        } else {
+            "$hour$DELIMITER_TIMER$minute"
+        }
+    }
 
     private fun initSelectorPet(pets: List<Pet>) {
         binding.spSelectPetReminder.isEnabled = pets.isNotEmpty()

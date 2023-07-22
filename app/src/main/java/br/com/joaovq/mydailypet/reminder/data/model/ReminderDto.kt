@@ -7,10 +7,13 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
+import br.com.joaovq.mydailypet.pet.data.model.PET_ID_COLUMN_INFO
 import br.com.joaovq.mydailypet.pet.data.model.PetDto
 import java.util.Date
 
 const val REMINDER_TABLE_NAME = "reminder_tb"
+const val REMINDER_ID_COLUMN_INFO = "reminder_id"
+const val REMINDER_NAME_COLUMN_INFO = "name_reminder"
 
 @Entity(
     tableName = REMINDER_TABLE_NAME,
@@ -18,19 +21,19 @@ const val REMINDER_TABLE_NAME = "reminder_tb"
         ForeignKey(
             entity = PetDto::class,
             onDelete = ForeignKey.CASCADE,
-            parentColumns = ["petId"],
-            childColumns = ["petId"],
+            parentColumns = [PET_ID_COLUMN_INFO],
+            childColumns = [PET_ID_COLUMN_INFO],
         ),
     ],
     indices = [
-        Index("petId"),
+        Index(PET_ID_COLUMN_INFO),
     ],
 )
 data class ReminderDto(
     @PrimaryKey(true)
-    @ColumnInfo(name = "id_reminder")
+    @ColumnInfo(name = REMINDER_ID_COLUMN_INFO)
     val id: Int = 0,
-    @ColumnInfo(name = "name_reminder")
+    @ColumnInfo(name = REMINDER_NAME_COLUMN_INFO)
     val name: String = "",
     val description: String = "",
     val createdAt: Date = Date(),

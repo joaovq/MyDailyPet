@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import br.com.joaovq.mydailypet.reminder.data.model.REMINDER_ID_COLUMN_INFO
+import br.com.joaovq.mydailypet.reminder.data.model.REMINDER_TABLE_NAME
 import br.com.joaovq.mydailypet.reminder.data.model.ReminderDto
 import kotlinx.coroutines.flow.Flow
 
@@ -14,11 +16,11 @@ interface ReminderDao {
     @Insert
     suspend fun insertReminder(reminderDto: ReminderDto)
 
-    @Query("SELECT * FROM reminder_tb")
+    @Query("SELECT * FROM $REMINDER_TABLE_NAME")
     fun selectAll(): Flow<List<ReminderDto>>
 
     @Transaction
-    @Query("SELECT * FROM reminder_tb WHERE id_reminder = :id")
+    @Query("SELECT * FROM $REMINDER_TABLE_NAME WHERE $REMINDER_ID_COLUMN_INFO = :id")
     fun selectById(id: Int): Flow<ReminderDto>
 
     @Update
@@ -27,6 +29,6 @@ interface ReminderDao {
     @Delete
     suspend fun deleteReminder(reminderDto: ReminderDto)
 
-    @Query("DELETE FROM reminder_tb")
+    @Query("DELETE FROM $REMINDER_TABLE_NAME")
     suspend fun deleteAllReminder()
 }

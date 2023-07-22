@@ -11,7 +11,7 @@
         android:id="@+id/item_menu_delete_detail_reminder"
         android:icon="@drawable/ic_delete"
         android:title="@string/title_repeat"
-        android:iconTint="?attr/colorPrimary"
+        android:iconTint="?attr/colorTertiary"
         app:showAsAction="ifRoom"
         tools:targetApi="o" />
 
