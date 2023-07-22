@@ -123,7 +123,7 @@
     <string name="title_choser_share">Share with…</string>
     <string name="text_error_occurred_contact_provider">Error occurred. Contact the provider this error.</string>
     <string name="title_repeat">Repeat</string>
-    <string name="message_help_detail_reminder">In this screen you see details of reminder and\nedit this reminder.\n\nRepeat reminder in icon repeat menu.</string>
+    <string name="message_help_detail_reminder">In this screen you see details of reminder and edit this reminder.  Repeat reminder in icon repeat menu.</string>
     <string name="title_tb_update_pet">Update pet</string>
     <string name="description_tb_update_pet">Update personal data this pet</string>
     <string name="text_update_pet">Update pet</string>
@@ -135,6 +135,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_about">About</string>
     <string name="text_my_greeting_about">Welcome to my app. Hope it helped you in some way! 😀</string>
-    <string name="text_presentation_about_settings">My name is João Vítor Queiroz Santos \n I\'m an Android developer and I like to help people through programming.</string>
+    <string name="text_presentation_about_settings">My name is João Vítor Queiroz Santos   I\'m an Android developer and I like to help people through programming.</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="hint_add_task">Add task</string>
+    <string name="message_cannot_create_task">To create a task, you must have a pet registered</string>
+    <string name="text_filter_by_pet">Filter by Pet</string>
+    <string name="message_error_weight_null">Weight cannot be null</string>
+    <string name="text_not_identified">Not identified</string>
 
 </resources>

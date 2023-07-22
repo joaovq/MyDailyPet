@@ -31,6 +31,8 @@
     <string name="hint_weight">0,00</string>
     <string name="label_weight_metric">Libras</string>
     <string name="text_see_all">Ver todos os pets</string>
+    <string name="notification_title_birthday">Felizes aniversário, %s!!!</string>
+    <string name="notification_description_birthday">Este é um dia especial para você e %s</string>
     <string name="attach_file_content_description">Anexar documento para seu pet</string>
     <string name="edit_pet">Editar pet</string>
     <string name="see_details_pet_item_menu">Ver detalhes do pet</string>
@@ -54,7 +56,7 @@
     <string name="text_put_an_description_reminder">Coloque uma descrição</string>
     <string name="text_put_an_name_for_your_reminder">Coloque um nome para o lembrete</string>
     <string name="hint_add_to_date">Data</string>
-    <string name="text_select_pet_for_reminder">"Selecione o pet "</string>
+    <string name="text_select_pet_for_reminder">Selecione o pet</string>
     <string name="text_select_date">Selecione a data</string>
     <string name="text_message_success_reminder_was_added">Lembrete foi adicionado com sucesso</string>
     <string name="app_name_not_trim">Minha Rotina Pet</string>
@@ -103,6 +105,24 @@
     <string name="title_alert_delete_pet">Deletar esse pet?</string>
     <string name="message_alert_delete_pet_list">Você vai deletar todos os dados deste pet.</string>
     <string name="text_not_implemented">Funcionalidade ainda não implementada. Uma atualização em breve trará esta funcionalidade.</string>
-    <string name="title_choser_share">Compartilhar com...</string>
+    <string name="title_choser_share">Compartilhar com…</string>
     <string name="text_error_occurred_contact_provider">Ocorreu um erro. Contate o provedor para poder resolver este erro</string>
+    <string name="title_repeat">Repetir</string>
+    <string name="message_help_detail_reminder">Nesta tela você vê os detalhes do lembrete e edita este lembrete. Repita o lembrete no menu de repetição do ícone.</string>
+    <string name="title_tb_update_pet">Atualizar seu pet</string>
+    <string name="description_tb_update_pet">Atualizar dados pessoais do seu pet</string>
+    <string name="text_update_pet">Atualizar pet</string>
+    <string name="message_pet_updated">Seu pet foi atualizado</string>
+    <string name="title_delete_all_reminders">Apagar todos os lembretes</string>
+    <string name="message_alert_delete_all_reminders">Você realmente deseja excluir todos os lembretes?</string>
+    <string name="message_alert_delete_reminder">Deseja realmente excluir este lembrete?</string>
+    <string name="title_about">Sobre</string>
+    <string name="text_my_greeting_about">Bem-vindo ao meu aplicativo. Espero que tenha te ajudado de alguma forma! 😀</string>
+    <string name="text_presentation_about_settings">O meu nome é João Vítor Queiroz Santos sou programador Android e gosto de ajudar as pessoas através da programação</string>
+    <string name="title_tasks">Tarefas</string>
+    <string name="hint_add_task">Adicionar tarefa</string>
+    <string name="message_cannot_create_task">Para criar uma tarefa, você precisa ter um pet cadastrado.</string>
+    <string name="text_filter_by_pet">Filtrar por pet</string>
+    <string name="message_error_weight_null">O peso não pode estar vazio</string>
+    <string name="text_not_identified">Não identificado</string>
 </resources>

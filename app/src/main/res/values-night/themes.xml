@@ -5,6 +5,7 @@
         <item name="colorOnPrimary">@color/color_on_primary_dark</item>
         <item name="colorSecondary">@color/color_secondary_dark</item>
         <item name="colorOnSecondary">@color/color_on_secondary_dark</item>
+        <item name="colorTertiary">@color/white</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="fontFamily">@font/poppins_family</item>
