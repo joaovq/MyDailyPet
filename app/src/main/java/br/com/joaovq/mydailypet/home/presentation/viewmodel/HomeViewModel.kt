@@ -2,11 +2,11 @@ package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.mydailypet.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.pet.domain.usecases.DeletePetUseCase
+import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
 import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
 import br.com.joaovq.mydailypet.reminder.domain.usecases.GetAllReminderUseCase
 import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
 
     override val _state: MutableStateFlow<HomeUiState?> = MutableStateFlow(null)
     val homeState = _state.asStateFlow()
-    private val _reminders: MutableStateFlow<List<Reminder>?> = MutableStateFlow(null)
+    private val _reminders: MutableStateFlow<List<Reminder>> = MutableStateFlow(listOf())
     val reminders = _reminders.asStateFlow()
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()

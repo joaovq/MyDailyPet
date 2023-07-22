@@ -22,6 +22,7 @@ import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
+import br.com.joaovq.mydailypet.tasks.domain.model.Task
 import br.com.joaovq.mydailypet.ui.AppMenuItem
 import br.com.joaovq.mydailypet.ui.NavAnim
 import br.com.joaovq.mydailypet.ui.permission.NotificationPermissionManager
@@ -107,9 +108,7 @@ class HomeFragment : Fragment() {
                 simpleAlertDialog(
                     title = R.string.title_alert_delete_pet,
                     message = R.string.message_alert_delete_pet_list,
-                ) {
-                    deletePet(pet)
-                }
+                ) { deletePet(pet) }
             },
         )
     }
@@ -126,17 +125,25 @@ class HomeFragment : Fragment() {
                 animPopExit = NavAnim.slideOutLeft,
             )
         }
-        binding.ltCategories.ltAddPetCategory.root.setOnClickListener {
-            findNavController().navWithAnim(
-                HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
-                animExit = NavAnim.slideUpPop,
-            )
-        }
-        binding.ltCategories.ltDailyCategory.root.setOnClickListener {
-            findNavController().navWithAnim(
-                HomeFragmentDirections.actionHomeFragmentToReminderListFragment(),
-                animExit = NavAnim.slideUpPop,
-            )
+        with(binding.ltCategories) {
+            ltAddPetCategory.root.setOnClickListener {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
+                    animExit = NavAnim.slideUpPop,
+                )
+            }
+            ltDailyCategory.root.setOnClickListener {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToReminderListFragment(),
+                    animExit = NavAnim.slideUpPop,
+                )
+            }
+            ltCategory.root.setOnClickListener {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToTaskFragment(),
+                    animExit = NavAnim.slideUpPop,
+                )
+            }
         }
         binding.llSeeMore.setOnClickListener {
             petsList?.let {
@@ -180,25 +187,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun initStates() {
-        lifecycleScope.launch {
-            homeViewModel.homeState.collectLatest { stateCollected ->
-                stateCollected?.let {
-                    when (it) {
-                        is HomeUiState.Error -> {
-                            toast(text = getString(it.message))
-                        }
+        with(homeViewModel) {
+            lifecycleScope.launch {
+                homeState.collectLatest { stateCollected ->
+                    stateCollected?.let {
+                        when (it) {
+                            is HomeUiState.Error -> {
+                                toast(text = getString(it.message))
+                            }
 
-                        is HomeUiState.Success -> {
-                            setupViewHome(it)
-                            animateView()
+                            is HomeUiState.Success -> {
+                                setupViewHome(it)
+                                animateView()
+                            }
                         }
                     }
                 }
             }
-        }
-        lifecycleScope.launch {
-            homeViewModel.reminders.collectLatest { remindersCollected ->
-                setTodayReminders(remindersCollected)
+            lifecycleScope.launch {
+                reminders.collectLatest { remindersCollected ->
+                    setTodayReminders(remindersCollected)
+                }
             }
         }
     }

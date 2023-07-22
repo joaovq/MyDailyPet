@@ -1,18 +1,14 @@
 package br.com.joaovq.mydailypet.home.presentation.adapter
 
-import android.animation.LayoutTransition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.joaovq.mydailypet.databinding.ItemPetListBinding
-import br.com.joaovq.mydailypet.home.presentation.adapter.task.TaskListAdapter
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.ui.util.extension.loadImage
-import br.com.joaovq.mydailypet.ui.util.extension.rotateX
 
 class PetsListAdapter(
     private val setOnLongClickListItem: (view: View, pet: Pet) -> Unit,
@@ -24,14 +20,6 @@ class PetsListAdapter(
                 tvNamePet.text = pet.name
                 tvType.text = pet.breed
                 ivPet.loadImage(url = pet.imageUrl)
-                rvTasksPet.adapter = TaskListAdapter().also {
-                    it.renderList(pet.tasks)
-                }
-                root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-                root.setOnClickListener {
-                    rvTasksPet.isVisible = !rvTasksPet.isVisible
-                    ivDropdown.rotateX()
-                }
                 root.setOnLongClickListener { view ->
                     setOnLongClickListItem(view, pet)
                     true
