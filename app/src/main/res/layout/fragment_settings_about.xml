@@ -73,12 +73,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/space_10dp"
+                app:tint="?attr/colorTertiary"
                 android:src="@drawable/ic_linkedin"/>
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_sm_github"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/space_10dp"
+                app:tint="?attr/colorTertiary"
                 android:src="@drawable/ic_github"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>

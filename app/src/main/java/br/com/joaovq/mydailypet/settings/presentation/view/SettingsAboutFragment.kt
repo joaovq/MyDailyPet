@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.com.joaovq.mydailypet.databinding.FragmentSettingsAboutBinding
+import br.com.joaovq.mydailypet.settings.presentation.factory.SocialMediaFactory
 import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,11 +29,21 @@ class SettingsAboutFragment : Fragment() {
         binding.tbAboutSettings.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        binding.ivSmGithub.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("http://www.google.com")
+        with(SocialMediaFactory) {
+            binding.ivSmLinkedin.setOnClickListener {
+                openUrlInBrowser(linkedin.url)
             }
-            startActivity(intent)
+            binding.ivSmGithub.setOnClickListener {
+                openUrlInBrowser(github.url)
+            }
         }
+    }
+
+    private fun openUrlInBrowser(
+        url: String,
+    ) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }

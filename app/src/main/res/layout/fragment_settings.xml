@@ -16,7 +16,6 @@
             app:title="@string/text_settings"
             app:titleTextAppearance="@style/Theme.MyDailyPet.TextAppearanceTitleToolbar"
             app:navigationIcon="@drawable/ic_close"
-            app:navigationIconTint="@color/black"
             app:titleCentered="true"/>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -46,12 +45,11 @@
                 android:text="@string/title_about"
                 android:textStyle="bold"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16sp"/>
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:tint="@color/black"
+                app:tint="?attr/colorOnSecondary"
                 app:srcCompat="@drawable/ic_arrow_right"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
