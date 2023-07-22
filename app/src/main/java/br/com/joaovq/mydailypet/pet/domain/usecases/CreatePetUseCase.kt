@@ -1,5 +1,6 @@
 package br.com.joaovq.mydailypet.pet.domain.usecases
 
+import android.graphics.Bitmap
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmInterval
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
@@ -12,17 +13,27 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 interface CreatePetUseCase {
-    suspend operator fun invoke(pet: Pet)
+    suspend operator fun invoke(pet: Pet, bitmap: Bitmap?)
 }
 
 class CreatePet @Inject constructor(
     private val petRepository: PetRepository,
+    private val saveImagePetUseCase: SaveImagePetUseCase,
     private val scheduler: AlarmScheduler,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : CreatePetUseCase {
-    override suspend fun invoke(pet: Pet) {
+    override suspend fun invoke(pet: Pet, bitmap: Bitmap?) {
         withContext(dispatcher) {
-            petRepository.insertPet(pet)
+            val newPet = if (pet.imageUrl.isNotBlank() && bitmap != null) {
+                val pathImageSaved = saveImagePetUseCase.invoke(
+                    bitmap,
+                    pet.imageUrl,
+                )
+                pet.copy(imageUrl = pathImageSaved ?: "")
+            } else {
+                pet
+            }
+            petRepository.insertPet(newPet)
             scheduleBirthdayAlarm(pet.birthAlarm)
         }
     }

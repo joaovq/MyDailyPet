@@ -1,12 +1,13 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewintent
 
+import android.graphics.Bitmap
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
 import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import java.util.Date
 
 sealed class AddPetAction {
     data class Submit(
-        val photoPath: String = "",
+        val photoNameFile: String = "",
         val name: String,
         val type: String,
         val weight: Double,
@@ -14,6 +15,7 @@ sealed class AddPetAction {
         val birth: Date?,
         val animal: String,
         val birthAlarm: NotificationAlarmItem,
+        val bitmap: Bitmap?,
     ) : AddPetAction()
 
     data class EditPet(
@@ -26,5 +28,6 @@ sealed class AddPetAction {
         val birth: Date?,
         val animal: String,
         val birthAlarm: NotificationAlarmItem,
+        val bitmap: Bitmap?
     ) : AddPetAction()
 }

@@ -1,6 +1,10 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
+import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkInfo
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.di.IODispatcher
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
@@ -44,6 +48,8 @@ class AddPetViewModel @Inject constructor(
     private val _validateStateDate = MutableStateFlow(ValidateState())
     val validateStateDate = _validateStateDate.asStateFlow()
     private val _validateStateBreed = MutableStateFlow(ValidateState())
+    private var saveImageLiveData: LiveData<WorkInfo>? = null
+    private var observerSaveImage: Observer<WorkInfo>? = null
 
     override fun dispatchIntent(intent: AddPetAction) {
         when (intent) {
@@ -52,13 +58,14 @@ class AddPetViewModel @Inject constructor(
                     Pet(
                         name = intent.name,
                         breed = intent.type,
-                        imageUrl = intent.photoPath,
+                        imageUrl = intent.photoNameFile,
                         weight = intent.weight,
                         birth = intent.birth,
                         sex = intent.sex,
                         animal = intent.animal,
                         birthAlarm = intent.birthAlarm,
                     ),
+                    intent.bitmap,
                 )
             }
 
@@ -68,31 +75,29 @@ class AddPetViewModel @Inject constructor(
                         id = intent.id,
                         name = intent.name,
                         breed = intent.type,
-                        imageUrl = intent.photoPath,
                         weight = intent.weight,
                         birth = intent.birth,
+                        imageUrl = intent.photoPath,
                         sex = intent.sex,
                         animal = intent.animal,
                         birthAlarm = intent.birthAlarm,
                     ),
+                    intent.bitmap,
                 )
             }
         }
     }
 
-    private fun addPet(pet: Pet) {
+    private fun addPet(pet: Pet, bitmap: Bitmap?) {
         viewModelScope.launch(dispatcher) {
             delay(2000)
             _state.apply {
                 value = AddPetUiState(isLoading = true)
                 value = try {
                     if (validateFormsPet(pet)) {
-                        createPetUseCase(pet)
-                        value.copy(
-                            isLoading = false,
-                            isSuccesful = true,
-                            message = R.string.message_pet_was_added,
-                            pathImage = pet.imageUrl,
+                        savePet(
+                            pet,
+                            bitmap,
                         )
                     } else {
                         AddPetUiState(isLoading = false)
@@ -105,14 +110,27 @@ class AddPetViewModel @Inject constructor(
         }
     }
 
-    private fun updatePet(pet: Pet) {
+    private suspend fun savePet(
+        pet: Pet,
+        bitmap: Bitmap?,
+    ): AddPetUiState {
+        createPetUseCase(pet, bitmap)
+        return _state.value.copy(
+            isLoading = false,
+            isSuccesful = true,
+            message = R.string.message_pet_was_added,
+            pathImage = pet.imageUrl,
+        )
+    }
+
+    private fun updatePet(pet: Pet, bitmap: Bitmap?) {
         viewModelScope.launch(dispatcher) {
             delay(2000)
             _state.apply {
                 value = AddPetUiState(isLoading = true)
                 value = if (validateFormsPet(pet)) {
                     try {
-                        updateInfosPet(pet)
+                        updateInfosPet(pet, bitmap)
                         value.copy(
                             isLoading = false,
                             isSuccesful = true,
@@ -139,5 +157,12 @@ class AddPetViewModel @Inject constructor(
             validateStateDate.value,
             validateStateAnimal.value,
         ).all { it.isValid }
+    }
+
+    override fun onCleared() {
+        observerSaveImage?.let {
+            saveImageLiveData?.removeObserver(it)
+        }
+        super.onCleared()
     }
 }
