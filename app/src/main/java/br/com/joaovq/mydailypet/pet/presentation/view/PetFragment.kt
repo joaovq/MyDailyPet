@@ -16,12 +16,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.core.util.extension.calculateInterval
 import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.core.util.extension.formatWeightToLocale
 import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
+import br.com.joaovq.mydailypet.data.works.SaveImageInInternalStorageWork
 import br.com.joaovq.mydailypet.databinding.FragmentPetBinding
+import br.com.joaovq.mydailypet.pet.domain.mappers.getStringRes
 import br.com.joaovq.mydailypet.pet.domain.model.Attach
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.pet.presentation.adapter.DetailsPetAdapter
@@ -107,9 +111,20 @@ class PetFragment : Fragment() {
         if (petArg.id != -1) {
             petViewModel.dispatchIntent(PetIntent.GetPetDetails(petArg.id))
         }
+        onNavigateToReminder()
         setToolbar()
         observeStates()
         initDetailsRv()
+    }
+
+    private fun onNavigateToReminder() {
+        binding.llAddReminderPetFrag.setOnClickListener {
+            findNavController().navWithAnim(
+                action = PetFragmentDirections.actionPetFragmentToAddReminderFragment(pet = pet),
+                animEnter = NavAnim.slideInLeft,
+                animPopExit = NavAnim.slideOutLeft,
+            )
+        }
     }
 
     private fun setToolbar() {
@@ -181,6 +196,7 @@ class PetFragment : Fragment() {
             binding.ltWeightDataPet.data = weight.formatWeightToLocale()
             binding.ltBreedDataPet.data = breed
             binding.ltAnimalDataPet.data = animal
+            binding.ltSexDataPet.data = getString(sex.getStringRes())
             birth?.let {
                 binding.ltBirthDataPet.data = it.format()
                 it.calculateInterval { year, month, days ->

@@ -72,8 +72,8 @@
                     <include
                         android:id="@+id/layt_photo_pet"
                         layout="@layout/layout_photo_pet"
-                        android:layout_width="220dp"
-                        android:layout_height="190dp" />
+                        android:layout_width="250dp"
+                        android:layout_height="240dp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_pet_name"
@@ -87,19 +87,6 @@
                         android:textStyle="bold"
                         android:tooltipText="@string/tooltip_name_of_pet"
                         tools:text="Name" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_pet_nickname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="?attr/colorPrimary"
-                        android:textIsSelectable="true"
-                        android:textSize="@dimen/text_size_20sp"
-                        android:textStyle="bold"
-                        android:text="@{pet.nickname}"
-                        android:tooltipText="@string/tooltip_nickname_of_pet"
-                        tools:text="Nickname" />
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_pet_birth"
                         android:layout_width="wrap_content"
@@ -116,22 +103,22 @@
                     android:id="@+id/ll_add_reminder_pet_frag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_16dp"
                     android:gravity="center_vertical"
+                    android:padding="@dimen/space_16dp"
+                    android:background="?attr/selectableItemBackground"
                     app:layout_constraintBottom_toTopOf="@id/ll_details_pet"
                     app:layout_constraintEnd_toEndOf="@id/ll_pet_profile_data"
                     app:layout_constraintStart_toStartOf="@id/ll_pet_profile_data"
                     app:layout_constraintTop_toBottomOf="@id/ll_pet_profile_data">
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ib_add_reminder_pet_frag"
-                        style="@style/Widget.MaterialComponents.FloatingActionButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="?attr/colorSecondary"
                         android:contentDescription="@string/add_reminder_content_description"
                         android:src="@drawable/ic_calendar"
-                        app:elevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:tint="?attr/colorPrimary" />
@@ -142,6 +129,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/text_add_reminder_for_pet"
                         android:textAlignment="center"
+                        android:layout_marginStart="@dimen/space_16dp"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="@dimen/text_size_12sp"
                         android:textStyle="bold" />
@@ -188,6 +176,13 @@
                         android:id="@+id/lt_animal_data_pet"
                         layout="@layout/layout_personal_data"
                         bind:title="@{@string/label_animal}" />
+
+                    <include layout="@layout/item_divider" />
+
+                    <include
+                        android:id="@+id/lt_sex_data_pet"
+                        layout="@layout/layout_personal_data"
+                        bind:title="@{@string/label_sex}" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_details_pet"

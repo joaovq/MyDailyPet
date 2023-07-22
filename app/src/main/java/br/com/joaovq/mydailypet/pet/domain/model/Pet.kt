@@ -19,5 +19,4 @@ data class Pet(
     val sex: SexType = SexType.NOT_IDENTIFIED,
     val attachs: List<Attach> = listOf(),
     val birthAlarm: NotificationAlarmItem,
-    val tasks: List<Task> = listOf(),
 ) : Parcelable
