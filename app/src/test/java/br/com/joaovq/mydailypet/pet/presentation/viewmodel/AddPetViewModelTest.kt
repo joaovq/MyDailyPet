@@ -57,7 +57,7 @@ class AddPetViewModelTest {
         sex = TestUtil.pet.sex,
         birth = TestUtil.pet.birth,
         animal = TestUtil.pet.animal ?: "",
-        photoPath = TestUtil.pet.imageUrl,
+        photoNameFile = TestUtil.pet.imageUrl,
         birthAlarm = TestUtil.pet.birthAlarm,
     )
 
