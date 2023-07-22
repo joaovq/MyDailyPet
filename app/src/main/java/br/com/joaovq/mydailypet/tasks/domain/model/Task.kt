@@ -7,8 +7,8 @@ import java.util.Date
 
 @Parcelize
 data class Task(
+    val id: Int = 0,
     val name: String = "",
-    val description: String = "",
     val createdAt: Date = Date(),
     val isCompleted: Boolean = false,
     val pet: Pet,
