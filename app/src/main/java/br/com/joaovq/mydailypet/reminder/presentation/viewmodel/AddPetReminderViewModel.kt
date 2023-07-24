@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.reminder.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
 import br.com.joaovq.mydailypet.reminder.domain.model.Reminder

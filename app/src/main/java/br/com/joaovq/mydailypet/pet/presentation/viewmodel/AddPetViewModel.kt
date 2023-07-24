@@ -1,12 +1,9 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
 import android.graphics.Bitmap
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import androidx.work.WorkInfo
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.pet.domain.usecases.CreatePetUseCase
 import br.com.joaovq.mydailypet.pet.domain.usecases.UpdateInfosPetUseCase
@@ -47,9 +44,6 @@ class AddPetViewModel @Inject constructor(
     val validateStateAnimal = _validateStateAnimal.asStateFlow()
     private val _validateStateDate = MutableStateFlow(ValidateState())
     val validateStateDate = _validateStateDate.asStateFlow()
-    private val _validateStateBreed = MutableStateFlow(ValidateState())
-    private var saveImageLiveData: LiveData<WorkInfo>? = null
-    private var observerSaveImage: Observer<WorkInfo>? = null
 
     override fun dispatchIntent(intent: AddPetAction) {
         when (intent) {
@@ -157,12 +151,5 @@ class AddPetViewModel @Inject constructor(
             validateStateDate.value,
             validateStateAnimal.value,
         ).all { it.isValid }
-    }
-
-    override fun onCleared() {
-        observerSaveImage?.let {
-            saveImageLiveData?.removeObserver(it)
-        }
-        super.onCleared()
     }
 }

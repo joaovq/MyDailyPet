@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
@@ -92,8 +92,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(coroutineDispatcher) {
             try {
                 deletePetUseCase(pet)
-                getPets()
-                getReminders()
+                _state.value = HomeUiState.DeleteSuccess
             } catch (e: Exception) {
                 e.printStackTrace()
                 _state.value = HomeUiState.Error(

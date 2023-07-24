@@ -1,7 +1,7 @@
 package br.com.joaovq.mydailypet.reminder.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.reminder.domain.usecases.DeleteAllRemindersUseCase
 import br.com.joaovq.mydailypet.reminder.domain.usecases.GetAllReminderUseCase
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.ReminderListIntent

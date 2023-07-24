@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.pet.domain.usecases.GetPetUseCase
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.PetIntent
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.PetState

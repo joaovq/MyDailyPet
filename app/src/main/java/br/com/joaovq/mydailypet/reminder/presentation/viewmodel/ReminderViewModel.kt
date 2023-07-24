@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.reminder.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
 import br.com.joaovq.mydailypet.reminder.domain.usecases.DeleteReminderUseCase
 import br.com.joaovq.mydailypet.reminder.domain.usecases.EditReminderUseCase
