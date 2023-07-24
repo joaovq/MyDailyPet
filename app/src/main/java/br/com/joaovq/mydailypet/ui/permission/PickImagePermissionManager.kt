@@ -2,21 +2,22 @@ package br.com.joaovq.mydailypet.ui.permission
 
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
+import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
+import timber.log.Timber
 
 class PickImagePermissionManager private constructor(
     private val fragment: Fragment,
     private val action: (Boolean) -> Unit,
 ) : PermissionManager {
     private val permissions: Permissions = Permissions.PickImage
-    private var rationaleMessage: String = ""
     private var rationale: () -> Unit = {
-        fragment.simpleAlertDialog(
+        fragment.goToSettingsAlertDialogForPermission(
             message = R.string.rationale_message_pick_image,
         )
     }
@@ -28,28 +29,25 @@ class PickImagePermissionManager private constructor(
             action(allGranted)
         }
 
-    override fun setOnShowRationale(message: String, action: () -> Unit): PermissionManager =
+    override fun setOnShowRationale(action: () -> Unit): PermissionManager =
         apply {
-            this.rationaleMessage = message
             this.rationale = action
         }
 
     override fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             when {
-                !permissions.permissions.map {
+                permissions.permissions.all {
                     ContextCompat.checkSelfPermission(
                         fragment.requireContext(),
                         it,
                     ) == PackageManager.PERMISSION_GRANTED
-                }.contains(false) -> {
+                } -> {
                     action(true)
                 }
 
                 fragment.shouldShowRequestPermissionRationale(
                     Permissions.READ_IMAGES,
-                ) || fragment.shouldShowRequestPermissionRationale(
-                    Permissions.WRITE_EXTERNAL_STORAGE,
                 ) -> {
                     rationale()
                 }

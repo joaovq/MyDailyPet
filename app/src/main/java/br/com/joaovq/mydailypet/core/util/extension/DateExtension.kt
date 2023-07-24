@@ -22,34 +22,30 @@ fun Date?.format(
 fun Date.calculateInterval(
     action: (year: Int, month: Int, days: Int) -> Unit,
 ) {
-    try {
-        val interval = System.currentTimeMillis() - this.time
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val instance = Calendar.getInstance()
-            instance.time = this
-            val todayDate =
-                LocalDate.now()
-            val between = Period.between(
-                todayDate,
-                LocalDate.of(
-                    instance.get(Calendar.YEAR),
-                    instance.get(Calendar.MONTH),
-                    instance.get(Calendar.DAY_OF_MONTH),
-                ),
-            )
-            val year = abs(between.years)
-            val month = abs(between.months) - 1
-            val days = abs(between.days)
-            return action(year, month, days)
-        } else {
-            val toDays =
-                TimeUnit.DAYS.convert(interval, TimeUnit.MILLISECONDS)
-            val year = (toDays) / 365
-            val rateMonth = if (year != 0L) 12 * year else toDays / 30
-            action(year.toInt(), rateMonth.toInt(), toDays.toInt())
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
+    val interval = System.currentTimeMillis() - this.time
+    if (interval < 0) throw RuntimeException("The date cannot be greater than current date ")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val instance = Calendar.getInstance()
+        instance.time = this
+        val todayDate = LocalDate.now()
+        val between = Period.between(
+            todayDate,
+            LocalDate.of(
+                instance.get(Calendar.YEAR),
+                instance.get(Calendar.MONTH),
+                instance.get(Calendar.DAY_OF_MONTH),
+            ),
+        )
+        val year = abs(between.years)
+        val month = abs(between.months) - 1
+        val days = abs(between.days)
+        action(year, month, days)
+    } else {
+        val toDays =
+            TimeUnit.MILLISECONDS.toDays(interval)
+        val year = (toDays) / 365
+        val rateMonth = if (year != 0L) 12 * year else toDays / 30
+        action(year.toInt(), rateMonth.toInt(), toDays.toInt())
     }
 }
 

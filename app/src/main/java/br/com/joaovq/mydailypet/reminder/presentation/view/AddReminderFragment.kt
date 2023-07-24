@@ -14,12 +14,14 @@ import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
 import br.com.joaovq.mydailypet.databinding.FragmentAddReminderBinding
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.reminder.presentation.adapter.SelectorPetsAdapter
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEvents
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.AddPetReminderViewModel
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
+import br.com.joaovq.mydailypet.ui.adapter.SelectorPetsAdapter
+import br.com.joaovq.mydailypet.ui.permission.NotificationPermissionManager
 import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
 import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
+import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
 import br.com.joaovq.mydailypet.ui.util.extension.simpleBottomSheetDialog
 import br.com.joaovq.mydailypet.ui.util.extension.simpleDatePickerDialog
 import br.com.joaovq.mydailypet.ui.util.extension.simpleTimePicker
@@ -39,6 +41,17 @@ class AddReminderFragment : Fragment() {
     private val addPetReminderViewModel: AddPetReminderViewModel by viewModels()
     private val args: AddReminderFragmentArgs by navArgs()
     private lateinit var calendar: Calendar
+    private lateinit var notificationPermissionManager: NotificationPermissionManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        notificationPermissionManager = NotificationPermissionManager.from(this)
+        notificationPermissionManager.setOnShowRationale {
+            goToSettingsAlertDialogForPermission(
+                message = R.string.message_alert_reminder_need_of_permission_notification,
+            )
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,17 +64,9 @@ class AddReminderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initStates()
-        getArgs()
         setToolbarView()
         setListenersOfView()
         animateShrinkExtendedFabButton(fabButton = binding.fabAddReminder)
-    }
-
-    private fun getArgs() {
-        args.let {
-            binding.etNameReminder.setText(it.name)
-            binding.etDescriptionReminder.setText(it.description)
-        }
     }
 
     private fun initStates() {
@@ -75,10 +80,12 @@ class AddReminderFragment : Fragment() {
 
                     is AddReminderUiState.Success -> {
                         initSelectorPet(petState.data)
+                        getArgs()
                     }
 
                     AddReminderUiState.SubmittedSuccess -> {
                         simpleBottomSheetDialog(text = getString(R.string.text_message_success_reminder_was_added))
+                        notificationPermissionManager.checkPermission()
                         binding.etNameReminder.text?.clear()
                         binding.etDescriptionReminder.text?.clear()
                         setInitialView()
@@ -108,7 +115,18 @@ class AddReminderFragment : Fragment() {
                     it.errorMessage.stringOrBlank(requireContext())
             }
         }
-        binding.rgSelectTimeMode.isSelected = true
+    }
+
+    private fun getArgs() {
+        args.let {
+            binding.etNameReminder.setText(it.name)
+            binding.etDescriptionReminder.setText(it.description)
+            it.pet?.let { petSafe ->
+                binding.spSelectPetReminder.adapter =
+                    SelectorPetsAdapter(requireContext(), listOf(petSafe))
+                binding.spSelectPetReminder.isEnabled = false
+            }
+        }
     }
 
     private fun setInitialView() {
@@ -179,7 +197,13 @@ class AddReminderFragment : Fragment() {
         }
     }
 
-    private fun adjustTime(hour: Int, minute: Int) = "$hour$DELIMITER_TIMER$minute"
+    private fun adjustTime(hour: Int, minute: Int): String {
+        return if (minute < 10) {
+            "$hour${DELIMITER_TIMER}0$minute"
+        } else {
+            "$hour$DELIMITER_TIMER$minute"
+        }
+    }
 
     private fun initSelectorPet(pets: List<Pet>) {
         binding.spSelectPetReminder.isEnabled = pets.isNotEmpty()

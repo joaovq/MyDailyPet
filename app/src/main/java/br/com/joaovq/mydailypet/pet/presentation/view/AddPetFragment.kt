@@ -1,10 +1,7 @@
 package br.com.joaovq.mydailypet.pet.presentation.view
 
-import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -26,14 +23,13 @@ import androidx.navigation.fragment.navArgs
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.core.util.extension.calculateIntervalNextBirthday
 import br.com.joaovq.mydailypet.core.util.extension.format
-import br.com.joaovq.mydailypet.core.util.extension.formatWeightToLocale
 import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
 import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
 import br.com.joaovq.mydailypet.core.util.image.ImageProvider
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
-import br.com.joaovq.mydailypet.databinding.FragmentAddReminderBinding
+import br.com.joaovq.mydailypet.pet.domain.model.AddPetChoices
 import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewmodel.AddPetViewModel
@@ -41,7 +37,7 @@ import br.com.joaovq.mydailypet.ui.TextWatcherProvider
 import br.com.joaovq.mydailypet.ui.permission.CameraPermissionManager
 import br.com.joaovq.mydailypet.ui.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
-import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
+import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
 import br.com.joaovq.mydailypet.ui.util.extension.simpleDatePickerDialog
 import br.com.joaovq.mydailypet.ui.util.extension.snackbar
 import br.com.joaovq.mydailypet.ui.util.extension.toast
@@ -90,43 +86,33 @@ class AddPetFragment : Fragment() {
                 binding.ivPhotoAddPet.ivPhoto.setImageBitmap(bitmap)
                 isImageSelected = true
             }
-        pickImagePermissionManager = PickImagePermissionManager.from(this) {
-            registerPickImage.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly,
-                ),
-            )
+        pickImagePermissionManager = PickImagePermissionManager.from(this) { isGranted ->
+            if (isGranted) {
+                registerPickImage.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly,
+                    ),
+                )
+            }
         }
-        pickImagePermissionManager.setOnShowRationale("") {
+        pickImagePermissionManager.setOnShowRationale {
             showSettingsDialog(R.string.rationale_message_pick_image)
         }
         cameraPermissionManager = CameraPermissionManager.from(this) {
-            registerCaptureImage.launch(null)
+            if (it) {
+                registerCaptureImage.launch(null)
+            }
         }
-        cameraPermissionManager.setOnShowRationale("") {
+        cameraPermissionManager.setOnShowRationale {
             showSettingsDialog(R.string.rationale_message_capture_image)
         }
         bitmapWriterProvider = BitmapHelperProvider(requireContext())
     }
 
     private fun showSettingsDialog(@StringRes message: Int) {
-        simpleAlertDialog(
-            message = message,
-            textPositiveButton = R.string.text_goto_settings,
-        ) {
-            val uri = Uri.fromParts(
-                "package",
-                requireActivity().packageName,
-                null,
-            )
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                .setData(uri)
-            if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                startActivity(
-                    intent,
-                )
-            }
-        }
+        goToSettingsAlertDialogForPermission(
+            message,
+        )
     }
 
     override fun onCreateView(
@@ -148,26 +134,21 @@ class AddPetFragment : Fragment() {
     }
 
     private fun setUpdateView() {
-        args.pet?.let {
-            /*TODO transfer this for databinding pet*/
-            binding.ivPhotoAddPet.ivPhoto.setImageURI(it.imageUrl.toUri())
-            binding.etNameAddPet.setText(it.name)
-            binding.etWeightAddPet.setText(it.weight.formatWeightToLocale())
-            binding.etBirthAddPet.setText(it.birth.format())
-            mBirth = it.birth
-            binding.atctvAnimalAddPet.setText(it.animal)
-            binding.atctvBreddAddPet.setText(it.breed)
+        args.pet?.let { safePet ->
+            binding.pet = safePet
+            binding.ivPhotoAddPet.ivPhoto.setImageURI(safePet.imageUrl.toUri())
+            binding.etNameAddPet.setText(safePet.name)
+            binding.etWeightAddPet.setText(safePet.weight.toString())
+            binding.etBirthAddPet.setText(safePet.birth.format())
+            mBirth = safePet.birth
+            binding.atctvAnimalAddPet.setText(safePet.animal)
+            binding.atctvBreddAddPet.setText(safePet.breed)
             binding.spSexAddPet.setSelection(
-                when (it.sex) {
+                when (safePet.sex) {
                     SexType.MALE -> 0
                     SexType.FEMALE -> 1
-                    SexType.NOT_IDENTIFIED -> 2
                 },
             )
-            binding.tbAddPet.setTitle(R.string.title_tb_update_pet)
-            binding.tbAddPet.setSubtitle(R.string.description_tb_update_pet)
-            binding.btnAddPet.setText(R.string.text_update_pet)
-            binding.btnAddPet.setIconResource(R.drawable.ic_check)
         }
     }
 
@@ -266,29 +247,40 @@ class AddPetFragment : Fragment() {
 
     private fun submitForms() {
         val sexType = mapSexType()
-        val path =
-            if (isImageSelected) {
-                requireContext().filesDir.absolutePath + File.separator + "${System.currentTimeMillis()}.jpeg"
-            } else {
-                ""
-            }
+        val path = getPathPhotoUrl()
+        val bitmap = if (isImageSelected) binding.ivPhotoAddPet.ivPhoto.drawToBitmap() else null
         try {
-            if (args.pet != null) {
-                updatePet(sexType, path)
+            if (mapChoicesAction() == AddPetChoices.UPDATE) {
+                updatePet(sexType, path, bitmap)
             } else {
-                createPet(sexType, path)
+                createPet(sexType, path, bitmap)
             }
         } catch (e: Exception) {
             e.printStackTrace()
             when (e) {
-                is NumberFormatException -> binding.tilWeightAddPet.error = "Weight are need number"
+                is NumberFormatException ->
+                    binding.tilWeightAddPet.error = getString(R.string.message_error_weight_null)
             }
         }
+    }
+
+    private fun mapChoicesAction() = when (args.pet != null) {
+        true -> AddPetChoices.UPDATE
+        false -> AddPetChoices.CREATE
+    }
+
+    private fun getPathPhotoUrl() = if (isImageSelected) {
+        "${System.currentTimeMillis()}.jpeg"
+    } else if (args.pet?.imageUrl?.isNotBlank() == true) {
+        args.pet?.imageUrl ?: ""
+    } else {
+        ""
     }
 
     private fun updatePet(
         sexType: SexType,
         path: String,
+        bitmap: Bitmap?,
     ) {
         addPetViewModel.dispatchIntent(
             AddPetAction.EditPet(
@@ -301,6 +293,7 @@ class AddPetFragment : Fragment() {
                 photoPath = path,
                 animal = binding.atctvAnimalAddPet.text.toString(),
                 birthAlarm = args.pet!!.birthAlarm,
+                bitmap = bitmap,
             ),
         )
     }
@@ -308,6 +301,7 @@ class AddPetFragment : Fragment() {
     private fun createPet(
         sexType: SexType,
         path: String,
+        bitmap: Bitmap?,
     ) {
         mBirth?.let {
             val nextBirthday = it.calculateIntervalNextBirthday()
@@ -319,9 +313,10 @@ class AddPetFragment : Fragment() {
                     weight = binding.etWeightAddPet.text.toString().toDouble(),
                     sex = sexType,
                     birth = it,
-                    photoPath = path,
+                    photoNameFile = path,
                     animal = binding.atctvAnimalAddPet.text.toString(),
                     birthAlarm = notifyAlarm,
+                    bitmap = bitmap,
                 ),
             )
         } ?: snackbar(message = getString(R.string.message_date_is_cannot_be_null))
@@ -336,7 +331,7 @@ class AddPetFragment : Fragment() {
     private fun mapSexType() = when (binding.spSexAddPet.selectedItem as String) {
         getString(R.string.text_male) -> SexType.MALE
         getString(R.string.text_female) -> SexType.FEMALE
-        else -> SexType.NOT_IDENTIFIED
+        else -> SexType.MALE
     }
 
     private fun initStates() {
@@ -345,7 +340,6 @@ class AddPetFragment : Fragment() {
                 binding.pbAddPetFrag.isVisible = stateCollected.isLoading
                 binding.ctlAddPet.isVisible = !stateCollected.isLoading
                 if (stateCollected.isSuccesful) {
-                    saveImageInternalStorage(stateCollected.pathImage)
                     stateCollected.message?.let { toast(text = getString(it)) }
                     findNavController().popBackStack()
                 }
@@ -365,15 +359,6 @@ class AddPetFragment : Fragment() {
             addPetViewModel.validateStateDate.collectLatest {
                 binding.tilBirthAddPet.error = it.errorMessage.stringOrBlank(requireContext())
             }
-        }
-    }
-
-    private suspend fun saveImageInternalStorage(path: String) {
-        if (isImageSelected) {
-            bitmapWriterProvider.write(
-                binding.ivPhotoAddPet.ivPhoto.drawToBitmap(),
-                path.replace(requireContext().filesDir.absolutePath + File.separator, ""),
-            )
         }
     }
 }

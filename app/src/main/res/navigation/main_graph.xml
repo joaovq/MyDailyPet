@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_homeFragment_to_reminderListFragment"
             app:destination="@id/reminderListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPetFragment"
@@ -57,6 +60,12 @@
         <action
             android:id="@+id/action_petFragment_to_addPetFragment"
             app:destination="@id/addPetFragment" />
+        <action
+            android:id="@+id/action_petFragment_to_addReminderFragment"
+            app:destination="@id/addReminderFragment" />
+        <action
+            android:id="@+id/action_petFragment_to_expandPhotoPetFragment"
+            app:destination="@id/expandPhotoPetFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -79,6 +88,11 @@
         <argument
             android:name="description"
             app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="pet"
+            app:argType="br.com.joaovq.mydailypet.pet.domain.model.Pet"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
@@ -119,7 +133,20 @@
         android:id="@+id/settingsAboutFragment"
         android:name="br.com.joaovq.mydailypet.settings.presentation.view.SettingsAboutFragment"
         android:label="fragment_settings_about"
-        tools:layout="@layout/fragment_settings_about" >
-        <deepLink app:uri="http://www.google.com"/>
+        tools:layout="@layout/fragment_settings_about" />
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="br.com.joaovq.mydailypet.tasks.presentation.view.TaskFragment"
+        android:label="fragment_task"
+        tools:layout="@layout/fragment_task" />
+    <fragment
+        android:id="@+id/expandPhotoPetFragment"
+        android:name="br.com.joaovq.mydailypet.pet.presentation.view.ExpandPhotoPetFragment"
+        android:label="fragment_expand_photo_pet"
+        tools:layout="@layout/fragment_expand_photo_pet" >
+        <argument
+            android:name="imagePath"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

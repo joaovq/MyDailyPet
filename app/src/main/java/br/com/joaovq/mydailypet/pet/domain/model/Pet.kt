@@ -2,7 +2,6 @@ package br.com.joaovq.mydailypet.pet.domain.model
 
 import android.os.Parcelable
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -16,8 +15,7 @@ data class Pet(
     val animal: String = "",
     val weight: Double = 0.0,
     val birth: Date? = null,
-    val sex: SexType = SexType.NOT_IDENTIFIED,
+    val sex: SexType = SexType.MALE,
     val attachs: List<Attach> = listOf(),
     val birthAlarm: NotificationAlarmItem,
-    val tasks: List<Task> = listOf(),
 ) : Parcelable

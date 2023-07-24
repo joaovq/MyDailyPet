@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.pet.domain.usecases
 
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
-import br.com.joaovq.mydailypet.testutil.TestUtil
+import br.com.joaovq.mydailypet.testutil.TestUtilPet
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -35,7 +35,7 @@ class ValidateNameTest {
 
     @Test
     fun `GIVEN string Nina WHEN validate name THEN is valid`() = runTest {
-        val validateStateName = validateNameUseCase(TestUtil.pet.name)
+        val validateStateName = validateNameUseCase(TestUtilPet.pet.name)
         assertTrue(validateStateName.isValid)
     }
 

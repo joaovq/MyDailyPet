@@ -10,7 +10,7 @@ import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateNameUseCase
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.AddPetUiState
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
-import br.com.joaovq.mydailypet.testutil.TestUtil
+import br.com.joaovq.mydailypet.testutil.TestUtilPet
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifyAll
@@ -18,6 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
@@ -51,14 +52,28 @@ class AddPetViewModelTest {
     private lateinit var validateDate: ValidateDateUseCase
 
     private val submitSuccessAction = AddPetAction.Submit(
-        name = TestUtil.pet.name,
-        type = TestUtil.pet.breed,
-        weight = TestUtil.pet.weight,
-        sex = TestUtil.pet.sex,
-        birth = TestUtil.pet.birth,
-        animal = TestUtil.pet.animal ?: "",
-        photoPath = TestUtil.pet.imageUrl,
-        birthAlarm = TestUtil.pet.birthAlarm,
+        name = TestUtilPet.pet.name,
+        type = TestUtilPet.pet.breed,
+        weight = TestUtilPet.pet.weight,
+        sex = TestUtilPet.pet.sex,
+        birth = TestUtilPet.pet.birth,
+        animal = TestUtilPet.pet.animal ?: "",
+        photoNameFile = TestUtilPet.pet.imageUrl,
+        birthAlarm = TestUtilPet.pet.birthAlarm,
+        bitmap = null,
+    )
+
+    private val updateSuccessAction = AddPetAction.EditPet(
+        id = TestUtilPet.pet.id,
+        name = TestUtilPet.pet.name,
+        type = TestUtilPet.pet.breed,
+        weight = TestUtilPet.pet.weight,
+        sex = TestUtilPet.pet.sex,
+        birth = TestUtilPet.pet.birth,
+        animal = TestUtilPet.pet.animal ?: "",
+        photoPath = TestUtilPet.pet.imageUrl,
+        birthAlarm = TestUtilPet.pet.birthAlarm,
+        bitmap = null,
     )
 
     @Before
@@ -77,10 +92,8 @@ class AddPetViewModelTest {
     @Test
     fun `GIVEN action submit WHEN dispatch intent THEN message Pets is added in db`() =
         runTest {
-            coEvery { validateName.invoke(name = TestUtil.pet.name) } returns TestUtil.successfulValidateState
-            coEvery { validateDate.invoke(date = TestUtil.pet.birth) } returns TestUtil.successfulValidateState
-            coEvery { validateAnimal.invoke(animalText = TestUtil.pet.animal) } returns TestUtil.successfulValidateState
-            coEvery { createPetUseCase(ofType(Pet::class)) } returns Unit
+            mockValidateUseCasesSuccess()
+            coEvery { createPetUseCase(pet = ofType(Pet::class), bitmap = any()) } returns Unit
             viewModel.dispatchIntent(
                 submitSuccessAction,
             )
@@ -91,21 +104,104 @@ class AddPetViewModelTest {
     @Test
     fun `GIVEN action submit WHEN dispatch intent throws exception THEN message Error in insert`() =
         runTest {
-            coEvery { validateName.invoke(name = TestUtil.pet.name) } returns TestUtil.successfulValidateState
-            coEvery { validateDate.invoke(date = TestUtil.pet.birth) } returns TestUtil.successfulValidateState
-            coEvery { validateAnimal.invoke(animalText = TestUtil.pet.animal) } returns TestUtil.successfulValidateState
-            coEvery { createPetUseCase.invoke(ofType(Pet::class)) } throws Exception("Error in insert")
+            mockValidateUseCasesSuccess()
+            coEvery {
+                createPetUseCase.invoke(
+                    ofType(Pet::class),
+                    null,
+                )
+            } throws Exception("Error in insert")
             assertEquals(AddPetUiState(false), viewModel.state.value)
             viewModel.dispatchIntent(
                 submitSuccessAction,
             )
             delay(3000)
-            println(viewModel.validateStateAnimal.value)
-            println(viewModel.validateStateName.value)
-            println(viewModel.validateStateDate.value)
-            println(viewModel.state.value)
             assertEquals("Error in insert", viewModel.state.value.exception?.message)
 
-            coVerifyAll { createPetUseCase(ofType(Pet::class)) }
+            coVerifyAll { createPetUseCase(ofType(Pet::class), null) }
         }
+
+    @Test
+    fun `GIVEN action update WHEN updatePet() THEN state Success`() =
+        runTest {
+            mockValidateUseCasesSuccess()
+            coEvery {
+                updateInfosPetUseCase.invoke(
+                    ofType(Pet::class),
+                    null,
+                )
+            } returns Unit
+            assertEquals(AddPetUiState(false), viewModel.state.value)
+            viewModel.dispatchIntent(updateSuccessAction)
+            delay(3000)
+            assertEquals(
+                AddPetUiState(
+                    isSuccesful = true,
+                    isLoading = false,
+                    message = R.string.message_pet_updated,
+                ),
+                viewModel.state.value,
+            )
+
+            coVerifyAll {
+                updateInfosPetUseCase.invoke(
+                    ofType(Pet::class),
+                    null,
+                )
+            }
+        }
+
+    @Test
+    fun `GIVEN action update WHEN updatePet() THEN error with Exception`() =
+        runTest {
+            mockValidateUseCasesSuccess()
+            coEvery {
+                updateInfosPetUseCase.invoke(
+                    ofType(Pet::class),
+                    null,
+                )
+            } returns Unit
+            assertEquals(AddPetUiState(false), viewModel.state.value)
+            viewModel.dispatchIntent(updateSuccessAction)
+            delay(3000)
+            assertEquals(
+                AddPetUiState(
+                    isSuccesful = true,
+                    isLoading = false,
+                    message = R.string.message_pet_updated,
+                ),
+                viewModel.state.value,
+            )
+
+            coVerifyAll {
+                updateInfosPetUseCase.invoke(
+                    ofType(Pet::class),
+                    null,
+                )
+            }
+        }
+
+    @Test
+    fun `GIVEN action add pet WHEN createPet() THEN name is not valid`() =
+        runTest {
+            coEvery { validateName.invoke(name = TestUtilPet.pet.name) } returns TestUtilPet.errorValidateState
+            coEvery { validateDate.invoke(date = TestUtilPet.pet.birth) } returns TestUtilPet.successfulValidateState
+            coEvery { validateAnimal.invoke(animalText = TestUtilPet.pet.animal) } returns TestUtilPet.successfulValidateState
+            assertEquals(AddPetUiState(false), viewModel.state.value)
+            viewModel.dispatchIntent(updateSuccessAction)
+            delay(3000)
+            assertFalse(
+                viewModel.validateStateName.value.isValid,
+            )
+            assertEquals(
+                AddPetUiState(isLoading = false),
+                viewModel.state.value,
+            )
+        }
+
+    private fun mockValidateUseCasesSuccess() {
+        coEvery { validateName.invoke(name = TestUtilPet.pet.name) } returns TestUtilPet.successfulValidateState
+        coEvery { validateDate.invoke(date = TestUtilPet.pet.birth) } returns TestUtilPet.successfulValidateState
+        coEvery { validateAnimal.invoke(animalText = TestUtilPet.pet.animal) } returns TestUtilPet.successfulValidateState
+    }
 }

@@ -14,5 +14,5 @@ interface ImageProvider<T, R> {
         value: T,
         path: String?,
         format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-    ): Boolean
+    ): String?
 }

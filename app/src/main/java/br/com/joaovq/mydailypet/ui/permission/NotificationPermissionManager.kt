@@ -4,22 +4,24 @@ import android.content.pm.PackageManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import br.com.joaovq.mydailypet.R
+import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
 
 class NotificationPermissionManager private constructor(
     private val fragment: Fragment,
     private val action: (Boolean) -> Unit,
 ) : PermissionManager {
     private val permission: Permissions = Permissions.Notification
-    private var rationaleMessage: String = ""
     private var rationale: () -> Unit = {
     }
     private val registerForActivity =
-        fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val allGranted = permissions.all { it.value }
+            action(true)
         }
 
-    override fun setOnShowRationale(message: String, action: () -> Unit): PermissionManager =
+    override fun setOnShowRationale(action: () -> Unit): PermissionManager =
         apply {
-            this.rationaleMessage = message
             this.rationale = action
         }
 

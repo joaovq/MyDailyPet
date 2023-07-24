@@ -31,6 +31,7 @@ import br.com.joaovq.mydailypet.ui.util.extension.createPopMenu
 import br.com.joaovq.mydailypet.ui.util.extension.gone
 import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
 import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
+import br.com.joaovq.mydailypet.ui.util.extension.snackbar
 import br.com.joaovq.mydailypet.ui.util.extension.toast
 import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,8 +49,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        notificationPermissionManager =
-            NotificationPermissionManager.from(this)
+        notificationPermissionManager = NotificationPermissionManager.from(this)
     }
 
     override fun onCreateView(
@@ -77,8 +77,14 @@ class HomeFragment : Fragment() {
     private fun initRecyclerView() {
         with(binding.rvMyPetsList) {
             adapter = PetsListAdapter(
-                setOnLongClickListItem = { view, pet ->
-                    showPopUpMenuPet(view, pet)
+                object : PetsListAdapter.PetListItemClickListener {
+                    override fun setOnClickListener() {
+                        toast(text = getString(R.string.message_click_in_pet_list))
+                    }
+
+                    override fun setOnLongClickListItem(view: View, pet: Pet) {
+                        showPopUpMenuPet(view, pet)
+                    }
                 },
             ).also {
                 mPetsAdapter = it
@@ -107,9 +113,7 @@ class HomeFragment : Fragment() {
                 simpleAlertDialog(
                     title = R.string.title_alert_delete_pet,
                     message = R.string.message_alert_delete_pet_list,
-                ) {
-                    deletePet(pet)
-                }
+                ) { deletePet(pet) }
             },
         )
     }
@@ -126,17 +130,25 @@ class HomeFragment : Fragment() {
                 animPopExit = NavAnim.slideOutLeft,
             )
         }
-        binding.ltCategories.ltAddPetCategory.root.setOnClickListener {
-            findNavController().navWithAnim(
-                HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
-                animExit = NavAnim.slideUpPop,
-            )
-        }
-        binding.ltCategories.ltDailyCategory.root.setOnClickListener {
-            findNavController().navWithAnim(
-                HomeFragmentDirections.actionHomeFragmentToReminderListFragment(),
-                animExit = NavAnim.slideUpPop,
-            )
+        with(binding.ltCategories) {
+            ltAddPetCategory.root.setOnClickListener {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
+                    animExit = NavAnim.slideUpPop,
+                )
+            }
+            ltDailyCategory.root.setOnClickListener {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToReminderListFragment(),
+                    animExit = NavAnim.slideUpPop,
+                )
+            }
+            ltCategory.root.setOnClickListener {
+                findNavController().navWithAnim(
+                    HomeFragmentDirections.actionHomeFragmentToTaskFragment(),
+                    animExit = NavAnim.slideUpPop,
+                )
+            }
         }
         binding.llSeeMore.setOnClickListener {
             petsList?.let {
@@ -156,7 +168,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initToolbar() {
-        /*TODO set visible if authenticate*/
+        /*TODO set visible logout icon menu if authenticate*/
         /*binding.tbHome.menu[1].isVisible = true*/
         binding.tbHome.menu[0].isVisible = false
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
@@ -180,25 +192,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun initStates() {
-        lifecycleScope.launch {
-            homeViewModel.homeState.collectLatest { stateCollected ->
-                stateCollected?.let {
-                    when (it) {
-                        is HomeUiState.Error -> {
-                            toast(text = getString(it.message))
-                        }
+        with(homeViewModel) {
+            lifecycleScope.launch {
+                homeState.collectLatest { stateCollected ->
+                    stateCollected?.let {
+                        when (it) {
+                            is HomeUiState.Error -> {
+                                toast(text = getString(it.message))
+                            }
 
-                        is HomeUiState.Success -> {
-                            setupViewHome(it)
-                            animateView()
+                            is HomeUiState.Success -> {
+                                setupViewHome(it)
+                                animateView()
+                            }
+
+                            HomeUiState.DeleteSuccess -> snackbar(message = getString(it.message))
                         }
                     }
                 }
             }
-        }
-        lifecycleScope.launch {
-            homeViewModel.reminders.collectLatest { remindersCollected ->
-                setTodayReminders(remindersCollected)
+            lifecycleScope.launch {
+                reminders.collectLatest { remindersCollected ->
+                    setTodayReminders(remindersCollected)
+                }
             }
         }
     }
