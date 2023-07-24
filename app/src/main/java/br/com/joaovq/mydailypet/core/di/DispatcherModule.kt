@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.di
+package br.com.joaovq.mydailypet.core.di
 
 import dagger.Module
 import dagger.Provides
