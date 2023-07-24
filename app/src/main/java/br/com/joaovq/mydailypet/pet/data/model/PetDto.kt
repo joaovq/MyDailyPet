@@ -17,7 +17,7 @@ data class PetDto(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(PET_ID_COLUMN_INFO)
     val petId: Int = 0,
-    val sex: SexType = SexType.NOT_IDENTIFIED,
+    val sex: SexType = SexType.MALE,
     val name: String = "",
     val nickname: String = "",
     val breed: String = "",

@@ -32,6 +32,7 @@ import br.com.joaovq.mydailypet.core.util.image.ImageProvider
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
+import br.com.joaovq.mydailypet.pet.domain.model.AddPetChoices
 import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewmodel.AddPetViewModel
@@ -146,25 +147,21 @@ class AddPetFragment : Fragment() {
     }
 
     private fun setUpdateView() {
-        args.pet?.let {
-            binding.ivPhotoAddPet.ivPhoto.setImageURI(it.imageUrl.toUri())
-            binding.etNameAddPet.setText(it.name)
-            binding.etWeightAddPet.setText(it.weight.toString())
-            binding.etBirthAddPet.setText(it.birth.format())
-            mBirth = it.birth
-            binding.atctvAnimalAddPet.setText(it.animal)
-            binding.atctvBreddAddPet.setText(it.breed)
+        args.pet?.let { safePet ->
+            binding.pet = safePet
+            binding.ivPhotoAddPet.ivPhoto.setImageURI(safePet.imageUrl.toUri())
+            binding.etNameAddPet.setText(safePet.name)
+            binding.etWeightAddPet.setText(safePet.weight.toString())
+            binding.etBirthAddPet.setText(safePet.birth.format())
+            mBirth = safePet.birth
+            binding.atctvAnimalAddPet.setText(safePet.animal)
+            binding.atctvBreddAddPet.setText(safePet.breed)
             binding.spSexAddPet.setSelection(
-                when (it.sex) {
+                when (safePet.sex) {
                     SexType.MALE -> 0
                     SexType.FEMALE -> 1
-                    SexType.NOT_IDENTIFIED -> 2
                 },
             )
-            binding.tbAddPet.setTitle(R.string.title_tb_update_pet)
-            binding.tbAddPet.setSubtitle(R.string.description_tb_update_pet)
-            binding.btnAddPet.setText(R.string.text_update_pet)
-            binding.btnAddPet.setIconResource(R.drawable.ic_check)
         }
     }
 
@@ -266,14 +263,10 @@ class AddPetFragment : Fragment() {
         val path = getPathPhotoUrl()
         val bitmap = if (isImageSelected) binding.ivPhotoAddPet.ivPhoto.drawToBitmap() else null
         try {
-            if (args.pet != null) {
+            if (mapChoicesAction() == AddPetChoices.UPDATE) {
                 updatePet(sexType, path, bitmap)
             } else {
-                createPet(
-                    sexType,
-                    path,
-                    bitmap,
-                )
+                createPet(sexType, path, bitmap)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -282,6 +275,11 @@ class AddPetFragment : Fragment() {
                     binding.tilWeightAddPet.error = getString(R.string.message_error_weight_null)
             }
         }
+    }
+
+    private fun mapChoicesAction() = when (args.pet != null) {
+        true -> AddPetChoices.UPDATE
+        false -> AddPetChoices.CREATE
     }
 
     private fun getPathPhotoUrl() = if (isImageSelected) {
@@ -346,7 +344,7 @@ class AddPetFragment : Fragment() {
     private fun mapSexType() = when (binding.spSexAddPet.selectedItem as String) {
         getString(R.string.text_male) -> SexType.MALE
         getString(R.string.text_female) -> SexType.FEMALE
-        else -> SexType.NOT_IDENTIFIED
+        else -> SexType.MALE
     }
 
     private fun initStates() {
