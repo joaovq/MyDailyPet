@@ -1,10 +1,9 @@
 package br.com.joaovq.mydailypet.reminder.domain.usecases
 
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.di.DefaultDispatcher
+import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
 import br.com.joaovq.mydailypet.ui.intent.ValidateState
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

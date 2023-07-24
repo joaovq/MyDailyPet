@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".CustomSplashScreenActivity">
+    tools:context=".MyDailyPetSplashScreenActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_logo_splash"

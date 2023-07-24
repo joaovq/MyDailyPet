@@ -1,6 +1,6 @@
 package br.com.joaovq.mydailypet.reminder.domain.usecases
 
-import br.com.joaovq.mydailypet.di.DefaultDispatcher
+import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
 import br.com.joaovq.mydailypet.reminder.data.repository.ReminderRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

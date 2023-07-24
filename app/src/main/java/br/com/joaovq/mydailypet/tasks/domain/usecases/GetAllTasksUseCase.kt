@@ -1,6 +1,6 @@
 package br.com.joaovq.mydailypet.tasks.domain.usecases
 
-import br.com.joaovq.mydailypet.di.DefaultDispatcher
+import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
 import br.com.joaovq.mydailypet.tasks.data.repository.TaskRepository
 import br.com.joaovq.mydailypet.tasks.domain.mapper.toDomain
 import br.com.joaovq.mydailypet.tasks.domain.model.Task

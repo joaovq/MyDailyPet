@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmInterval
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.di.DefaultDispatcher
+import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
 import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,7 +22,7 @@ class UpdateInfosPet @Inject constructor(
     private val alarmScheduler: AlarmScheduler,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : UpdateInfosPetUseCase {
-    override suspend fun invoke(pet: Pet,bitmap: Bitmap?) {
+    override suspend fun invoke(pet: Pet, bitmap: Bitmap?) {
         withContext(dispatcher) {
             val isUpdatedPhoto = pet.imageUrl.isNotBlank()
             val newPet = if (isUpdatedPhoto && bitmap != null) {

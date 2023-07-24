@@ -7,7 +7,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher

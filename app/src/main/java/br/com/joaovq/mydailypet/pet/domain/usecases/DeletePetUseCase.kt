@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.pet.domain.usecases
 
 import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
 import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.di.DefaultDispatcher
+import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
 import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import kotlinx.coroutines.CoroutineDispatcher

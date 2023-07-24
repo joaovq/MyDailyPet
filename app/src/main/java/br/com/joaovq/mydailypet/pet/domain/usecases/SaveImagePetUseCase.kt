@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.pet.domain.usecases
 
 import android.graphics.Bitmap
 import br.com.joaovq.mydailypet.core.util.image.ImageProvider
-import br.com.joaovq.mydailypet.di.DefaultDispatcher
+import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.io.File
