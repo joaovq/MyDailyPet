@@ -8,7 +8,8 @@ import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateFieldText
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEvents
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
-import br.com.joaovq.mydailypet.testutil.TestUtil
+import br.com.joaovq.mydailypet.testutil.TestUtilPet
+import br.com.joaovq.mydailypet.testutil.TestUtilReminder
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coJustAwait
@@ -44,6 +45,13 @@ class AddPetReminderViewModelTest {
     @RelaxedMockK
     private lateinit var validateFieldText: ValidateFieldText
 
+    private val submitActionSuccess = AddReminderEvents.SubmitData(
+        TestUtilReminder.reminder.name,
+        TestUtilReminder.reminder.description,
+        TestUtilReminder.reminder.toDate,
+        TestUtilReminder.reminder.pet,
+    )
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
@@ -57,24 +65,55 @@ class AddPetReminderViewModelTest {
     }
 
     @Test
-    fun `GIVEN intent Submit WHEN dispatch intent THEN state SubmittedSuccess`() = runTest {
-        coEvery { validateFieldText.invoke(TestUtil.reminder.name) } returns TestUtil.successfulValidateState
-        coEvery { validateFieldText.invoke(TestUtil.reminder.description) } returns TestUtil.successfulValidateState
-        coEvery { validateTimerUseCase.invoke(TestUtil.reminder.toDate) } returns TestUtil.successfulValidateState
-
-        reminderViewModel.dispatchIntent(
-            AddReminderEvents.SubmitData(
-                TestUtil.reminder.name,
-                TestUtil.reminder.description,
-                TestUtil.reminder.toDate,
-                TestUtil.reminder.pet,
-            ),
-        )
-        coJustAwait {
+    fun `GIVEN intent Submit WHEN dispatch intent THEN exception`() = runTest {
+        coEvery {
+            validateFieldText.invoke(TestUtilReminder.reminder.name)
+        } returns TestUtilPet.successfulValidateState
+        coEvery {
+            validateFieldText.invoke(TestUtilReminder.reminder.description)
+        } returns TestUtilPet.successfulValidateState
+        coEvery {
+            validateTimerUseCase.invoke(TestUtilReminder.reminder.toDate)
+        } returns TestUtilPet.successfulValidateState
+        val exception = Exception()
+        coEvery {
             createReminderUseCase.invoke(
                 ofType(Reminder::class),
             )
-        }
+        } throws exception
+        reminderViewModel.dispatchIntent(submitActionSuccess)
+        assertEquals(AddReminderUiState.Error(exception = exception), reminderViewModel.state.value)
+    }
+
+    @Test
+    fun `GIVEN intent Submit WHEN dispatch intent THEN state SubmittedSuccess`() = runTest {
+        coEvery {
+            validateFieldText.invoke(TestUtilReminder.reminder.name)
+        } returns TestUtilPet.successfulValidateState
+        coEvery {
+            validateFieldText.invoke(TestUtilReminder.reminder.description)
+        } returns TestUtilPet.successfulValidateState
+        coEvery {
+            validateTimerUseCase.invoke(TestUtilReminder.reminder.toDate)
+        } returns TestUtilPet.successfulValidateState
+        reminderViewModel.dispatchIntent(submitActionSuccess)
+        coJustAwait { createReminderUseCase.invoke(ofType(Reminder::class)) }
+        assertEquals(AddReminderUiState.SubmittedSuccess, reminderViewModel.state.value)
+    }
+
+    @Test
+    fun `GIVEN intent Submit WHEN createReminder() THEN state SubmittedSuccess`() = runTest {
+        coEvery {
+            validateFieldText.invoke(TestUtilReminder.reminder.name)
+        } returns TestUtilPet.successfulValidateState
+        coEvery {
+            validateFieldText.invoke(TestUtilReminder.reminder.description)
+        } returns TestUtilPet.successfulValidateState
+        coEvery {
+            validateTimerUseCase.invoke(TestUtilReminder.reminder.toDate)
+        } returns TestUtilPet.successfulValidateState
+        reminderViewModel.dispatchIntent(submitActionSuccess)
+        coJustAwait { createReminderUseCase.invoke(ofType(Reminder::class)) }
         assertEquals(AddReminderUiState.SubmittedSuccess, reminderViewModel.state.value)
     }
 }
