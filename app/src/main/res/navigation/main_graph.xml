@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_petFragment_to_addReminderFragment"
             app:destination="@id/addReminderFragment" />
+        <action
+            android:id="@+id/action_petFragment_to_expandPhotoPetFragment"
+            app:destination="@id/expandPhotoPetFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -136,4 +139,14 @@
         android:name="br.com.joaovq.mydailypet.tasks.presentation.view.TaskFragment"
         android:label="fragment_task"
         tools:layout="@layout/fragment_task" />
+    <fragment
+        android:id="@+id/expandPhotoPetFragment"
+        android:name="br.com.joaovq.mydailypet.pet.presentation.view.ExpandPhotoPetFragment"
+        android:label="fragment_expand_photo_pet"
+        tools:layout="@layout/fragment_expand_photo_pet" >
+        <argument
+            android:name="imagePath"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
