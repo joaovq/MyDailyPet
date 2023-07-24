@@ -139,7 +139,7 @@ class PetFragment : Fragment() {
                     extras,
                 )
             } else {
-                toast(text = "image not found")
+                toast(text = getString(R.string.message_image_not_found))
             }
         }
     }
