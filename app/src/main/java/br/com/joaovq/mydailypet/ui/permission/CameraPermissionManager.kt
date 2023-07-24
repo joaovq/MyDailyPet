@@ -16,7 +16,6 @@ class CameraPermissionManager private constructor(
 ) :
     PermissionManager {
     private val permissions: Permissions = Permissions.Camera
-    private var rationaleMessage: String = ""
     private var rationale: () -> Unit = {}
     private var registerForActivity: ActivityResultLauncher<Array<String>> =
         fragment.registerForActivityResult(
@@ -26,24 +25,7 @@ class CameraPermissionManager private constructor(
             action(allGranted)
         }
 
-    fun showRationale() {
-        MaterialAlertDialogBuilder(fragment.requireContext())
-            .setTitle(RATIONALE_TITLE)
-            .setMessage(rationaleMessage)
-            .setPositiveButton(RATIONALE_POSITIVE_BUTTON) { dialog, _ ->
-                val intent =
-                    Intent(
-                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        "package:${fragment.activity?.packageName}".toUri(),
-                    )
-                fragment.activity?.startActivity(intent)
-            }.setNegativeButton(RATIONALE_NEGATIVE_BUTTON) { dialog, _ ->
-                dialog.dismiss()
-            }.show()
-    }
-
-    override fun setOnShowRationale(message: String, action: () -> Unit) = apply {
-        this.rationaleMessage = message
+    override fun setOnShowRationale(action: () -> Unit) = apply {
         this.rationale = action
     }
 

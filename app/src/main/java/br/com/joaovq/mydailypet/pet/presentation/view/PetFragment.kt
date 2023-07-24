@@ -64,9 +64,11 @@ class PetFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pickImagePermissionManager = PickImagePermissionManager.from(this) {
-            lifecycleScope.launch {
-                shareImage()
+        pickImagePermissionManager = PickImagePermissionManager.from(this) { isGranted ->
+            if (isGranted) {
+                lifecycleScope.launch {
+                    shareImage()
+                }
             }
         }
         bitmapHelperProvider = BitmapHelperProvider(requireActivity())

@@ -18,8 +18,10 @@ import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEven
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.AddPetReminderViewModel
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
 import br.com.joaovq.mydailypet.ui.adapter.SelectorPetsAdapter
+import br.com.joaovq.mydailypet.ui.permission.NotificationPermissionManager
 import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
 import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
+import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
 import br.com.joaovq.mydailypet.ui.util.extension.simpleBottomSheetDialog
 import br.com.joaovq.mydailypet.ui.util.extension.simpleDatePickerDialog
 import br.com.joaovq.mydailypet.ui.util.extension.simpleTimePicker
@@ -39,6 +41,17 @@ class AddReminderFragment : Fragment() {
     private val addPetReminderViewModel: AddPetReminderViewModel by viewModels()
     private val args: AddReminderFragmentArgs by navArgs()
     private lateinit var calendar: Calendar
+    private lateinit var notificationPermissionManager: NotificationPermissionManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        notificationPermissionManager = NotificationPermissionManager.from(this)
+        notificationPermissionManager.setOnShowRationale {
+            goToSettingsAlertDialogForPermission(
+                message = R.string.message_alert_reminder_need_of_permission_notification,
+            )
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,18 +67,6 @@ class AddReminderFragment : Fragment() {
         setToolbarView()
         setListenersOfView()
         animateShrinkExtendedFabButton(fabButton = binding.fabAddReminder)
-    }
-
-    private fun getArgs() {
-        args.let {
-            binding.etNameReminder.setText(it.name)
-            binding.etDescriptionReminder.setText(it.description)
-            it.pet?.let { petSafe ->
-                binding.spSelectPetReminder.adapter =
-                    SelectorPetsAdapter(requireContext(), listOf(petSafe))
-                binding.spSelectPetReminder.isEnabled = false
-            }
-        }
     }
 
     private fun initStates() {
@@ -84,6 +85,7 @@ class AddReminderFragment : Fragment() {
 
                     AddReminderUiState.SubmittedSuccess -> {
                         simpleBottomSheetDialog(text = getString(R.string.text_message_success_reminder_was_added))
+                        notificationPermissionManager.checkPermission()
                         binding.etNameReminder.text?.clear()
                         binding.etDescriptionReminder.text?.clear()
                         setInitialView()
@@ -111,6 +113,18 @@ class AddReminderFragment : Fragment() {
             addPetReminderViewModel.validateStateDescription.collectLatest {
                 binding.tilDescriptionReminder.error =
                     it.errorMessage.stringOrBlank(requireContext())
+            }
+        }
+    }
+
+    private fun getArgs() {
+        args.let {
+            binding.etNameReminder.setText(it.name)
+            binding.etDescriptionReminder.setText(it.description)
+            it.pet?.let { petSafe ->
+                binding.spSelectPetReminder.adapter =
+                    SelectorPetsAdapter(requireContext(), listOf(petSafe))
+                binding.spSelectPetReminder.isEnabled = false
             }
         }
     }

@@ -14,9 +14,6 @@ sealed class Permissions(val permissions: Array<String>) {
         Permissions(
             arrayOf(
                 READ_IMAGES,
-                WRITE_EXTERNAL_STORAGE,
-                READ_EXTERNAL_STORAGE,
-                MANAGE_EXTERNAL_STORAGE,
             ),
         )
 
@@ -27,9 +24,6 @@ sealed class Permissions(val permissions: Array<String>) {
         } else {
             Manifest.permission.READ_EXTERNAL_STORAGE
         }
-        const val WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
-        const val READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
-        const val MANAGE_EXTERNAL_STORAGE = Manifest.permission.MANAGE_EXTERNAL_STORAGE
 
         @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         const val POST_NOTIFICATION = Manifest.permission.POST_NOTIFICATIONS

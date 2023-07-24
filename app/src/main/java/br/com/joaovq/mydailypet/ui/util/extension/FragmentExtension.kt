@@ -2,6 +2,9 @@ package br.com.joaovq.mydailypet.ui.util.extension
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -180,4 +183,26 @@ fun Fragment.createHelpDialog(
     )
     alertDialog.setNegativeButton(textButton, onClickPositiveButton)
     alertDialog.show()
+}
+
+fun Fragment.goToSettingsAlertDialogForPermission(
+    @StringRes message: Int,
+) {
+    simpleAlertDialog(
+        message = message,
+        textPositiveButton = R.string.text_goto_settings,
+    ) {
+        val uri = Uri.fromParts(
+            "package",
+            requireActivity().packageName,
+            null,
+        )
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .setData(uri)
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(
+                intent,
+            )
+        }
+    }
 }

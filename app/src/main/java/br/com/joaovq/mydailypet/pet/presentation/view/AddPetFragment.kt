@@ -1,10 +1,7 @@
 package br.com.joaovq.mydailypet.pet.presentation.view
 
-import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -40,7 +37,7 @@ import br.com.joaovq.mydailypet.ui.TextWatcherProvider
 import br.com.joaovq.mydailypet.ui.permission.CameraPermissionManager
 import br.com.joaovq.mydailypet.ui.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
-import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
+import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
 import br.com.joaovq.mydailypet.ui.util.extension.simpleDatePickerDialog
 import br.com.joaovq.mydailypet.ui.util.extension.snackbar
 import br.com.joaovq.mydailypet.ui.util.extension.toast
@@ -89,43 +86,33 @@ class AddPetFragment : Fragment() {
                 binding.ivPhotoAddPet.ivPhoto.setImageBitmap(bitmap)
                 isImageSelected = true
             }
-        pickImagePermissionManager = PickImagePermissionManager.from(this) {
-            registerPickImage.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly,
-                ),
-            )
+        pickImagePermissionManager = PickImagePermissionManager.from(this) { isGranted ->
+            if (isGranted) {
+                registerPickImage.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly,
+                    ),
+                )
+            }
         }
-        pickImagePermissionManager.setOnShowRationale("") {
+        pickImagePermissionManager.setOnShowRationale {
             showSettingsDialog(R.string.rationale_message_pick_image)
         }
         cameraPermissionManager = CameraPermissionManager.from(this) {
-            registerCaptureImage.launch(null)
+            if (it) {
+                registerCaptureImage.launch(null)
+            }
         }
-        cameraPermissionManager.setOnShowRationale("") {
+        cameraPermissionManager.setOnShowRationale {
             showSettingsDialog(R.string.rationale_message_capture_image)
         }
         bitmapWriterProvider = BitmapHelperProvider(requireContext())
     }
 
     private fun showSettingsDialog(@StringRes message: Int) {
-        simpleAlertDialog(
-            message = message,
-            textPositiveButton = R.string.text_goto_settings,
-        ) {
-            val uri = Uri.fromParts(
-                "package",
-                requireActivity().packageName,
-                null,
-            )
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                .setData(uri)
-            if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                startActivity(
-                    intent,
-                )
-            }
-        }
+        goToSettingsAlertDialogForPermission(
+            message,
+        )
     }
 
     override fun onCreateView(
