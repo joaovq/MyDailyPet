@@ -199,13 +199,14 @@ class PetFragment : Fragment() {
         }
         lifecycleScope.launch {
             petViewModel.state.collectLatest { collectedState ->
-                when (collectedState) {
-                    is PetState.Error -> toast(text = collectedState.message)
-                    PetState.Initial -> {}
-                    is PetState.Success -> {
-                        collectedState.pet.apply {
-                            setDetailsPetInView(this)
-                            pet = this
+                collectedState?.let {
+                    when (collectedState) {
+                        is PetState.Error -> toast(text = collectedState.message)
+                        is PetState.Success -> {
+                            collectedState.pet.apply {
+                                setDetailsPetInView(this)
+                                pet = this
+                            }
                         }
                     }
                 }
