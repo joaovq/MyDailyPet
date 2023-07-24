@@ -84,7 +84,7 @@ class AddPetViewModel @Inject constructor(
 
     private fun addPet(pet: Pet, bitmap: Bitmap?) {
         viewModelScope.launch(dispatcher) {
-            delay(2000)
+            delay(DEBOUNCE_DELAY)
             _state.apply {
                 value = AddPetUiState(isLoading = true)
                 value = try {
@@ -119,7 +119,7 @@ class AddPetViewModel @Inject constructor(
 
     private fun updatePet(pet: Pet, bitmap: Bitmap?) {
         viewModelScope.launch(dispatcher) {
-            delay(2000)
+            delay(DEBOUNCE_DELAY)
             _state.apply {
                 value = AddPetUiState(isLoading = true)
                 value = if (validateFormsPet(pet)) {
@@ -151,5 +151,9 @@ class AddPetViewModel @Inject constructor(
             validateStateDate.value,
             validateStateAnimal.value,
         ).all { it.isValid }
+    }
+
+    companion object {
+        private const val DEBOUNCE_DELAY = 2000L
     }
 }
