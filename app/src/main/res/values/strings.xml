@@ -10,7 +10,7 @@
     <string name="message_error">Error in process. See you log</string>
     <string name="text_select_option">Select Option</string>
     <string name="text_negative_button">Cancel</string>
-    <string name="text_positive_button" translatable="false">Ok</string>
+    <string name="text_positive_button" translatable="false">OK</string>
 
     <!--Home Screen-->
     <string name="title_home_menu">Home</string>
@@ -29,6 +29,9 @@
     <string name="message_help_add_reminder">On this screen you can set a reminder for one of your registered pets. Note that you need to have a pet registered to be able to set a reminder!!</string>
     <string name="message_help_today_reminders_home">Here are the reminders for today. If you have more than one reminder, drag to the side to see all reminders. If you want to see more details about the reminder, click on the reminder.</string>
     <string name="message_help_my_pet_home">If you have registered pets, your pets will be shown here.\nDrag to the right side for pet actions or click to see your pet\'s tasks.</string>
+    <string name="delete_pet_title_pop_menu">Delete pet </string>
+    <string name="title_alert_delete_pet">Delete this pet?</string>
+    <string name="message_alert_delete_pet_list">You will delete all data for this pet.</string>
     <!--Add Pet Screen-->
     <string name="title_add_pet">Add pet</string>
     <string name="hint_add_birth">Add birth</string>
@@ -43,6 +46,10 @@
     <string name="label_animal" translatable="false">Animal</string>
     <string name="notification_title_birthday">Happy Birth Day, %s!!!</string>
     <string name="notification_description_birthday">"This is special day for you and %s."</string>
+    <string name="title_tb_update_pet">Update pet</string>
+    <string name="description_tb_update_pet">Update personal data this pet</string>
+    <string name="text_update_pet">Update pet</string>
+    <string name="message_pet_updated">Pet\'s data updated!</string>
     <!--Pet Screen text's-->
     <string name="attach_file_content_description">Attach file for your pet</string>
     <string name="edit_pet">Edit Pet</string>
@@ -63,6 +70,9 @@
     <string name="text_schnauzer" translatable="false">Schnauzer</string>
     <string name="text_doberman" translatable="false">Doberman</string>
     <string name="text_interval_life_pet">%d years %d months %d days</string>
+    <string name="title_personal_data">Personal Data</string>
+    <string name="title_choser_share">Share with…</string>
+
     <!--Settings-->
     <string name="title_dark_mode">Dark mode</string>
     <string name="template_version">Version %s</string>
@@ -96,6 +106,11 @@
     <string name="title_task">Tasks</string>
     <string name="text_not_tasks_added_yet">Not tasks added yet for this pet</string>
     <string name="text_start_on_app">Start on app</string>
+    <string name="title_repeat">Repeat</string>
+    <string name="message_help_detail_reminder">In this screen you see details of reminder and edit this reminder.  Repeat reminder in icon repeat menu.</string>
+    <string name="title_delete_all_reminders">Delete all reminders</string>
+    <string name="message_alert_delete_all_reminders">Do you really want to delete all reminders?</string>
+    <string name="message_alert_delete_reminder">Do you really want to delete this reminder?</string>
 
     <!--    Onboarding Screen-->
     <string name="text_onboarding_page1">Welcome to our pet routine app! Here, you can easily and efficiently monitor your pet\'s care and follow-up needs.</string>
@@ -105,7 +120,6 @@
     <string name="title_onboarding_page2">The best of both worlds!</string>
     <string name="title_onboarding_page1">An app to take care of the pet!</string>
     <string name="add_reminder_content_description">Add reminder for this pet</string>
-    <string name="title_personal_data">Personal Data</string>
     <string name="title_reminders">Reminders</string>
     <string name="text_complete">Complete</string>
     <string name="title_filter_list">Filter list</string>
@@ -116,31 +130,18 @@
     <string name="hint_name_reminder">Name reminder</string>
     <string name="text_today">Today</string>
     <string name="title_share_pet">Share pet</string>
-    <string name="delete_pet_title_pop_menu">"Delete pet "</string>
-    <string name="title_alert_delete_pet">Delete this pet?</string>
-    <string name="message_alert_delete_pet_list">You will delete all data for this pet.</string>
     <string name="text_not_implemented">\nNot implemented yet. An update with this feature will be coming soon.</string>
-    <string name="title_choser_share">Share with…</string>
     <string name="text_error_occurred_contact_provider">Error occurred. Contact the provider this error.</string>
-    <string name="title_repeat">Repeat</string>
-    <string name="message_help_detail_reminder">In this screen you see details of reminder and edit this reminder.  Repeat reminder in icon repeat menu.</string>
-    <string name="title_tb_update_pet">Update pet</string>
-    <string name="description_tb_update_pet">Update personal data this pet</string>
-    <string name="text_update_pet">Update pet</string>
-    <string name="message_pet_updated">Pet\'s data updated!</string>
-    <string name="title_delete_all_reminders">Delete all reminders</string>
-    <string name="message_alert_delete_all_reminders">Do you really want to delete all reminders?</string>
-    <string name="message_alert_delete_reminder">Do you really want to delete this reminder?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--About Screen-->
     <string name="title_about">About</string>
     <string name="text_my_greeting_about">Welcome to my app. Hope it helped you in some way! 😀</string>
     <string name="text_presentation_about_settings">My name is João Vítor Queiroz Santos   I\'m an Android developer and I like to help people through programming.</string>
+    <!--Tasks Screen-->
     <string name="title_tasks">Tasks</string>
     <string name="hint_add_task">Add task</string>
     <string name="message_cannot_create_task">To create a task, you must have a pet registered</string>
     <string name="text_filter_by_pet">Filter by Pet</string>
     <string name="message_error_weight_null">Weight cannot be null</string>
-    <string name="text_not_identified">Not identified</string>
-
+    <string name="message_click_in_pet_list">Press for at least 2 seconds to perform actions on this pet</string>
 </resources>

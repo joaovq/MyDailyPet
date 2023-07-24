@@ -11,19 +11,24 @@ import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.ui.util.extension.loadImage
 
 class PetsListAdapter(
-    private val setOnLongClickListItem: (view: View, pet: Pet) -> Unit,
+    private val petsListOnLongClickListener: PetListItemClickListener,
 ) : ListAdapter<Pet, PetsListAdapter.PetsListViewHolder>(ItemPetDiff) {
     inner class PetsListViewHolder(private val binding: ItemPetListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(pet: Pet) {
+        fun bind(
+            pet: Pet,
+            setOnClickListener: () -> Unit,
+            setOnLongClickListener: (View, Pet) -> Unit,
+        ) {
             binding.apply {
                 tvNamePet.text = pet.name
                 tvType.text = pet.breed
                 ivPet.loadImage(url = pet.imageUrl)
-                root.setOnLongClickListener { view ->
-                    setOnLongClickListItem(view, pet)
+                root.setOnLongClickListener {
+                    setOnLongClickListener(it, pet)
                     true
                 }
+                root.setOnClickListener { setOnClickListener() }
             }
         }
     }
@@ -43,7 +48,11 @@ class PetsListAdapter(
     }
 
     override fun onBindViewHolder(holder: PetsListViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(
+            getItem(position),
+            petsListOnLongClickListener::setOnClickListener,
+            petsListOnLongClickListener::setOnLongClickListItem,
+        )
     }
 
     object ItemPetDiff : DiffUtil.ItemCallback<Pet>() {
@@ -54,5 +63,10 @@ class PetsListAdapter(
         override fun areContentsTheSame(oldItem: Pet, newItem: Pet): Boolean {
             return oldItem.id == newItem.id
         }
+    }
+
+    interface PetListItemClickListener {
+        fun setOnClickListener()
+        fun setOnLongClickListItem(view: View, pet: Pet)
     }
 }

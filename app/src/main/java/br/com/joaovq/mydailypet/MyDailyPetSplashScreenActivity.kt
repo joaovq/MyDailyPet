@@ -10,16 +10,16 @@ import androidx.lifecycle.lifecycleScope
 import br.com.joaovq.mydailypet.core.util.extension.setNightThemeApp
 import br.com.joaovq.mydailypet.data.datastore.DARKMODE_PREFERENCE_KEY
 import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
-import br.com.joaovq.mydailypet.databinding.ActivityCustomSplashScreenBinding
+import br.com.joaovq.mydailypet.databinding.ActivityMydailypetSplashScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class CustomSplashScreenActivity : AppCompatActivity() {
+class MyDailyPetSplashScreenActivity : AppCompatActivity() {
     private val binding by lazy {
-        ActivityCustomSplashScreenBinding.inflate(layoutInflater)
+        ActivityMydailypetSplashScreenBinding.inflate(layoutInflater)
     }
 
     @Inject
@@ -42,6 +42,10 @@ class CustomSplashScreenActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(applicationContext, MainActivity::class.java))
             finish()
-        }, 2000)
+        }, DELAY_MILLIS_SPLASH_ANIMATION_SCREEN)
+    }
+
+    companion object {
+        private const val DELAY_MILLIS_SPLASH_ANIMATION_SCREEN = 2000L
     }
 }

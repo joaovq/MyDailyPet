@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.mydailypet.data.datastore.DARKMODE_PREFERENCE_KEY
 import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -20,7 +20,7 @@
     <string name="text_logout">Deslogar</string>
     <string name="text_add_pet">Adicionar Pet</string>
     <string name="text_reminders_daily">Rotina</string>
-    <string name="text_tasks">Categoria</string>
+    <string name="text_tasks">Tarefas</string>
     <string name="home_label">Tela inicial</string>
     <string name="title_add_pet">Adicionar Pet</string>
     <string name="hint_add_birth">Adicionar data de nascimento</string>
@@ -124,5 +124,4 @@
     <string name="message_cannot_create_task">Para criar uma tarefa, você precisa ter um pet cadastrado.</string>
     <string name="text_filter_by_pet">Filtrar por pet</string>
     <string name="message_error_weight_null">O peso não pode estar vazio</string>
-    <string name="text_not_identified">Não identificado</string>
 </resources>
