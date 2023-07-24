@@ -5,6 +5,7 @@
         android:id="@+id/item_attach_pet"
         android:icon="@drawable/ic_attach"
         android:title="@string/text_attach_file"
+        android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/item_edit_pet"
