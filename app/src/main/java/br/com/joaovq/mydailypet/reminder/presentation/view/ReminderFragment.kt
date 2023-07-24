@@ -32,6 +32,7 @@ import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @AndroidEntryPoint
 class ReminderFragment : Fragment() {
@@ -96,13 +97,19 @@ class ReminderFragment : Fragment() {
     private fun setupView() {
         with(binding) {
             val reminderWithPet = args.reminder
-            tvNameReminder.setText(reminderWithPet.name)
-            tvDescriptionReminder.setText(reminderWithPet.description)
-            tvNamePetReminder.text = reminderWithPet.pet.name
+            reminder = args.reminder
             civPetImageReminder.loadImage(reminderWithPet.pet.imageUrl)
-            tvFromDateReminder.text = reminderWithPet.toDate.format()
+            val calendar = Calendar.getInstance()
+            calendar.time = reminderWithPet.toDate
+            val dateTimeFormat = getDateTimeFormat(calendar)
+            tvFromDateReminder.text = dateTimeFormat
         }
     }
+
+    private fun getDateTimeFormat(calendar: Calendar) =
+        "${calendar.time.format()} - ${calendar.get(Calendar.HOUR_OF_DAY)}:${
+            calendar.get(Calendar.MINUTE)
+        }"
 
     private fun setupToolbar() {
         binding.tbReminderFragment.setNavigationOnClickListener {
@@ -117,9 +124,7 @@ class ReminderFragment : Fragment() {
         binding.tbReminderFragment.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item__menu_help_detail_reminder -> {
-                    createHelpDialog(
-                        message = R.string.message_help_detail_reminder,
-                    )
+                    createHelpDialog(message = R.string.message_help_detail_reminder)
                     true
                 }
 
@@ -141,14 +146,13 @@ class ReminderFragment : Fragment() {
                     }
                     true
                 }
-
                 else -> false
             }
         }
     }
 
-    private fun setActionModeOnFocusEditText(b: Boolean) {
-        if (b) {
+    private fun setActionModeOnFocusEditText(isFocused: Boolean) {
+        if (isFocused) {
             actionMode = binding.tbReminderFragment.startActionMode(
                 callback,
             )

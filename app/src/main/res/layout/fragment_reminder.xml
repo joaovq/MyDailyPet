@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="reminder"
+            type="br.com.joaovq.mydailypet.reminder.domain.model.Reminder" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -45,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="@string/hint_name_reminder"
+                    android:text="@{reminder.name}"
                     android:inputType="text"
                     android:padding="0dp"
                     android:textSize="@dimen/text_size_24sp"
@@ -85,6 +93,7 @@
                     android:id="@+id/tv_name_pet_reminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{reminder.pet.name}"
                     android:layout_marginStart="@dimen/space_10dp"
                     tools:text="Name" />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -111,6 +120,7 @@
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
                     android:gravity="top"
+                    android:text="@{reminder.description}"
                     android:hint="@string/hint_add_description"
                     android:textSize="@dimen/text_size_16sp"
                     tools:text="Description" />

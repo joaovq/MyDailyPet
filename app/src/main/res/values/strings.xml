@@ -144,4 +144,5 @@
     <string name="text_filter_by_pet">Filter by Pet</string>
     <string name="message_error_weight_null">Weight cannot be null</string>
     <string name="message_click_in_pet_list">Press for at least 2 seconds to perform actions on this pet</string>
+    <string name="message_alert_reminder_need_of_permission_notification">To schedule reminders with notification we need your permission to send notifications. If you don\'t allow it, you can schedule reminders but you won\'t be notified about them.  If you want to enable it, go to the app\'s settings and enable it in permissions.</string>
 </resources>

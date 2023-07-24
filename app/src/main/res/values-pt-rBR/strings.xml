@@ -124,4 +124,6 @@
     <string name="message_cannot_create_task">Para criar uma tarefa, você precisa ter um pet cadastrado.</string>
     <string name="text_filter_by_pet">Filtrar por pet</string>
     <string name="message_error_weight_null">O peso não pode estar vazio</string>
+    <string name="message_click_in_pet_list">Pressione por pelo menos 2 segundos para realizar ações neste animal de estimação</string>
+    <string name="message_alert_reminder_need_of_permission_notification">Para agendar lembretes com notificação, precisamos da sua permissão para enviar notificações. Se você não permitir, poderá agendar lembretes, mas não será notificado sobre eles. Se você quiser habilitá-lo, vá para as configurações do aplicativo e habilite-o em permissões.</string>
 </resources>
