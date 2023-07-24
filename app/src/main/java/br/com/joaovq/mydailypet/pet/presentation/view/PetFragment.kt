@@ -10,20 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.work.Constraints
-import androidx.work.OneTimeWorkRequestBuilder
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.core.util.extension.calculateInterval
 import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.core.util.extension.formatWeightToLocale
 import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
-import br.com.joaovq.mydailypet.data.works.SaveImageInInternalStorageWork
 import br.com.joaovq.mydailypet.databinding.FragmentPetBinding
 import br.com.joaovq.mydailypet.pet.domain.mappers.getStringRes
 import br.com.joaovq.mydailypet.pet.domain.model.Attach
@@ -37,6 +36,7 @@ import br.com.joaovq.mydailypet.ui.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.ui.util.extension.gone
 import br.com.joaovq.mydailypet.ui.util.extension.loadImage
 import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
+import br.com.joaovq.mydailypet.ui.util.extension.snackbar
 import br.com.joaovq.mydailypet.ui.util.extension.toast
 import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import br.com.joaovq.mydailypet.ui.util.extension.visible
@@ -46,6 +46,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.Date
 
 const val IMAGE_TYPE_SEND_INTENT = "image/*"
 
@@ -111,10 +112,34 @@ class PetFragment : Fragment() {
         if (petArg.id != -1) {
             petViewModel.dispatchIntent(PetIntent.GetPetDetails(petArg.id))
         }
+        animateTransitionPhotoExpandedPet()
+        setListenersOfView()
         onNavigateToReminder()
         setToolbar()
         observeStates()
         initDetailsRv()
+    }
+
+    private fun animateTransitionPhotoExpandedPet() {
+        ViewCompat.setTransitionName(binding.laytPhotoPet.ivPhoto, "pet-image")
+    }
+
+    private fun setListenersOfView() {
+        binding.laytPhotoPet.ivPhoto.setOnClickListener {
+            if (pet?.imageUrl?.isNotBlank() == true) {
+                val extras = FragmentNavigatorExtras(
+                    binding.laytPhotoPet.ivPhoto to "photo-expanded-pet",
+                )
+                findNavController().navigate(
+                    PetFragmentDirections.actionPetFragmentToExpandPhotoPetFragment(
+                        pet?.imageUrl,
+                    ),
+                    extras,
+                )
+            } else {
+                toast(text = "image not found")
+            }
+        }
     }
 
     private fun onNavigateToReminder() {
@@ -199,20 +224,27 @@ class PetFragment : Fragment() {
             binding.ltSexDataPet.data = getString(sex.getStringRes())
             birth?.let {
                 binding.ltBirthDataPet.data = it.format()
-                it.calculateInterval { year, month, days ->
-                    binding.tvPetBirth.text =
-                        getString(
-                            R.string.text_interval_life_pet,
-                            year,
-                            month,
-                            days,
-                        )
-                }
+                getYearsInterval(it)
             }
             mAdapter.renderList(
                 this.copy(attachs = attachs),
             )
         }
+    }
+
+    private fun getYearsInterval(it: Date) = try {
+        it.calculateInterval { year, month, days ->
+            binding.tvPetBirth.text =
+                getString(
+                    R.string.text_interval_life_pet,
+                    year,
+                    month,
+                    days,
+                )
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        e.message?.let { safeMessage -> snackbar(message = safeMessage) }
     }
 
     private fun initDetailsRv() {

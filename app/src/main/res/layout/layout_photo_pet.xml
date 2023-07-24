@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:transitionName="photo-image"
             app:srcCompat="?attr/colorOnSecondary"
             tools:src="?attr/colorSecondary" />
     </androidx.cardview.widget.CardView>
