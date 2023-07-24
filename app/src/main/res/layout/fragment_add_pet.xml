@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
+    <data>
+        <variable
+            name="pet"
+            type="br.com.joaovq.mydailypet.pet.domain.model.Pet" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -21,9 +28,9 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:navigationIcon="@drawable/ic_close"
                 app:titleTextAppearance="@style/Theme.MyDailyPet.TextAppearanceTitleToolbar"
-                app:subtitle="@string/subtitle_add_pet"
+                app:subtitle="@{pet==null?@string/subtitle_add_pet:@string/description_tb_update_pet}"
                 app:subtitleTextColor="@color/color_on_secondary"
-                app:title="@string/title_add_pet"
+                app:title="@{pet==null?@string/title_add_pet:@string/title_tb_update_pet}"
                 app:titleMargin="0dp"
                 app:titleMarginBottom="0dp" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -271,9 +278,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:text="@string/btn_text_add_my_pet"
+            android:text="@{pet==null?@string/btn_text_add_my_pet:@string/text_update_pet}"
             android:padding="@dimen/space_20dp"
-            app:icon="@drawable/ic_round_plus"
+            app:icon="@{pet==null?@drawable/ic_round_plus:@drawable/ic_check}"
             app:iconTint="?attr/colorTertiary"
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="@color/white"
