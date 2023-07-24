@@ -22,7 +22,6 @@ import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
 import br.com.joaovq.mydailypet.ui.AppMenuItem
 import br.com.joaovq.mydailypet.ui.NavAnim
 import br.com.joaovq.mydailypet.ui.permission.NotificationPermissionManager
@@ -32,6 +31,7 @@ import br.com.joaovq.mydailypet.ui.util.extension.createPopMenu
 import br.com.joaovq.mydailypet.ui.util.extension.gone
 import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
 import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
+import br.com.joaovq.mydailypet.ui.util.extension.snackbar
 import br.com.joaovq.mydailypet.ui.util.extension.toast
 import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,8 +49,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        notificationPermissionManager =
-            NotificationPermissionManager.from(this)
+        notificationPermissionManager = NotificationPermissionManager.from(this)
     }
 
     override fun onCreateView(
@@ -78,8 +77,14 @@ class HomeFragment : Fragment() {
     private fun initRecyclerView() {
         with(binding.rvMyPetsList) {
             adapter = PetsListAdapter(
-                setOnLongClickListItem = { view, pet ->
-                    showPopUpMenuPet(view, pet)
+                object : PetsListAdapter.PetListItemClickListener {
+                    override fun setOnClickListener() {
+                        toast(text = getString(R.string.message_click_in_pet_list))
+                    }
+
+                    override fun setOnLongClickListItem(view: View, pet: Pet) {
+                        showPopUpMenuPet(view, pet)
+                    }
                 },
             ).also {
                 mPetsAdapter = it
@@ -163,7 +168,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initToolbar() {
-        /*TODO set visible if authenticate*/
+        /*TODO set visible logout icon menu if authenticate*/
         /*binding.tbHome.menu[1].isVisible = true*/
         binding.tbHome.menu[0].isVisible = false
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
@@ -200,6 +205,8 @@ class HomeFragment : Fragment() {
                                 setupViewHome(it)
                                 animateView()
                             }
+
+                            HomeUiState.DeleteSuccess -> snackbar(message = getString(it.message))
                         }
                     }
                 }

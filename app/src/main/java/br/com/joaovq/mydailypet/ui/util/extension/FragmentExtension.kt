@@ -165,7 +165,7 @@ fun Fragment.simpleTimePicker(
 }
 
 fun Fragment.createHelpDialog(
-    @DrawableRes icon: Int? = null,
+    @DrawableRes icon: Int? = R.drawable.ic_round_logo_2,
     @StringRes message: Int,
     @StringRes textButton: Int = R.string.text_positive_button,
     onClickPositiveButton: (DialogInterface, Int) -> Unit = { dialog, i -> },
@@ -174,6 +174,7 @@ fun Fragment.createHelpDialog(
     icon?.let {
         alertDialog.setIcon(it)
     }
+    alertDialog.setTitle(R.string.app_name_not_trim)
     alertDialog.setMessage(
         message,
     )
