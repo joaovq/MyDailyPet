@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.di
+package br.com.joaovq.mydailypet.data.di
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -35,21 +35,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
     @Binds
-    abstract fun bindsPetLocalDataSource(
-        petLocalDataSourceImpl: PetLocalDataSourceImpl,
-    ): PetLocalDataSource
-
-    @Binds
-    abstract fun bindsReminderLocalDataSource(
-        reminderLocalDataSourceImpl: ReminderLocalDataSourceImpl,
-    ): ReminderLocalDataSource
-
-    @Binds
-    abstract fun bindsTaskLocalDataSource(
-        taskLocalDatasource: TaskLocalDatasourceImpl,
-    ): TaskLocalDatasource
-
-    @Binds
     abstract fun bindsAlarmScheduler(
         androidAlarmScheduler: AndroidAlarmScheduler,
     ): AlarmScheduler
@@ -70,24 +55,6 @@ abstract class DataModule {
         fun providesMyDailyPetDatabase(
             @ApplicationContext context: Context,
         ): MyDailyPetDatabase = MyDailyPetDatabase.getInstance(context)
-
-        @Provides
-        @Singleton
-        fun providesPetDao(
-            database: MyDailyPetDatabase,
-        ): PetDao = database.petDao()
-
-        @Provides
-        @Singleton
-        fun providesReminderDao(
-            database: MyDailyPetDatabase,
-        ): ReminderDao = database.reminderDao()
-
-        @Provides
-        @Singleton
-        fun providesTaskDao(
-            database: MyDailyPetDatabase,
-        ): TaskDao = database.taskDao()
 
         @Provides
         @Singleton

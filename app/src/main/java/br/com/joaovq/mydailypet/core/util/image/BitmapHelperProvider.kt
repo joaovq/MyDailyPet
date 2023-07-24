@@ -2,7 +2,7 @@ package br.com.joaovq.mydailypet.core.util.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
