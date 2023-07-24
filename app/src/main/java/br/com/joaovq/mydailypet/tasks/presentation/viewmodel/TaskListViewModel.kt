@@ -1,12 +1,12 @@
 package br.com.joaovq.mydailypet.tasks.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.di.IODispatcher
+import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPets
+import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
 import br.com.joaovq.mydailypet.tasks.domain.model.Task
 import br.com.joaovq.mydailypet.tasks.domain.usecases.CreateTaskUseCase
-import br.com.joaovq.mydailypet.tasks.domain.usecases.DeleteTask
+import br.com.joaovq.mydailypet.tasks.domain.usecases.DeleteTaskUseCase
 import br.com.joaovq.mydailypet.tasks.domain.usecases.GetAllTasksUseCase
 import br.com.joaovq.mydailypet.tasks.domain.usecases.UpdateTaskUseCase
 import br.com.joaovq.mydailypet.tasks.presentation.viewintent.TaskListAction
@@ -24,9 +24,9 @@ import javax.inject.Inject
 class TaskListViewModel @Inject constructor(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
-    private val deleteTaskUseCase: DeleteTask,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val getAllPets: GetAllPets,
+    private val getAllPets: GetAllPetsUseCase,
     @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<TaskListAction, TaskListState?>() {
     override val _state: MutableStateFlow<TaskListState?> = MutableStateFlow(null)
