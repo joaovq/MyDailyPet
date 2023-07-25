@@ -31,6 +31,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDailyPet"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/AD_MOB_ID"/>
         <provider
             android:authorities="br.com.joaovq.mydailypet.fileprovider"
             android:name="androidx.core.content.FileProvider"

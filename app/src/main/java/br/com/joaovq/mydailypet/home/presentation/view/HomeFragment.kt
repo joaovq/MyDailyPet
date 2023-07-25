@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -34,6 +35,8 @@ import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
 import br.com.joaovq.mydailypet.ui.util.extension.snackbar
 import br.com.joaovq.mydailypet.ui.util.extension.toast
 import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,12 +65,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadAds()
         initRecyclerView()
         checkPermissionNotification()
         setListenersOfView()
         initToolbar()
         initStates()
         binding.ltNavBar.bottomNavApp.gone()
+    }
+
+    private fun loadAds() {
+        MobileAds.initialize(requireContext()) {}
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     private fun checkPermissionNotification() {

@@ -8,6 +8,7 @@ import br.com.joaovq.mydailypet.data.datastore.IS_NEW_USER_PREFERENCE_KEY
 import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
 import br.com.joaovq.mydailypet.databinding.ActivityMainBinding
 import br.com.joaovq.mydailypet.home.presentation.view.HomeFragmentDirections
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        MobileAds.initialize(this)
         val navHost =
             supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
         lifecycleScope.launch {
