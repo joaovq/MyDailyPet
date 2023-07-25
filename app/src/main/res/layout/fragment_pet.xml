@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <import type="java.util.Date"/>
+        <variable
+            name="pet"
+            type="br.com.joaovq.mydailypet.pet.domain.model.Pet" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSecondary"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tb_pet_screen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll"
+                app:menu="@menu/toolbar_pet_screen_menu"
+                app:navigationIcon="@drawable/ic_close"
+                app:title="@string/toolbar_title_my_pet"
+                app:titleTextAppearance="@style/Theme.MyDailyPet.TextAppearanceTitleToolbar" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/pb_loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateOnly="true"
+            android:indeterminateTint="@color/black"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sv_pet_screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".pet.presentation.view.PetFragment">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_pet_profile_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_10dp"
+                    android:background="@drawable/bg_field_app"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="o">
+
+                    <include
+                        android:id="@+id/layt_photo_pet"
+                        layout="@layout/layout_photo_pet"
+                        android:layout_width="250dp"
+                        android:layout_height="240dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_pet_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_10dp"
+                        android:textColor="?attr/colorPrimary"
+                        android:textIsSelectable="true"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:text="@{pet.name}"
+                        android:textStyle="bold"
+                        android:tooltipText="@string/tooltip_name_of_pet"
+                        tools:text="Name" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_pet_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textIsSelectable="true"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold"
+                        android:tooltipText="@string/tooltip_birth_of_pet"
+                        tools:text="1 year, 2 months and 3 days" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_add_reminder_pet_frag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/space_16dp"
+                    android:background="?attr/selectableItemBackground"
+                    app:layout_constraintBottom_toTopOf="@id/ll_details_pet"
+                    app:layout_constraintEnd_toEndOf="@id/ll_pet_profile_data"
+                    app:layout_constraintStart_toStartOf="@id/ll_pet_profile_data"
+                    app:layout_constraintTop_toBottomOf="@id/ll_pet_profile_data">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ib_add_reminder_pet_frag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSecondary"
+                        android:contentDescription="@string/add_reminder_content_description"
+                        android:src="@drawable/ic_calendar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:tint="?attr/colorPrimary" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_add_reminder_pet_frag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_add_reminder_for_pet"
+                        android:textAlignment="center"
+                        android:layout_marginStart="@dimen/space_16dp"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_details_pet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_14dp"
+                    android:background="@drawable/bg_field_app"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_add_reminder_pet_frag">
+
+                    <include
+                        android:id="@+id/tv_title_personal_data"
+                        layout="@layout/item_title_layout"
+                        bind:title="@{@string/title_personal_data}" />
+
+                    <include
+                        android:id="@+id/lt_birth_data_pet"
+                        layout="@layout/layout_personal_data"
+                        bind:title="@{@string/label_birth}" />
+
+                    <include layout="@layout/item_divider" />
+
+                    <include
+                        android:id="@+id/lt_weight_data_pet"
+                        layout="@layout/layout_personal_data"
+                        bind:title="@{@string/label_weight}" />
+
+                    <include layout="@layout/item_divider" />
+
+                    <include
+                        android:id="@+id/lt_breed_data_pet"
+                        layout="@layout/layout_personal_data"
+                        bind:title="@{@string/label_breed}" />
+
+                    <include layout="@layout/item_divider" />
+
+                    <include
+                        android:id="@+id/lt_animal_data_pet"
+                        layout="@layout/layout_personal_data"
+                        bind:title="@{@string/label_animal}" />
+
+                    <include layout="@layout/item_divider" />
+
+                    <include
+                        android:id="@+id/lt_sex_data_pet"
+                        layout="@layout/layout_personal_data"
+                        bind:title="@{@string/label_sex}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_details_pet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

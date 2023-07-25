@@ -1,6 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")
+    id 'jacoco'
 }
 
 android {
@@ -12,7 +17,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -20,18 +25,32 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
+    }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            unitTests.returnDefaultValues = true
+        }
     }
 }
 
@@ -40,7 +59,73 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation ("com.google.android.material:material:$material_version")
     implementation ("androidx.constraintlayout:constraintlayout:" + constraint_layout_version)
+
     testImplementation ("junit:junit:" + junit_version)
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+
     androidTestImplementation ("androidx.test.ext:junit:" + ext_junit_version)
-    androidTestImplementation ("androidx.test.espresso:espresso-core:" + espresso_version)
+    androidTestImplementation ("androidx.test.espresso:espresso-core:$espresso_version")
+    androidTestImplementation ("androidx.fragment:fragment-testing:$fragment_testing_version")
+    androidTestImplementation ("androidx.test.espresso:espresso-contrib:$espresso_version")
+    androidTestImplementation ("androidx.test.espresso:espresso-idling-resource:$espresso_version")
+
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation "io.mockk:mockk-android:${mockkVersion}"
+    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
+    testImplementation "io.mockk:mockk-agent:${mockkVersion}"
+    androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
+
+    def hilt_version = "2.45"
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:$glide_version")
+    kapt("com.github.bumptech.glide:compiler:$glide_version")
+
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
+    testImplementation("androidx.room:room-testing:$room_version")
+
+    implementation("androidx.datastore:datastore-preferences:" + datastore_version)
+    implementation ("com.jakewharton.timber:timber:" + timber_version)
+    implementation("org.jacoco:org.jacoco.core:$jacoco_version")
+
+    //Gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    implementation "de.hdodenhof:circleimageview:$circular_image_view_version"
+
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+    implementation("androidx.hilt:hilt-work:$hilt_work_version")
+}
+kapt {
+    correctErrorTypes true
+    showProcessorStats true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        html{
+            enabled true
+        }
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ]))
 }

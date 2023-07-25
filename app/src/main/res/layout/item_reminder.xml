@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/space_20dp"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_name_item_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textSize="@dimen/text_size_20sp"
+        tools:text="Today" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_description_item_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="@dimen/text_size_14sp"
+        tools:text="Description" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_from_date_item_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/max_width_text_reminder"
+        android:textSize="@dimen/text_size_14sp"
+        tools:text="15/09/2023" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_from_pet_item_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/space_10dp"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/max_width_text_reminder"
+        android:textSize="@dimen/text_size_14sp"
+        tools:text="from Nina" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

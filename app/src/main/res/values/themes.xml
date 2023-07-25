@@ -2,11 +2,74 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MyDailyPet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/color_primary</item>
-         <item name="colorOnPrimary">@color/color_on_primary</item>
-         <item name="colorSecondary">@color/color_secondary</item>
-         <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorTertiary">@color/black</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/color_secondary</item>
+        <item name="fontFamily">@font/poppins_family</item>
+        <item name="actionMenuTextColor">@color/color_primary</item>
+        <item name="materialCalendarTheme">@style/Theme.MyDailyPet.DatePickerOverlay</item>
+        <item name="materialAlertDialogTheme">@style/Theme.MyDailyPet.AlertDialogs</item>
+        <item name="materialTimePickerTheme">@style/Theme.MyDailyPet.TimePickerOverlay</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.MyDailyPet.ToggleAmPm</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_ios</item>
     </style>
 
-    <style name="Theme.MyDailyPet" parent="Base.Theme.MyDailyPet" />
+    <style name="Theme.MyDailyPet" parent="Base.Theme.MyDailyPet" >
+    </style>
+    <style name="Theme.MyDailyPet.Card">
+        <item name="android:backgroundTint">@color/color_secondary</item>
+        <item name="strokeColor">@color/color_secondary</item>
+        <item name="strokeWidth">@dimen/stroke_width_app</item>
+        <item name="android:elevation">0dp</item>
+        <item name="cardCornerRadius">@dimen/card_item_category_corner_radius</item>
+    </style>
+
+    <style name="Theme.MyDailyPet.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconSize">30dp</item>
+        <item name="elevation">16dp</item>
+        <item name="itemRippleColor">@null</item>
+        <item name="itemActiveIndicatorStyle">@null</item>
+        <item name="itemTextColor">@color/color_primary</item>
+        <item name="itemIconTint">@color/color_primary</item>
+    </style>
+
+    <style name="Theme.MyDailyPet.TextAppearanceTitleToolbar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/poppins_family</item>
+    </style>
+
+    <style name="Theme.MyDailyPet.DatePickerOverlay" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+    </style>
+
+    <style name="Theme.MyDailyPet.AlertDialogs" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@color/color_secondary</item>
+    </style>
+
+    <style name="Theme.MyDailyPet.TimePickerOverlay" parent="@style/ThemeOverlay.Material3.MaterialTimePicker">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorOnSurface">@color/color_primary</item>
+        <item name="chipStyle">@style/Widget.MyDailyPet.Chip</item>
+        <item name="chipBackgroundColor">@color/color_on_primary</item>
+    </style>
+
+    <style name="Widget.MyDailyPet.Chip" parent="Widget.Material3.MaterialTimePicker.Display">
+        <item name="android:textColor">@color/color_primary</item>
+        <item name="rippleColor">@color/color_on_primary</item>
+    </style>
+    <style name="Widget.MyDailyPet.ToggleAmPm" parent="@style/Widget.Material3.MaterialTimePicker.Button">
+        <item name="backgroundTint">@color/color_on_primary</item>
+        <item name="android:textColor">@color/color_primary</item>
+    </style>
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/space_20dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_content_on_boarding"
+        android:layout_width="@dimen/size_image_on_boarding"
+        android:layout_height="@dimen/size_image_on_boarding"
+        tools:src="@drawable/ic_time"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title_on_boarding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/space_16dp"
+        android:textSize="@dimen/text_size_24sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.12"
+        android:textAlignment="center"
+        tools:text="Title"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_description_on_boarding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/space_16dp"
+        android:textSize="@dimen/text_size_16sp"
+        android:textAlignment="center"
+        tools:text="No story lives unless someone wants to listen. The stories we love best do live in us forever. So whether you come back by page or by the big screen, Hogwarts will always be there to welcome you home."
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
