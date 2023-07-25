@@ -2,14 +2,12 @@ package br.com.joaovq.mydailypet.ui.permission
 
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
-import timber.log.Timber
 
 class PickImagePermissionManager private constructor(
     private val fragment: Fragment,
