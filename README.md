@@ -1,6 +1,8 @@
 # 🐶 My Daily Pet
 App for Pet's owners controls daily with routines weekly.
 
+See in pt-br: [Readme-pt-br](https://github.com/joaovq/MyDailyPet/blob/main/README-pt-br.md)
+
 <p style="display:flex; justify-content:center" width="100%">
   <img src="https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white"/>
   <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white"/>
