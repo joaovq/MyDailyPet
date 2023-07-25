@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="androidx.core.graphics.drawable.DrawableCompat" />
+
+        <variable
+            name="imageSize"
+            type="String" />
+
+        <variable
+            name="imageSrc"
+            type="DrawableCompat" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/space_10dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:transitionName="photo-image"
+            app:srcCompat="?attr/colorOnSecondary"
+            tools:src="?attr/colorSecondary" />
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_iv_btn_help"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_btn_help"
+        android:layout_width="@dimen/min_size_btn_help_app"
+        android:layout_height="@dimen/min_size_btn_help_app"
+        app:srcCompat="@drawable/ic_help_outline" />
+</androidx.appcompat.widget.LinearLayoutCompat>

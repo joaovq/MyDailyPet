@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex">
+        <item>@string/text_male</item>
+        <item>@string/text_female</item>
+    </string-array>
+
+    <string-array name="breed">
+        <item>@string/text_schnauzer</item>
+        <item>@string/text_doberman</item>
+        <item>@string/text_none</item>
+        <item>@string/text_arara</item>
+    </string-array>
+    <string-array name="picture_alert_items">
+        <item>@string/text_get_picture_alert_item</item>
+        <item>@string/text_take_picture</item>
+    </string-array>
+</resources>
