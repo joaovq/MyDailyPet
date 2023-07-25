@@ -6,8 +6,14 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id 'jacoco'
+    id("com.google.gms.google-services")
+    id "com.google.firebase.crashlytics"
 }
 
+Properties properties = new Properties()
+properties.load(rootProject.file('local.properties').newDataInputStream())
+def adModId = properties['AD_MOB_ID']
+def bannerId = properties['BANNER_AD_MOB_ID']
 android {
     namespace 'br.com.joaovq.mydailypet'
     compileSdk 33
@@ -24,12 +30,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue("string","AD_MOB_ID",adModId)
+            resValue("string","BANNER_ID", bannerId)
         }
         debug {
             testCoverageEnabled true
+            resValue("string","AD_MOB_ID",adModId)
+            resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
         }
     }
     compileOptions {
@@ -104,6 +114,11 @@ dependencies {
 
     implementation("androidx.work:work-runtime-ktx:$work_version")
     implementation("androidx.hilt:hilt-work:$hilt_work_version")
+
+    implementation(platform("com.google.firebase:firebase-bom:$firebase_bom_version"))
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.android.gms:play-services-ads:$ads_version")
 }
 kapt {
     correctErrorTypes true
