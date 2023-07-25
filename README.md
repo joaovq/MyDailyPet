@@ -40,12 +40,8 @@ These were some of the technologies, architectures and standards used:
 
 # Design
 In version 1.0, the app has 8 screens designed with minimalist colors, in figma and android studio.
-
-![lyts](https://github.com/joaovq/MyDailyPet/assets/101160670/672267cc-0b31-490b-91eb-b5f83476f61c)
-![lytsr](https://github.com/joaovq/MyDailyPet/assets/101160670/7a492467-bd6f-48df-aeb6-7d77178ddecd)
-![details](https://github.com/joaovq/MyDailyPet/assets/101160670/b18e47c6-8cfb-4d4f-99b9-340f83b78c56)
-![lyts que faltam](https://github.com/joaovq/MyDailyPet/assets/101160670/5f7c62fb-6811-4be2-bd50-e7cb8a9e0bbe)
-
+![lytsdf](https://github.com/joaovq/MyDailyPet/assets/101160670/681013f9-a66b-404d-ba02-0718ee5f2b05)
+![dffsdfsd](https://github.com/joaovq/MyDailyPet/assets/101160670/c1769c6f-1cba-403d-8ace-fff5f2067146)
 
 # App Showcase
 
