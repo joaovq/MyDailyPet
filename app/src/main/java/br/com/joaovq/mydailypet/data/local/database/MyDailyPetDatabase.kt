@@ -50,7 +50,7 @@ abstract class MyDailyPetDatabase : RoomDatabase() {
                         context,
                         MyDailyPetDatabase::class.java,
                         MY_DAILY_PET_DATABASE_NAME,
-                    ).fallbackToDestructiveMigration().build()
+                    ).build()
                 }
                 return instance as MyDailyPetDatabase
             }

@@ -8,7 +8,7 @@ import com.google.gson.reflect.TypeToken
 class AttachConverter {
     @TypeConverter
     fun toAttachs(json: String): List<Attach> {
-        val typetoken = object : TypeToken<List<Attach>>() {}
+        val typetoken = object : TypeToken<List<Attach>>() {}.type
         return Gson().fromJson(json, typetoken)
     }
 

@@ -31,10 +31,12 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources  true
             testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue("string","AD_MOB_ID",adModId)
             resValue("string","BANNER_ID", bannerId)
+            signingConfig signingConfigs.debug
         }
         debug {
             testCoverageEnabled true
