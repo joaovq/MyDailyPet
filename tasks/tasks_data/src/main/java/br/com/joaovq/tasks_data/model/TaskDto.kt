@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.tasks.data.model
+package br.com.joaovq.tasks_data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import br.com.joaovq.mydailypet.pet.data.model.PET_ID_COLUMN_INFO
-import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.model.PET_ID_COLUMN_INFO
+import br.com.joaovq.model.PetDto
 import java.util.Date
 
 const val TASK_TABLE_NAME = "task_tb"

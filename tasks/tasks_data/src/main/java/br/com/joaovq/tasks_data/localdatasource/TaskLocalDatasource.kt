@@ -1,8 +1,8 @@
-package br.com.joaovq.mydailypet.tasks.data.localdatasource
+package br.com.joaovq.tasks_data.localdatasource
 
-import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.tasks.data.dao.TaskDao
-import br.com.joaovq.mydailypet.tasks.data.model.TaskDto
+import br.com.joaovq.core.data.localdatasource.LocalDataSource
+import br.com.joaovq.tasks_data.dao.TaskDao
+import br.com.joaovq.tasks_data.model.TaskDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject

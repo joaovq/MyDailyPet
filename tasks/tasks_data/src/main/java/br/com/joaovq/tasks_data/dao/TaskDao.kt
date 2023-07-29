@@ -1,14 +1,14 @@
-package br.com.joaovq.mydailypet.tasks.data.dao
+package br.com.joaovq.tasks_data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import br.com.joaovq.mydailypet.pet.data.model.PET_ID_COLUMN_INFO
-import br.com.joaovq.mydailypet.tasks.data.model.TASK_ID_COLUMN_INFO
-import br.com.joaovq.mydailypet.tasks.data.model.TASK_TABLE_NAME
-import br.com.joaovq.mydailypet.tasks.data.model.TaskDto
+import br.com.joaovq.model.PET_ID_COLUMN_INFO
+import br.com.joaovq.tasks_data.model.TASK_ID_COLUMN_INFO
+import br.com.joaovq.tasks_data.model.TASK_TABLE_NAME
+import br.com.joaovq.tasks_data.model.TaskDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
