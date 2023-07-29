@@ -1,11 +1,11 @@
-package br.com.joaovq.mydailypet.pet.data.model
+package br.com.joaovq.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.pet.domain.model.Attach
-import br.com.joaovq.mydailypet.pet.domain.model.SexType
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.model.Attach
+import br.com.joaovq.core.model.SexType
 import java.util.Date
 
 const val PET_ID_COLUMN_INFO = "pet_id"

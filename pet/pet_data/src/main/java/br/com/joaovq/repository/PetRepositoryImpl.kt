@@ -1,21 +1,22 @@
-package br.com.joaovq.mydailypet.pet.domain.repository
+package br.com.joaovq.repository
 
-import br.com.joaovq.mydailypet.pet.data.localdatasource.PetLocalDataSource
-import br.com.joaovq.mydailypet.pet.data.model.PetDto
-import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
-import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.localdatasource.PetLocalDataSource
+import br.com.joaovq.mappers.toDomain
+import br.com.joaovq.mappers.toDto
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.pet_domain.repository.PetRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PetRepositoryImpl @Inject constructor(
     private val petLocalDataSource: PetLocalDataSource,
 ) : PetRepository {
-    override suspend fun getAll(): Flow<List<PetDto>> =
-        petLocalDataSource.getAll()
+    override suspend fun getAll(): Flow<List<Pet>> =
+        petLocalDataSource.getAll().map { pets -> pets.map { it.toDomain() } }
 
-    override suspend fun getById(id: Int): Flow<PetDto> =
-        petLocalDataSource.getById(id)
+    override suspend fun getById(id: Int): Flow<Pet> =
+        petLocalDataSource.getById(id).map { it.toDomain() }
 
     override suspend fun updatePet(pet: Pet) {
         petLocalDataSource.update(pet.toDto())
