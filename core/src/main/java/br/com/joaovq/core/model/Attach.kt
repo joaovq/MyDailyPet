@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.pet.domain.model
+package br.com.joaovq.core.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -10,5 +10,4 @@ data class Attach(
     val insertedAt: Date = Date(),
     val type: String /*TODO create enum for types*/,
     val path: String,
-    val pet: Pet,
 ) : Parcelable
