@@ -1,12 +1,10 @@
-package br.com.joaovq.mydailypet.tasks.domain.usecases
+package br.com.joaovq.tasks_domain.usecases
 
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.tasks.data.repository.TaskRepository
-import br.com.joaovq.mydailypet.tasks.domain.mapper.toDomain
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
+import br.com.joaovq.core.di.DefaultDispatcher
+import br.com.joaovq.tasks_domain.model.Task
+import br.com.joaovq.tasks_domain.repository.TaskRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -20,7 +18,7 @@ class GetAllTasks @Inject constructor(
 ) : GetAllTasksUseCase {
     override suspend fun invoke(): Flow<List<Task>> {
         return withContext(dispatcher) {
-            taskRepository.getAllTasks().map { tasksDtos -> tasksDtos.map { it.toDomain() } }
+            taskRepository.getAllTasks()
         }
     }
 }

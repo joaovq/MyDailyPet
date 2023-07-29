@@ -1,8 +1,8 @@
-package br.com.joaovq.mydailypet.tasks.domain.usecases
+package br.com.joaovq.tasks_domain.usecases
 
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.tasks.data.repository.TaskRepository
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
+import br.com.joaovq.core.di.DefaultDispatcher
+import br.com.joaovq.tasks_domain.model.Task
+import br.com.joaovq.tasks_domain.repository.TaskRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
