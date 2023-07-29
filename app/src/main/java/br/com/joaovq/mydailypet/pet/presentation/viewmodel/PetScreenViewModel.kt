@@ -1,11 +1,8 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.core.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetPetUseCase
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.PetIntent
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.PetState
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +18,9 @@ const val PET_TAG_LOG_VM = "pet-view-model"
 
 @HiltViewModel
 class PetScreenViewModel @Inject constructor(
-    private val getPetUseCase: GetPetUseCase,
-    @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
-) : BaseViewModel<PetIntent, PetState?>() {
+    private val getPetUseCase: br.com.joaovq.pet_domain.usecases.GetPetUseCase,
+    @br.com.joaovq.core.di.IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
+) : br.com.joaovq.core_ui.presenter.BaseViewModel<PetIntent, PetState?>() {
     override val _state: MutableStateFlow<PetState?> = MutableStateFlow(null)
     val state = _state.asStateFlow()
     private val _isLoading = MutableStateFlow(false)

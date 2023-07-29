@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import br.com.joaovq.core_ui.extension.loadImage
 import br.com.joaovq.mydailypet.databinding.ItemPetListBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.ui.util.extension.loadImage
+import br.com.joaovq.pet_domain.model.Pet
 
 class PetsListAdapter(
     private val petsListOnLongClickListener: PetListItemClickListener,

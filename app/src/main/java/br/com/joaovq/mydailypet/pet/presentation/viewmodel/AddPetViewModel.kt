@@ -2,18 +2,16 @@ package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
 import android.graphics.Bitmap
 import androidx.lifecycle.viewModelScope
+import br.com.joaovq.core.util.intent.ValidateState
+import br.com.joaovq.core_ui.presenter.BaseViewModel
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.CreatePetUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.UpdateInfosPetUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateAnimalUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateDateUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateNameUseCase
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.AddPetUiState
-import br.com.joaovq.mydailypet.ui.intent.ValidateState
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
+import br.com.joaovq.pet_domain.usecases.CreatePetUseCase
+import br.com.joaovq.pet_domain.usecases.UpdateInfosPetUseCase
+import br.com.joaovq.pet_domain.usecases.ValidateAnimalUseCase
+import br.com.joaovq.pet_domain.usecases.ValidateDateUseCase
+import br.com.joaovq.pet_domain.usecases.ValidateNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
@@ -29,7 +27,7 @@ class AddPetViewModel @Inject constructor(
     private val validateNameUseCase: ValidateNameUseCase,
     private val validateAnimalUseCase: ValidateAnimalUseCase,
     private val validateDateUseCase: ValidateDateUseCase,
-    @IODispatcher private val dispatcher: CoroutineDispatcher,
+    @br.com.joaovq.core.di.IODispatcher private val dispatcher: CoroutineDispatcher,
 ) : BaseViewModel<AddPetAction, AddPetUiState>() {
 
     override val _state: MutableStateFlow<AddPetUiState> = MutableStateFlow(
@@ -49,7 +47,7 @@ class AddPetViewModel @Inject constructor(
         when (intent) {
             is AddPetAction.Submit -> {
                 addPet(
-                    Pet(
+                    br.com.joaovq.pet_domain.model.Pet(
                         name = intent.name,
                         breed = intent.type,
                         imageUrl = intent.photoNameFile,
@@ -65,7 +63,7 @@ class AddPetViewModel @Inject constructor(
 
             is AddPetAction.EditPet -> {
                 updatePet(
-                    Pet(
+                    br.com.joaovq.pet_domain.model.Pet(
                         id = intent.id,
                         name = intent.name,
                         breed = intent.type,
@@ -82,7 +80,7 @@ class AddPetViewModel @Inject constructor(
         }
     }
 
-    private fun addPet(pet: Pet, bitmap: Bitmap?) {
+    private fun addPet(pet: br.com.joaovq.pet_domain.model.Pet, bitmap: Bitmap?) {
         viewModelScope.launch(dispatcher) {
             delay(DEBOUNCE_DELAY)
             _state.apply {
@@ -105,7 +103,7 @@ class AddPetViewModel @Inject constructor(
     }
 
     private suspend fun savePet(
-        pet: Pet,
+        pet: br.com.joaovq.pet_domain.model.Pet,
         bitmap: Bitmap?,
     ): AddPetUiState {
         createPetUseCase(pet, bitmap)
@@ -117,7 +115,7 @@ class AddPetViewModel @Inject constructor(
         )
     }
 
-    private fun updatePet(pet: Pet, bitmap: Bitmap?) {
+    private fun updatePet(pet: br.com.joaovq.pet_domain.model.Pet, bitmap: Bitmap?) {
         viewModelScope.launch(dispatcher) {
             delay(DEBOUNCE_DELAY)
             _state.apply {
@@ -142,7 +140,7 @@ class AddPetViewModel @Inject constructor(
         }
     }
 
-    private suspend fun validateFormsPet(pet: Pet): Boolean {
+    private suspend fun validateFormsPet(pet: br.com.joaovq.pet_domain.model.Pet): Boolean {
         _validateStateName.value = validateNameUseCase(pet.name)
         _validateStateDate.value = validateDateUseCase(pet.birth)
         _validateStateAnimal.value = validateAnimalUseCase(pet.animal)

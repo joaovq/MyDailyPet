@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import br.com.joaovq.core.model.Attach
+import br.com.joaovq.core_ui.databinding.ItemTitleLayoutBinding
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.ItemAttachPetBinding
-import br.com.joaovq.mydailypet.databinding.ItemTitleLayoutBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Attach
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
 
 class DetailsPetAdapter(private val onClickEvent: OnClickEvent) :
     ListAdapter<DetailItem, DetailPetViewHolder>(DetailDiffUtil) {
@@ -56,7 +55,7 @@ class DetailsPetAdapter(private val onClickEvent: OnClickEvent) :
         }
     }
 
-    fun renderList(pet: Pet) {
+    fun renderList(pet: br.com.joaovq.pet_domain.model.Pet) {
         val detailItems = mutableListOf<DetailItem>()
         when {
             pet.attachs.isNotEmpty() -> {

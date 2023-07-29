@@ -1,13 +1,13 @@
-package br.com.joaovq.mydailypet.ui.adapter
+package br.com.joaovq.mydailypet.pet.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import br.com.joaovq.core_ui.extension.loadImage
 import br.com.joaovq.mydailypet.databinding.ItemPetLayoutBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.ui.util.extension.loadImage
+import br.com.joaovq.pet_domain.model.Pet
 
 class SelectorPetsAdapter(private val context: Context, private val pets: List<Pet>) :
     ArrayAdapter<Pet>(context, 0, pets) {

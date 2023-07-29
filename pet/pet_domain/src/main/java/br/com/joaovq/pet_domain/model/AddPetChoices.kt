@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.pet.domain.model
+package br.com.joaovq.pet_domain.model
 
 enum class AddPetChoices(value: Int) {
     UPDATE(0),
