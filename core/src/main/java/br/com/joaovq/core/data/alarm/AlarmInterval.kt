@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.data.local.service.alarm
+package br.com.joaovq.core.data.alarm
 
 enum class AlarmInterval(val value: Long) {
     FIFTHTHEEN_MINUTES(15L),

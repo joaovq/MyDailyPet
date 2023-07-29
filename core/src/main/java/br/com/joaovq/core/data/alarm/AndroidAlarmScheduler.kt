@@ -1,12 +1,12 @@
-package br.com.joaovq.mydailypet.data.local.service.alarm
+package br.com.joaovq.core.data.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import br.com.joaovq.mydailypet.data.local.service.notification.NotificationReceiver
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.AlarmItem
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
+import br.com.joaovq.core.data.notification.NotificationReceiver
+import br.com.joaovq.core.model.AlarmItem
+import br.com.joaovq.core.model.NotificationAlarmItem
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

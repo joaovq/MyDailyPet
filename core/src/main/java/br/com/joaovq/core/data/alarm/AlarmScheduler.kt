@@ -1,7 +1,7 @@
-package br.com.joaovq.mydailypet.data.local.service.alarm
+package br.com.joaovq.core.data.alarm
 
 import android.app.AlarmManager
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.AlarmItem
+import br.com.joaovq.core.model.AlarmItem
 
 interface AlarmScheduler {
     fun scheduleExactAlarmAllowWhileIdle(alarmItem: AlarmItem)

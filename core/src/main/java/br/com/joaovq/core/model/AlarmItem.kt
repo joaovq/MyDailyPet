@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.data.local.service.alarm.model
+package br.com.joaovq.core.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
