@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.settings.presentation.view
+package br.com.joaovq.settings_presentation.view
 
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -11,11 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.setNightThemeApp
-import br.com.joaovq.mydailypet.databinding.FragmentSettingsBinding
-import br.com.joaovq.mydailypet.settings.presentation.viewmodel.SettingsViewModel
-import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
+import br.com.joaovq.core.data.datastore.setNightThemeApp
+import br.com.joaovq.core_ui.extension.navWithAnim
+import br.com.joaovq.settings_presentation.R
+import br.com.joaovq.settings_presentation.databinding.FragmentSettingsBinding
+import br.com.joaovq.settings_presentation.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

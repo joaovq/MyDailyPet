@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.settings.presentation.factory
+package br.com.joaovq.settings_presentation.factory
 
 class SocialMedia(
     val url: String,

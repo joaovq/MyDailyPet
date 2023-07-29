@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dark_mode">Dark mode</string>
+    <string name="template_version">Version %s</string>
+    <string name="text_settings">Settings</string>
+    <!--About Screen-->
+    <string name="title_about">About</string>
+    <string name="text_my_greeting_about">Welcome to my app. Hope it helped you in some way! 😀</string>
+    <string name="text_presentation_about_settings">My name is João Vítor Queiroz Santos   I\'m an Android developer and I like to help people through programming.</string>
+</resources>

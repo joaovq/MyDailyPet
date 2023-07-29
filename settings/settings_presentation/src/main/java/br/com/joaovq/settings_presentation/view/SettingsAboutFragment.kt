@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.settings.presentation.view
+package br.com.joaovq.settings_presentation.view
 
 import android.content.Intent
 import android.net.Uri
@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import br.com.joaovq.mydailypet.databinding.FragmentSettingsAboutBinding
-import br.com.joaovq.mydailypet.settings.presentation.factory.SocialMediaFactory
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
+import br.com.joaovq.core_ui.extension.viewBinding
+import br.com.joaovq.settings_presentation.databinding.FragmentSettingsAboutBinding
+import br.com.joaovq.settings_presentation.factory.SocialMediaFactory
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
