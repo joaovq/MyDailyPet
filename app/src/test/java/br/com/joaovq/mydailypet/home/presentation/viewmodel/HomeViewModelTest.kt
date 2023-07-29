@@ -2,14 +2,10 @@ package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.DeletePetUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
-import br.com.joaovq.mydailypet.reminder.domain.usecases.GetAllReminderUseCase
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
 import br.com.joaovq.mydailypet.testutil.TestUtilPet
 import br.com.joaovq.mydailypet.testutil.TestUtilReminder
+import br.com.joaovq.reminder_domain.model.Reminder
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifyAll
@@ -36,13 +32,13 @@ class HomeViewModelTest {
     val testRule = MainDispatcherRule()
 
     @MockK(relaxed = true)
-    private lateinit var getAllPetsUseCase: GetAllPetsUseCase
+    private lateinit var getAllPetsUseCase: br.com.joaovq.pet_domain.usecases.GetAllPetsUseCase
 
     @MockK
-    private lateinit var getAllRemindersUseCase: GetAllReminderUseCase
+    private lateinit var getAllRemindersUseCase: br.com.joaovq.reminder_domain.usecases.GetAllReminderUseCase
 
     @MockK(relaxed = true)
-    private lateinit var deletePetUseCase: DeletePetUseCase
+    private lateinit var deletePetUseCase: br.com.joaovq.pet_domain.usecases.DeletePetUseCase
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -84,7 +80,7 @@ class HomeViewModelTest {
     @Test
     fun `GIVEN action deletePet WHEN deletePet() THEN state Success`() = runTest {
         coEvery { getAllPetsUseCase() } returns emptyFlow()
-        coEvery { deletePetUseCase(ofType(Pet::class)) } returns Unit
+        coEvery { deletePetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class)) } returns Unit
         backgroundScope.launch(testRule.testDispatcher) {
             homeViewModel.dispatchIntent(
                 HomeAction.DeletePet(
@@ -93,12 +89,12 @@ class HomeViewModelTest {
             )
         }
         assertTrue(homeViewModel.homeState.value is HomeUiState.DeleteSuccess)
-        coVerifyAll { deletePetUseCase(ofType(Pet::class)) }
+        coVerifyAll { deletePetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class)) }
     }
 
     @Test
     fun `GIVEN action deletePet WHEN deletePet() THEN throw Exception state Error`() = runTest {
-        coEvery { deletePetUseCase(ofType(Pet::class)) } throws Exception()
+        coEvery { deletePetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class)) } throws Exception()
         backgroundScope.launch(testRule.testDispatcher) {
             homeViewModel.dispatchIntent(
                 HomeAction.DeletePet(
@@ -107,7 +103,7 @@ class HomeViewModelTest {
             )
         }
         assertTrue(homeViewModel.homeState.value is HomeUiState.Error)
-        coVerifyAll { deletePetUseCase(ofType(Pet::class)) }
+        coVerifyAll { deletePetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class)) }
     }
 
     @Test

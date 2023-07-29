@@ -15,14 +15,15 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ValidateNameTest {
-    lateinit var validateNameUseCase: ValidateNameUseCase
+    lateinit var validateNameUseCase: br.com.joaovq.pet_domain.usecases.ValidateNameUseCase
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setUp() {
-        validateNameUseCase = ValidateName(UnconfinedTestDispatcher())
+        validateNameUseCase =
+            br.com.joaovq.pet_domain.usecases.ValidateName(UnconfinedTestDispatcher())
     }
 
     @Test

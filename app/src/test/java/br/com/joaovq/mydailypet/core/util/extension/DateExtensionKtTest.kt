@@ -2,6 +2,9 @@ package br.com.joaovq.mydailypet.core.util.extension
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import br.com.joaovq.core.util.extension.calculateInterval
+import br.com.joaovq.core.util.extension.compareSameDate
+import br.com.joaovq.core.util.extension.format
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
