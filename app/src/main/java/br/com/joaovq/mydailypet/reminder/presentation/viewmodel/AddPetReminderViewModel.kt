@@ -1,18 +1,11 @@
 package br.com.joaovq.mydailypet.reminder.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.core.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
-import br.com.joaovq.mydailypet.reminder.domain.usecases.CreateReminderUseCase
-import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateDateTimeReminderUseCase
-import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateFieldTextUseCase
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.util.intent.ValidateState
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEvents
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
-import br.com.joaovq.mydailypet.ui.intent.ValidateState
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
+import br.com.joaovq.pet_domain.model.Pet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,12 +17,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddPetReminderViewModel @Inject constructor(
-    private val getAllPetsUseCase: GetAllPetsUseCase,
-    private val createReminderUseCase: CreateReminderUseCase,
-    private val validateDateTimeReminder: ValidateDateTimeReminderUseCase,
-    private val validateFieldTextUseCase: ValidateFieldTextUseCase,
-    @IODispatcher private val dispatcher: CoroutineDispatcher,
-) : BaseViewModel<AddReminderEvents, AddReminderUiState<List<Pet>>?>() {
+    private val getAllPetsUseCase: br.com.joaovq.pet_domain.usecases.GetAllPetsUseCase,
+    private val createReminderUseCase: br.com.joaovq.reminder_domain.usecases.CreateReminderUseCase,
+    private val validateDateTimeReminder: br.com.joaovq.reminder_domain.usecases.ValidateDateTimeReminderUseCase,
+    private val validateFieldTextUseCase: br.com.joaovq.reminder_domain.usecases.ValidateFieldTextUseCase,
+    @br.com.joaovq.core.di.IODispatcher private val dispatcher: CoroutineDispatcher,
+) : br.com.joaovq.core_ui.presenter.BaseViewModel<AddReminderEvents, AddReminderUiState<List<Pet>>?>() {
     override val _state: MutableStateFlow<AddReminderUiState<List<Pet>>?> = MutableStateFlow(null)
     val state = _state.asStateFlow()
     private val _validateStateDate = MutableStateFlow(ValidateState())
@@ -76,7 +69,7 @@ class AddPetReminderViewModel @Inject constructor(
         name: String,
         description: String,
         toDate: Date?,
-        pet: Pet,
+        pet: br.com.joaovq.pet_domain.model.Pet,
     ) {
         viewModelScope.launch(dispatcher) {
             try {
@@ -93,7 +86,7 @@ class AddPetReminderViewModel @Inject constructor(
                     val notificationAlarm =
                         NotificationAlarmItem(toDate.time, name, description)
                     createReminderUseCase(
-                        Reminder(
+                        br.com.joaovq.reminder_domain.model.Reminder(
                             name = name,
                             description = description,
                             toDate = toDate,

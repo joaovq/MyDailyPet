@@ -2,11 +2,10 @@ package br.com.joaovq.mydailypet.reminder.presentation.adapter.reminderlist
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import br.com.joaovq.core.util.extension.format
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.format
 import br.com.joaovq.mydailypet.databinding.ItemMarkerDateReminderBinding
 import br.com.joaovq.mydailypet.databinding.ItemReminderListBinding
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
 import java.util.Calendar
 import java.util.Date
 
@@ -27,7 +26,10 @@ sealed class ReminderListViewHolder(binding: ViewBinding) : RecyclerView.ViewHol
 
     data class ReminderItemListViewHolder(private val binding: ItemReminderListBinding) :
         ReminderListViewHolder(binding) {
-        fun bind(reminderWithPet: Reminder, onClickReminderItem: (Reminder) -> Unit) {
+        fun bind(
+            reminderWithPet: br.com.joaovq.reminder_domain.model.Reminder,
+            onClickReminderItem: (br.com.joaovq.reminder_domain.model.Reminder) -> Unit,
+        ) {
             binding.tvNameReminderItemList.text = reminderWithPet.name
             binding.tvDescriptionReminderItemList.text = reminderWithPet.description
             val instance = Calendar.getInstance()

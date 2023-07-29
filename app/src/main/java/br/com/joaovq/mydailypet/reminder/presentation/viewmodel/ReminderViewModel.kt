@@ -1,16 +1,9 @@
 package br.com.joaovq.mydailypet.reminder.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.di.IODispatcher
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
-import br.com.joaovq.mydailypet.reminder.domain.usecases.DeleteReminderUseCase
-import br.com.joaovq.mydailypet.reminder.domain.usecases.EditReminderUseCase
-import br.com.joaovq.mydailypet.reminder.domain.usecases.ValidateFieldText
+import br.com.joaovq.core.util.intent.ValidateState
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.ReminderIntent
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.ReminderState
-import br.com.joaovq.mydailypet.ui.intent.ValidateState
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,14 +13,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReminderViewModel @Inject constructor(
-    private val editReminderUseCase: EditReminderUseCase,
-    private val validateFieldText: ValidateFieldText,
-    private val deleteReminderUseCase: DeleteReminderUseCase,
-    @IODispatcher private val dispatcher: CoroutineDispatcher,
-) : BaseViewModel<ReminderIntent, ReminderState?>() {
+    private val editReminderUseCase: br.com.joaovq.reminder_domain.usecases.EditReminderUseCase,
+    private val validateFieldText: br.com.joaovq.reminder_domain.usecases.ValidateFieldText,
+    private val deleteReminderUseCase: br.com.joaovq.reminder_domain.usecases.DeleteReminderUseCase,
+    @br.com.joaovq.core.di.IODispatcher private val dispatcher: CoroutineDispatcher,
+) : br.com.joaovq.core_ui.presenter.BaseViewModel<ReminderIntent, ReminderState?>() {
     override val _state: MutableStateFlow<ReminderState?> = MutableStateFlow(null)
     val state = _state.asStateFlow()
-    private val _validName: MutableStateFlow<ValidateState> = MutableStateFlow(ValidateState())
+    private val _validName: MutableStateFlow<ValidateState> = MutableStateFlow(
+        ValidateState(),
+    )
     val validName = _validName.asStateFlow()
     private val _validDescription: MutableStateFlow<ValidateState> =
         MutableStateFlow(ValidateState())
@@ -43,7 +38,7 @@ class ReminderViewModel @Inject constructor(
         }
     }
 
-    private fun updateReminder(id: Int, reminder: Reminder) {
+    private fun updateReminder(id: Int, reminder: br.com.joaovq.reminder_domain.model.Reminder) {
         viewModelScope.launch(dispatcher) {
             val stateName = validateFieldText(reminder.name)
             val stateDescription = validateFieldText(reminder.description)
@@ -59,19 +54,19 @@ class ReminderViewModel @Inject constructor(
                         reminder.copy(id = id),
                     )
                     _state.value = ReminderState.Success(
-                        R.string.message_success,
+                        br.com.joaovq.core_ui.R.string.message_success,
                     )
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _state.value = ReminderState.Success(
-                        R.string.message_error,
+                        br.com.joaovq.core_ui.R.string.message_error,
                     )
                 }
             }
         }
     }
 
-    private fun deleteReminder(id: Int, reminder: Reminder) {
+    private fun deleteReminder(id: Int, reminder: br.com.joaovq.reminder_domain.model.Reminder) {
         viewModelScope.launch(dispatcher) {
             try {
                 deleteReminderUseCase(reminder.copy(id = id))
