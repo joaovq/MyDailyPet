@@ -1,5 +1,4 @@
 <resources>
-
     <style name="Base.Theme.MyDailyPet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorOnPrimary">@color/color_on_primary_dark</item>
@@ -17,6 +16,7 @@
         <item name="materialButtonOutlinedStyle">@style/Widget.MyDailyPet.ToggleAmPm</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_ios</item>
+        <item name="popupMenuBackground">@drawable/bg_custom_pop_menu_app</item>
     </style>
 
     <style name="Theme.MyDailyPet.Card">
@@ -39,12 +39,6 @@
     <style name="Theme.MyDailyPet.TextAppearanceTitleToolbar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/poppins_family</item>
-    </style>
-
-    <style name="Theme.MyDailyPet.DatePickerOverlay" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
-        <item name="android:backgroundTint">@color/color_secondary_dark</item>
-        <item name="colorPrimary">@color/color_primary_dark</item>
-        <item name="colorOnPrimary">@color/color_on_primary_dark</item>
     </style>
 
     <style name="Theme.MyDailyPet.AlertDialogs" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">

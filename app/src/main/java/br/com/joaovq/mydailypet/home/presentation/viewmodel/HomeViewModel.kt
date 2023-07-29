@@ -1,15 +1,13 @@
 package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.core.di.IODispatcher
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.DeletePetUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
-import br.com.joaovq.mydailypet.reminder.domain.usecases.GetAllReminderUseCase
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.pet_domain.usecases.DeletePetUseCase
+import br.com.joaovq.pet_domain.usecases.GetAllPetsUseCase
+import br.com.joaovq.reminder_domain.model.Reminder
+import br.com.joaovq.reminder_domain.usecases.GetAllReminderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +22,8 @@ class HomeViewModel @Inject constructor(
     private val getAllPetsUseCase: GetAllPetsUseCase,
     private val getAllReminderUseCase: GetAllReminderUseCase,
     private val deletePetUseCase: DeletePetUseCase,
-    @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
-) : BaseViewModel<HomeAction, HomeUiState?>() {
+    @br.com.joaovq.core.di.IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
+) : br.com.joaovq.core_ui.presenter.BaseViewModel<HomeAction, HomeUiState?>() {
 
     override val _state: MutableStateFlow<HomeUiState?> = MutableStateFlow(null)
     val homeState = _state.asStateFlow()

@@ -1,15 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
+    id "kotlin-kapt"
+    id "kotlin-parcelize"
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
-    id 'jacoco'
+    id "jacoco"
     id("com.google.gms.google-services")
     id "com.google.firebase.crashlytics"
 }
-
 Properties properties = new Properties()
 properties.load(rootProject.file('local.properties').newDataInputStream())
 def adModId = properties['AD_MOB_ID']
@@ -40,8 +39,11 @@ android {
         }
         debug {
             testCoverageEnabled true
+            minifyEnabled false
+            shrinkResources false
             resValue("string","AD_MOB_ID",adModId)
             resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -67,6 +69,22 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":core-ui"))
+    implementation(project(":data"))
+
+    implementation(project(":pet:pet_data"))
+    implementation(project(":pet:pet_domain"))
+
+    implementation(project(":reminder:reminder_domain"))
+    implementation(project(":reminder:reminder_data"))
+
+    implementation(project(":tasks:tasks_data"))
+    implementation(project(":tasks:tasks_domain"))
+    implementation(project(":tasks:tasks_presentation"))
+
+    implementation(project(":settings:settings_presentation"))
+
     implementation("androidx.core:core-ktx:$ktx_version_core")
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation ("com.google.android.material:material:$material_version")
@@ -83,8 +101,8 @@ dependencies {
 
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation "io.mockk:mockk-android:${mockkVersion}"
-    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
     testImplementation "io.mockk:mockk-agent:${mockkVersion}"
+    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
     androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
 
     def hilt_version = "2.45"
@@ -130,7 +148,7 @@ kapt {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
-        html{
+        html {
             enabled true
         }
     }

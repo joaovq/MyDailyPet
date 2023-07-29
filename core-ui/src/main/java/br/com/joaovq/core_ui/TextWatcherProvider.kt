@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.ui
+package br.com.joaovq.core_ui
 
 import android.text.Editable
 import android.text.TextWatcher

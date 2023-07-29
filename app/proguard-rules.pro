@@ -19,13 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
--keep class br.com.joaovq.mydailypet.pet.domain.model.* { *; }
--keep class br.com.joaovq.mydailypet.pet.data.model.* { *; }
--keep class br.com.joaovq.mydailypet.reminder.data.model.* { *; }
--keep class br.com.joaovq.mydailypet.reminder.domain.model.* { *; }
--keep class br.com.joaovq.mydailypet.tasks.data.model.* { *; }
--keep class br.com.joaovq.mydailypet.tasks.domain.model.* { *; }
--keep class br.com.joaovq.mydailypet.data.* { *; }
--keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
--keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
