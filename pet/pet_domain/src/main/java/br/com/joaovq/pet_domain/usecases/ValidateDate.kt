@@ -1,8 +1,6 @@
-package br.com.joaovq.mydailypet.pet.domain.usecases
+package br.com.joaovq.pet_domain.usecases
 
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.ui.intent.ValidateState
+import br.com.joaovq.core.util.intent.ValidateState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.Calendar
@@ -14,14 +12,14 @@ interface ValidateDateUseCase {
 }
 
 class ValidateDate @Inject constructor(
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ValidateDateUseCase {
     override suspend fun invoke(date: Date?): ValidateState {
         val calendar = Calendar.getInstance()
         return withContext(dispatcher) {
             when (date) {
                 null -> ValidateState(
-                    errorMessage = R.string.message_date_is_cannot_be_null,
+                    errorMessage = br.com.joaovq.core.R.string.message_date_is_cannot_be_null,
                 )
                 else -> ValidateState(
                     isValid = true,

@@ -1,8 +1,8 @@
-package br.com.joaovq.mydailypet.pet.domain.usecases
+package br.com.joaovq.pet_domain.usecases
 
 import android.graphics.Bitmap
-import br.com.joaovq.mydailypet.core.util.image.ImageProvider
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
+import br.com.joaovq.core.di.DefaultDispatcher
+import br.com.joaovq.core.data.image.ImageProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.io.File

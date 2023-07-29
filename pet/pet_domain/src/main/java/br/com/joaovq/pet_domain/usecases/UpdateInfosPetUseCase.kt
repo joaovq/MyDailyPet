@@ -1,26 +1,25 @@
-package br.com.joaovq.mydailypet.pet.domain.usecases
+package br.com.joaovq.pet_domain.usecases
 
 import android.graphics.Bitmap
-import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmInterval
-import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.data.alarm.AlarmInterval
+import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.pet_domain.repository.PetRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 interface UpdateInfosPetUseCase {
-    suspend operator fun invoke(pet: Pet,bitmap: Bitmap?)
+    suspend operator fun invoke(pet: Pet, bitmap: Bitmap?)
 }
 
 class UpdateInfosPet @Inject constructor(
     private val repository: PetRepository,
     private val saveImagePetUseCase: SaveImagePetUseCase,
     private val alarmScheduler: AlarmScheduler,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : UpdateInfosPetUseCase {
     override suspend fun invoke(pet: Pet, bitmap: Bitmap?) {
         withContext(dispatcher) {

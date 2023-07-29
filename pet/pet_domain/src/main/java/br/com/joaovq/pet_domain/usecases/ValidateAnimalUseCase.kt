@@ -1,8 +1,6 @@
-package br.com.joaovq.mydailypet.pet.domain.usecases
+package br.com.joaovq.pet_domain.usecases
 
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.ui.intent.ValidateState
+import br.com.joaovq.core.util.intent.ValidateState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,13 +10,13 @@ interface ValidateAnimalUseCase {
 }
 
 class ValidateAnimal @Inject constructor(
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ValidateAnimalUseCase {
     override suspend fun invoke(animalText: String): ValidateState {
         return withContext(dispatcher) {
             when {
                 animalText.isBlank() -> ValidateState(
-                    errorMessage = R.string.message_field_is_not_blank,
+                    errorMessage = br.com.joaovq.core.R.string.message_field_is_not_blank,
                 )
 
                 else -> ValidateState(

@@ -1,12 +1,10 @@
-package br.com.joaovq.mydailypet.pet.domain.usecases
+package br.com.joaovq.pet_domain.usecases
 
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.pet.data.repository.PetRepository
-import br.com.joaovq.mydailypet.pet.domain.mappers.toDomain
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.core.di.DefaultDispatcher
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.pet_domain.repository.PetRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -20,7 +18,7 @@ class GetAllPets @Inject constructor(
 ) : GetAllPetsUseCase {
     override suspend fun invoke(): Flow<List<Pet>> {
         return withContext(dispatcher) {
-            petRepository.getAll().map { pets -> pets.map { petDto -> petDto.toDomain() } }
+            petRepository.getAll()
         }
     }
 }
