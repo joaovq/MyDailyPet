@@ -1,14 +1,13 @@
-package br.com.joaovq.mydailypet.reminder.data.localdatasource
+package br.com.joaovq.reminder_data.localdatasource
 
-import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.reminder.data.dao.ReminderDao
-import br.com.joaovq.mydailypet.reminder.data.model.ReminderDto
+import br.com.joaovq.core.data.localdatasource.LocalDataSource
+import br.com.joaovq.reminder_data.dao.ReminderDao
+import br.com.joaovq.reminder_data.model.ReminderDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
-interface ReminderLocalDataSource : LocalDataSource<ReminderDto> {
-}
+interface ReminderLocalDataSource : LocalDataSource<ReminderDto>
 
 class ReminderLocalDataSourceImpl @Inject constructor(
     private val reminderDao: ReminderDao,
