@@ -1,11 +1,11 @@
-package br.com.joaovq.mydailypet.tasks.presentation.adapter
+package br.com.joaovq.tasks_presentation.adapter
 
 import android.graphics.Paint
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import br.com.joaovq.mydailypet.databinding.ItemCheckboxTaskBinding
-import br.com.joaovq.mydailypet.databinding.ItemEditableTaskBinding
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
+import br.com.joaovq.tasks_domain.model.Task
+import br.com.joaovq.tasks_presentation.databinding.ItemCheckboxTaskBinding
+import br.com.joaovq.tasks_presentation.databinding.ItemEditableTaskBinding
 
 sealed class TaskListViewHolder(binding: ViewBinding) :
     RecyclerView.ViewHolder(binding.root) {

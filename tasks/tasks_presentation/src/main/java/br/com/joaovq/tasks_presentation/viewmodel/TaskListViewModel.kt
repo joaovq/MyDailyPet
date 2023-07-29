@@ -1,17 +1,17 @@
-package br.com.joaovq.mydailypet.tasks.presentation.viewmodel
+package br.com.joaovq.tasks_presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.core.di.IODispatcher
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetAllPetsUseCase
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
-import br.com.joaovq.mydailypet.tasks.domain.usecases.CreateTaskUseCase
-import br.com.joaovq.mydailypet.tasks.domain.usecases.DeleteTaskUseCase
-import br.com.joaovq.mydailypet.tasks.domain.usecases.GetAllTasksUseCase
-import br.com.joaovq.mydailypet.tasks.domain.usecases.UpdateTaskUseCase
-import br.com.joaovq.mydailypet.tasks.presentation.viewintent.TaskListAction
-import br.com.joaovq.mydailypet.tasks.presentation.viewstate.TaskListState
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
+import br.com.joaovq.core.di.IODispatcher
+import br.com.joaovq.core_ui.presenter.BaseViewModel
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.pet_domain.usecases.GetAllPetsUseCase
+import br.com.joaovq.tasks_domain.model.Task
+import br.com.joaovq.tasks_domain.usecases.CreateTaskUseCase
+import br.com.joaovq.tasks_domain.usecases.DeleteTaskUseCase
+import br.com.joaovq.tasks_domain.usecases.GetAllTasksUseCase
+import br.com.joaovq.tasks_domain.usecases.UpdateTaskUseCase
+import br.com.joaovq.tasks_presentation.viewintent.TaskListAction
+import br.com.joaovq.tasks_presentation.viewstate.TaskListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +31,8 @@ class TaskListViewModel @Inject constructor(
 ) : BaseViewModel<TaskListAction, TaskListState?>() {
     override val _state: MutableStateFlow<TaskListState?> = MutableStateFlow(null)
     val state = _state.asStateFlow()
-    private val _pets: MutableStateFlow<List<Pet>?> = MutableStateFlow(null)
+    private val _pets: MutableStateFlow<List<Pet>?> =
+        MutableStateFlow(null)
     val pets = _pets.asStateFlow()
 
     init {

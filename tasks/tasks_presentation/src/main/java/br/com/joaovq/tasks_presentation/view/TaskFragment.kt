@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.tasks.presentation.view
+package br.com.joaovq.tasks_presentation.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,17 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.databinding.FragmentTaskBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
-import br.com.joaovq.mydailypet.tasks.presentation.adapter.TaskListAdapter
-import br.com.joaovq.mydailypet.tasks.presentation.viewintent.TaskListAction
-import br.com.joaovq.mydailypet.tasks.presentation.viewmodel.TaskListViewModel
-import br.com.joaovq.mydailypet.tasks.presentation.viewstate.TaskListState
-import br.com.joaovq.mydailypet.ui.adapter.SelectorPetsAdapter
-import br.com.joaovq.mydailypet.ui.util.extension.snackbar
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
+import br.com.joaovq.core_ui.extension.snackbar
+import br.com.joaovq.core_ui.extension.viewBinding
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.tasks_domain.model.Task
+import br.com.joaovq.tasks_presentation.R
+import br.com.joaovq.tasks_presentation.adapter.SelectorPetsAdapter
+import br.com.joaovq.tasks_presentation.adapter.TaskListAdapter
+import br.com.joaovq.tasks_presentation.databinding.FragmentTaskBinding
+import br.com.joaovq.tasks_presentation.viewintent.TaskListAction
+import br.com.joaovq.tasks_presentation.viewmodel.TaskListViewModel
+import br.com.joaovq.tasks_presentation.viewstate.TaskListState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -78,10 +78,11 @@ class TaskFragment : Fragment() {
         lifecycleScope.launch {
             taskListViewModel.pets.collectLatest { pets ->
                 pets?.let {
-                    binding.spSelectPetTaskList.adapter = SelectorPetsAdapter(
-                        requireContext(),
-                        it,
-                    )
+                    binding.spSelectPetTaskList.adapter =
+                        SelectorPetsAdapter(
+                            requireContext(),
+                            it,
+                        )
                     filterTasksByPetSelected()
                 }
             }
@@ -113,7 +114,8 @@ class TaskFragment : Fragment() {
     private fun filterTasksByPetSelected() {
         allTasks?.let { safeTasks ->
             try {
-                val pet = binding.spSelectPetTaskList.selectedItem as Pet
+                val pet =
+                    binding.spSelectPetTaskList.selectedItem as br.com.joaovq.pet_domain.model.Pet
                 val filteredTasksPetSelected = safeTasks.filter { task ->
                     task.pet == pet
                 }

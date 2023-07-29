@@ -1,6 +1,6 @@
-package br.com.joaovq.mydailypet.tasks.presentation.viewintent
+package br.com.joaovq.tasks_presentation.viewintent
 
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
+import br.com.joaovq.tasks_domain.model.Task
 
 sealed interface TaskListAction {
     data class CreateTask(

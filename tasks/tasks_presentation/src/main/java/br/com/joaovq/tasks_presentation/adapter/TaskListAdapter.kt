@@ -1,12 +1,12 @@
-package br.com.joaovq.mydailypet.tasks.presentation.adapter
+package br.com.joaovq.tasks_presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import br.com.joaovq.mydailypet.databinding.ItemCheckboxTaskBinding
-import br.com.joaovq.mydailypet.databinding.ItemEditableTaskBinding
-import br.com.joaovq.mydailypet.tasks.domain.model.Task
+import br.com.joaovq.tasks_domain.model.Task
+import br.com.joaovq.tasks_presentation.databinding.ItemCheckboxTaskBinding
+import br.com.joaovq.tasks_presentation.databinding.ItemEditableTaskBinding
 
 class TaskListAdapter(
     private val taskListOnClickListener: TaskListOnClickListener,
