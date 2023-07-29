@@ -1,20 +1,20 @@
-package br.com.joaovq.mydailypet.data.local.database
+package br.com.joaovq.data.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import br.com.joaovq.mydailypet.data.converters.AttachConverter
-import br.com.joaovq.mydailypet.data.converters.DateTypeConverter
-import br.com.joaovq.mydailypet.data.converters.NotificationAlarmConverter
-import br.com.joaovq.mydailypet.data.converters.SexTypeConverter
-import br.com.joaovq.mydailypet.pet.data.dao.PetDao
-import br.com.joaovq.mydailypet.pet.data.model.PetDto
-import br.com.joaovq.mydailypet.reminder.data.dao.ReminderDao
-import br.com.joaovq.mydailypet.reminder.data.model.ReminderDto
-import br.com.joaovq.mydailypet.tasks.data.dao.TaskDao
-import br.com.joaovq.mydailypet.tasks.data.model.TaskDto
+import br.com.joaovq.data.converters.AttachConverter
+import br.com.joaovq.data.converters.DateTypeConverter
+import br.com.joaovq.data.converters.NotificationAlarmConverter
+import br.com.joaovq.data.converters.SexTypeConverter
+import br.com.joaovq.data.local.dao.PetDao
+import br.com.joaovq.model.PetDto
+import br.com.joaovq.reminder_data.dao.ReminderDao
+import br.com.joaovq.reminder_data.model.ReminderDto
+import br.com.joaovq.tasks_data.dao.TaskDao
+import br.com.joaovq.tasks_data.model.TaskDto
 
 const val MY_DAILY_PET_DATABASE_NAME = "my_daily_pet_db"
 

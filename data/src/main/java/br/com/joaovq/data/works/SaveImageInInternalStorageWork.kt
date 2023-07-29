@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.data.works
+package br.com.joaovq.data.works
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -6,8 +6,8 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
-import br.com.joaovq.mydailypet.core.di.IODispatcher
+import br.com.joaovq.core.di.IODispatcher
+import br.com.joaovq.core.data.image.BitmapHelperProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher

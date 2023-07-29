@@ -1,7 +1,7 @@
-package br.com.joaovq.mydailypet.data.converters
+package br.com.joaovq.data.converters
 
 import androidx.room.TypeConverter
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
+import br.com.joaovq.core.model.NotificationAlarmItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
