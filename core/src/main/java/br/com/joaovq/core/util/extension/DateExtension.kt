@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.core.util.extension
+package br.com.joaovq.core.util.extension
 
 import android.os.Build
 import java.text.DateFormat
