@@ -1,10 +1,9 @@
-package br.com.joaovq.mydailypet.reminder.domain.usecases
+package br.com.joaovq.reminder_domain.usecases
 
-import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.reminder.data.repository.ReminderRepository
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.reminder_domain.model.Reminder
+import br.com.joaovq.reminder_domain.repository.ReminderRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,7 +15,7 @@ interface CreateReminderUseCase {
 class CreateReminder @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val alarmScheduler: AlarmScheduler,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : CreateReminderUseCase {
     override suspend fun invoke(reminder: Reminder) {
         withContext(dispatcher) {

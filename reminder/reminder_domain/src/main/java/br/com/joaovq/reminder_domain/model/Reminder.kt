@@ -1,8 +1,8 @@
-package br.com.joaovq.mydailypet.reminder.domain.model
+package br.com.joaovq.reminder_domain.model
 
 import android.os.Parcelable
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.pet_domain.model.Pet
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 

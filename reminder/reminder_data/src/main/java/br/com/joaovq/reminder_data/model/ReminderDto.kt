@@ -1,4 +1,4 @@
-package br.com.joaovq.mydailypet.reminder.data.model
+package br.com.joaovq.reminder_data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -6,9 +6,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.pet.data.model.PET_ID_COLUMN_INFO
-import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.model.PET_ID_COLUMN_INFO
+import br.com.joaovq.model.PetDto
 import java.util.Date
 
 const val REMINDER_TABLE_NAME = "reminder_tb"

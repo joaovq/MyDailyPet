@@ -1,9 +1,9 @@
-package br.com.joaovq.mydailypet.reminder.domain.mappers
+package br.com.joaovq.reminder_data.mappers
 
-import br.com.joaovq.mydailypet.pet.domain.mappers.toDomain
-import br.com.joaovq.mydailypet.pet.domain.mappers.toDto
-import br.com.joaovq.mydailypet.reminder.data.model.ReminderDto
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
+import br.com.joaovq.mappers.toDomain
+import br.com.joaovq.mappers.toDto
+import br.com.joaovq.reminder_data.model.ReminderDto
+import br.com.joaovq.reminder_domain.model.Reminder
 
 fun ReminderDto.toReminder() = Reminder(
     this.id,

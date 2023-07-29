@@ -1,12 +1,9 @@
-package br.com.joaovq.mydailypet.reminder.domain.usecases
+package br.com.joaovq.reminder_domain.usecases
 
-import br.com.joaovq.mydailypet.core.di.DefaultDispatcher
-import br.com.joaovq.mydailypet.reminder.data.repository.ReminderRepository
-import br.com.joaovq.mydailypet.reminder.domain.mappers.toReminder
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
+import br.com.joaovq.reminder_domain.model.Reminder
+import br.com.joaovq.reminder_domain.repository.ReminderRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,12 +13,11 @@ interface GetAllReminderUseCase {
 
 class GetAllReminders @Inject constructor(
     private val reminderRepository: ReminderRepository,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : GetAllReminderUseCase {
     override suspend fun invoke(): Flow<List<Reminder>> {
         return withContext(dispatcher) {
             reminderRepository.getAllReminders()
-                .map { reminders -> reminders.map { it.toReminder() } }
         }
     }
 }
