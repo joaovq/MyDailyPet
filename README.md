@@ -52,6 +52,9 @@ In version 1.0, the app has 8 screens designed with minimalist colors, in figma 
 
 # Change Logs
 
+# Lint 
+This project uses [ktlint](https://pinterest.github.io/ktlint/0.50.0/) 
+
 # Run (Install)
 
 The App is available for free in the google play store, where you can install it in a safer and lighter way.
