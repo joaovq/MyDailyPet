@@ -50,4 +50,4 @@ In version 1.0, the app has 8 screens designed with minimalist colors, in figma 
 # Run (Install)
 
 The App is available for free in the google play store, where you can install it in a safer and lighter way.
-![google-play-badge](https://github.com/joaovq/MyDailyPet/assets/101160670/a5ecbd0d-6771-4ad5-9292-e0269d4836a8)
+<a href='https://play.google.com/store/apps/details?id=br.com.joaovq.mydailypet&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
