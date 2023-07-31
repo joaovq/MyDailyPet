@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_male">Macho</string>
+    <string name="text_female">Fêmea</string>
+    <string name="message_date_is_not_valid">Data não é válida</string>
+    <string name="message_field_is_not_blank">O campo não pode estar vazio</string>
+    <string name="message_date_is_cannot_be_null">Data não pode ser nula.</string>
+    <string name="message_date_reminder_is_minor_then_actual">A data e o horário precisam ser maior ou igual a data atual.</string>
+    <string name="message_field_havent_special_characters_or_numbers">Este campo não pode conter caracteres especiais ou números</string>
+    <string name="message_field_excedded_limit_characters">O campo não pode exceder o limit de caracteres.</string>
+</resources>

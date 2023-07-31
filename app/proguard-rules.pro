@@ -19,3 +19,18 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class br.com.joaovq.mydailypet.* { *; }
+-keep class br.com.joaovq.core.* { *; }
+-keep class br.com.joaovq.data.* { *; }
+-keep class br.com.joaovq.reminder_data.* { *; }
+-keep class br.com.joaovq.reminder_domain.* { *; }
+-keep class br.com.joaovq.core_ui.* { *; }
+-keep class br.com.joaovq.settings_presentation.* { *; }
+-keep class br.com.joaovq.tasks_presentation.* { *; }
+-keep class br.com.joaovq.pet_domain.model.* { *; }
+-keep class br.com.joaovq.reminder_domain.model.* { *; }
+-keep class br.com.joaovq.tasks_domain.model.* { *; }
+-keep class br.com.joaovq.pet_domain.* { *; }
+-keep class br.com.joaovq.pet_data.* { *; }
+-keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
+-keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
