@@ -1,6 +1,9 @@
 # 🐶 My Daily Pet
 ![Static Badge](https://img.shields.io/badge/Version-1.0.1-blue)
-![Static Badge](https://img.shields.io/badge/Kotlin-1.9.0-purple)
+![Static Badge](https://img.shields.io/badge/Kotlin-1.8.10-purple)
+![Static Badge](https://img.shields.io/badge/JUnit-4.13.2-purple)
+![Static Badge](https://img.shields.io/badge/Mockk-1.13.5-red)
+![Static Badge](https://img.shields.io/badge/Coroutines-1.6.4-pink)
 
 App for Pet's owners controls daily with routines weekly.
 
@@ -45,6 +48,23 @@ These were some of the technologies, architectures and standards used:
 
 # Design
 In version 1.0, the app has 8 screens designed with minimalist colors, in figma and android studio.
+<table>
+  <tr>
+    <th>Home</th>
+    <th>Home (Dark)</th>
+    <th>Reminder</th>
+    <th>Reminder (Notification)</th>
+    <th>Settings</th>
+  </tr>
+  <tr>
+    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/14e2175a-f7ac-4769-bc96-720c9b8c80d3' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
+  </tr>
+</table>
+
 ![lytsdf](https://github.com/joaovq/MyDailyPet/assets/101160670/681013f9-a66b-404d-ba02-0718ee5f2b05)
 ![dffsdfsd](https://github.com/joaovq/MyDailyPet/assets/101160670/c1769c6f-1cba-403d-8ace-fff5f2067146)
 
