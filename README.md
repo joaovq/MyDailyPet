@@ -59,23 +59,65 @@ In version 1.0, the app has 8 screens designed with minimalist colors, in figma 
   <tr>
     <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/14e2175a-f7ac-4769-bc96-720c9b8c80d3' style='width:200px'/></td>
     <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
-    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
-    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
-    <td><img src='https://github.com/joaovq/MyDailyPet/assets/101160670/4ef12fd0-3ad9-46a2-a67f-d0ac485f3116' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Reminder.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Reminder%20Notification.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Settings.png' style='width:200px'/></td>  
+  </tr>
+</table>
+<table>
+  <tr>
+    <th>Add pet</th>
+    <th>Edit pet</th>
+    <th>Edit Reminder</th>
+    <th>Home (Today Reminders)</th>
+    <th>Pet Screen</th>
+  </tr>
+  <tr>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Add%20pet.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Edit%20Pet.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Edit%20reminder.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Home%20with%20reminder.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Pet%20screen.png' style='width:200px'/></td>  
+  </tr>
+</table>
+<table>
+  <tr>
+    <th>Reminder list</th>
+    <th>Delete pet</th>
+    <th>Photo pet expanded</th>
+    <th>Reminder Details</th>
+    <th>Tasks</th>
+  </tr>
+  <tr>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Reminder%20list.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Delete%20pet.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Photo%20pet%20expanded.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Reminder%20Detail.png' style='width:200px'/></td>
+    <td><img src='https://github.com/joaovq/MyDailyPet/blob/main/photos_design/Tasks.png' style='width:200px'/></td>  
   </tr>
 </table>
 
-![lytsdf](https://github.com/joaovq/MyDailyPet/assets/101160670/681013f9-a66b-404d-ba02-0718ee5f2b05)
-![dffsdfsd](https://github.com/joaovq/MyDailyPet/assets/101160670/c1769c6f-1cba-403d-8ace-fff5f2067146)
+# 📦 App packages
+The app was created using feature-data architecture. From this, features were created and within them divided into Data layer, Domain layer and Ui Layer.
+## All packages:
+![Novo mural (1)](https://github.com/joaovq/MyDailyPet/assets/101160670/64b2c504-c92b-4f49-855c-188296e6b938)
+## 📊 Data layer:
+![Novo mural](https://github.com/joaovq/MyDailyPet/assets/101160670/c7f4a4a1-7a0a-46fd-9051-86b7274cf4fc)
+## 🧑‍💼 Domain layer:
+![Novo mural (4)](https://github.com/joaovq/MyDailyPet/assets/101160670/9412a6c1-31b1-438f-8404-bf4fc0b85193)
 
-# App Showcase
+## 👁️ Ui layer:
+![Novo mural (3)](https://github.com/joaovq/MyDailyPet/assets/101160670/a697192b-c69e-44c5-a9e4-37b35028a22f)
 
-# Change Logs
 
-# Lint 
+# 📱  App Showcase
+
+# 📋 Change Logs
+
+# ☑️ Lint 
 This project uses [ktlint](https://pinterest.github.io/ktlint/0.50.0/) 
 
-# Run (Install)
+# 🛒 Run (Install)
 
 The App is available for free in the google play store, where you can install it in a safer and lighter way.
 <a href='https://play.google.com/store/apps/details?id=br.com.joaovq.mydailypet&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
