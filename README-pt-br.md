@@ -26,7 +26,7 @@ O aplicativo está disponível na Google Play Store.
 |  Tecnologia |             Link         | 
 |:-----------:|:-----------------------:|
 | Desenho Layouts c/ paradiga Views e XML|
-| MVVM, MVP and MVI arquitetura| 
+| MVVM and MVI arquitetura| 
 | Libraries Android Jetpack (Permissions)|
 |Room Android biblioteca SQLite (persistência de dados do usuário)| [Room Android library SQLite (user data storage)](https://developer.android.com/training/data-storage/room/)|
 |Alarm Manager para lembretes (exato e repetivo alarme)| [Alarm Manager for reminders (exact and repetitive alarm programming)](https://developer.android.com/training/scheduling/alarms)|
