@@ -89,6 +89,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation ("com.google.android.material:material:$material_version")
     implementation ("androidx.constraintlayout:constraintlayout:" + constraint_layout_version)
+    implementation ("com.airbnb.android:lottie:$lottieVersion")
 
     testImplementation ("junit:junit:" + junit_version)
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
