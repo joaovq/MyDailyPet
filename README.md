@@ -32,7 +32,7 @@ These were some of the technologies, architectures and standards used:
 |  Tecnology |             Link         | 
 |:-----------:|:-----------------------:|
 | Design Layouts w/ paradigm Views and XML|
-| MVVM, MVP and MVI architecture| 
+| MVVM and MVI architecture| 
 | Libraries Android Jetpack (Permissions)|
 |Room Android library SQLite (user data storage)| [Room Android library SQLite (user data storage)](https://developer.android.com/training/data-storage/room/)|
 |Alarm Manager for reminders (exact and repetitive alarm programming)| [Alarm Manager for reminders (exact and repetitive alarm programming)](https://developer.android.com/training/scheduling/alarms)|
