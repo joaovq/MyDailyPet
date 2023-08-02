@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".pet.presentation.view.ExpandPhotoPetFragment">
+    android:background="@color/black">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -27,6 +26,5 @@
         android:layout_height="wrap_content"
         android:minHeight="350dp"
         android:scaleType="fitXY"
-        android:layout_gravity="center"
-        android:src="@drawable/sleeping_cat" />
+        android:layout_gravity="center" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

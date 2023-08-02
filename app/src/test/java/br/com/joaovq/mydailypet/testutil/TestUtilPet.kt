@@ -1,15 +1,13 @@
 package br.com.joaovq.mydailypet.testutil
 
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.pet.data.model.PetDto
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.ui.intent.ValidateState
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.util.intent.ValidateState
 import java.util.Calendar
 import java.util.Date
 
 object TestUtilPet {
     private val birth: Date = Calendar.getInstance().time
-    val petDto = PetDto(
+    val petDto = br.com.joaovq.model.PetDto(
         petId = 1,
         name = "Nina",
         breed = "Schnauz",
@@ -22,7 +20,7 @@ object TestUtilPet {
             "Schnauz",
         ),
     )
-    val pet = Pet(
+    val pet = br.com.joaovq.pet_domain.model.Pet(
         id = 1,
         name = "Nina",
         breed = "Schnauz",

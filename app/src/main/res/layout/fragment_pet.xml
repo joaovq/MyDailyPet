@@ -5,7 +5,7 @@
         <import type="java.util.Date"/>
         <variable
             name="pet"
-            type="br.com.joaovq.mydailypet.pet.domain.model.Pet" />
+            type="br.com.joaovq.pet_domain.model.Pet" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,7 +54,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".pet.presentation.view.PetFragment">
+                tools:context="br.com.joaovq.pet_presentation.br.com.joaovq.mydailypet.pet.presentation.view.PetFragment">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_pet_profile_data"

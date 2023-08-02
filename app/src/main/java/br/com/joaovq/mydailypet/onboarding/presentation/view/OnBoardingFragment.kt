@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.data.datastore.IS_NEW_USER_PREFERENCE_KEY
-import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
+import br.com.joaovq.core.data.datastore.IS_NEW_USER_PREFERENCE_KEY
+import br.com.joaovq.core.data.datastore.PreferencesManager
+import br.com.joaovq.core_ui.NavAnim
+import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.mydailypet.databinding.FragmentOnBoardingBinding
 import br.com.joaovq.mydailypet.onboarding.presentation.adapter.OnboardingPageAdapter
 import br.com.joaovq.mydailypet.onboarding.presentation.adapter.onBoardingItems
-import br.com.joaovq.mydailypet.ui.NavAnim
-import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -55,7 +54,7 @@ class OnBoardingFragment : Fragment() {
                     OnBoardingFragmentDirections.actionOnBoardingFragmentToHomeFragment(),
                     animEnter = NavAnim.slideInLeft,
                     animPopExit = NavAnim.slideOutLeft,
-                    popUpToId = R.id.onBoardingFragment,
+                    popUpToId = br.com.joaovq.mydailypet.R.id.onBoardingFragment,
                     popUpToInclusive = true,
                 )
             }
@@ -76,14 +75,6 @@ class OnBoardingFragment : Fragment() {
         }
         binding.vpOnBoarding.registerOnPageChangeCallback(
             object : OnPageChangeCallback() {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int,
-                ) {
-                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                }
-
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     binding.vpOnBoarding.apply {

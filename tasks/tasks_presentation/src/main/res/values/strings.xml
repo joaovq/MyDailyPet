@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_tasks">Tasks</string>
+    <string name="hint_add_task">Add task</string>
+    <string name="message_cannot_create_task">To create a task, you must have a pet registered</string>
+    <string name="text_filter_by_pet">Filter by Pet</string>
+    <string name="title_task">Tasks</string>
+    <string name="text_not_tasks_added_yet">Not tasks added yet for this pet</string>
+</resources>

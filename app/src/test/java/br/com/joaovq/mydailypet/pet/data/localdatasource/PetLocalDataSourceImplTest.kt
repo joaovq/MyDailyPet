@@ -1,8 +1,8 @@
 package br.com.joaovq.mydailypet.pet.data.localdatasource
 
-import br.com.joaovq.mydailypet.data.local.localdatasource.LocalDataSource
-import br.com.joaovq.mydailypet.pet.data.dao.PetDao
-import br.com.joaovq.mydailypet.pet.data.model.PetDto
+import br.com.joaovq.core.data.localdatasource.LocalDataSource
+import br.com.joaovq.data.local.dao.PetDao
+import br.com.joaovq.model.PetDto
 import br.com.joaovq.mydailypet.testutil.TestUtilPet
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -30,12 +30,12 @@ class PetLocalDataSourceImplTest {
     @MockK
     private lateinit var petDao: PetDao
 
-    private lateinit var petDto: PetDto
+    private lateinit var petDto: br.com.joaovq.model.PetDto
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        localDataSource = PetLocalDataSourceImpl(petDao)
+        localDataSource = br.com.joaovq.localdatasource.PetLocalDataSourceImpl(petDao)
         petDto = TestUtilPet.petDto
     }
 
@@ -45,7 +45,7 @@ class PetLocalDataSourceImplTest {
         val flow = localDataSource.getAll()
         verify { petDao.getAll() }
 
-        assertEquals(emptyFlow<List<PetDto>>(), flow)
+        assertEquals(emptyFlow<List<br.com.joaovq.model.PetDto>>(), flow)
         verifyAll { petDao.getAll() }
     }
 
@@ -56,7 +56,7 @@ class PetLocalDataSourceImplTest {
         val flow = localDataSource.getAll()
         verify { petDao.getAll() }
 
-        assertEquals(emptyFlow<List<PetDto>>(), flow)
+        assertEquals(emptyFlow<List<br.com.joaovq.model.PetDto>>(), flow)
         verifyAll { petDao.getAll() }
     }
 

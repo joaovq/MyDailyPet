@@ -1,8 +1,8 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewintent
 
 import android.graphics.Bitmap
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.pet.domain.model.SexType
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.model.SexType
 import java.util.Date
 
 sealed class AddPetAction {
@@ -28,6 +28,6 @@ sealed class AddPetAction {
         val birth: Date?,
         val animal: String,
         val birthAlarm: NotificationAlarmItem,
-        val bitmap: Bitmap?
+        val bitmap: Bitmap?,
     ) : AddPetAction()
 }

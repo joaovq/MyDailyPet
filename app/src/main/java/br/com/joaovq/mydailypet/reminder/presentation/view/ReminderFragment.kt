@@ -14,21 +14,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.joaovq.core.util.extension.format
+import br.com.joaovq.core.util.extension.stringOrBlank
+import br.com.joaovq.core_ui.extension.createHelpDialog
+import br.com.joaovq.core_ui.extension.hideKeyboard
+import br.com.joaovq.core_ui.extension.loadImage
+import br.com.joaovq.core_ui.extension.navWithAnim
+import br.com.joaovq.core_ui.extension.simpleAlertDialog
+import br.com.joaovq.core_ui.extension.toast
+import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.format
-import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
 import br.com.joaovq.mydailypet.databinding.FragmentReminderBinding
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.ReminderIntent
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.ReminderViewModel
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.ReminderState
-import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
-import br.com.joaovq.mydailypet.ui.util.extension.hideKeyboard
-import br.com.joaovq.mydailypet.ui.util.extension.loadImage
-import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
-import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
-import br.com.joaovq.mydailypet.ui.util.extension.toast
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -85,7 +84,7 @@ class ReminderFragment : Fragment() {
                         }
 
                         ReminderState.SuccessDelete -> {
-                            toast(text = getString(R.string.message_success))
+                            toast(text = getString(br.com.joaovq.core_ui.R.string.message_success))
                             findNavController().popBackStack()
                         }
                     }
@@ -210,7 +209,7 @@ class ReminderFragment : Fragment() {
         reminderViewModel.dispatchIntent(
             ReminderIntent.EditReminder(
                 args.reminder.id,
-                Reminder(
+                br.com.joaovq.reminder_domain.model.Reminder(
                     name = binding.tvNameReminder.text.toString(),
                     description = binding.tvDescriptionReminder.text.toString(),
                     pet = args.reminder.pet,

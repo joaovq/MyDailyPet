@@ -7,10 +7,26 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core-ui" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/pet" />
+            <option value="$PROJECT_DIR$/pet/pet_data" />
+            <option value="$PROJECT_DIR$/pet/pet_domain" />
+            <option value="$PROJECT_DIR$/reminder" />
+            <option value="$PROJECT_DIR$/reminder/reminder_data" />
+            <option value="$PROJECT_DIR$/reminder/reminder_domain" />
+            <option value="$PROJECT_DIR$/settings" />
+            <option value="$PROJECT_DIR$/settings/settings_presentation" />
+            <option value="$PROJECT_DIR$/tasks" />
+            <option value="$PROJECT_DIR$/tasks/tasks_data" />
+            <option value="$PROJECT_DIR$/tasks/tasks_domain" />
+            <option value="$PROJECT_DIR$/tasks/tasks_presentation" />
           </set>
         </option>
       </GradleProjectSettings>

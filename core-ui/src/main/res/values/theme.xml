@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MyDailyPet.DatePickerOverlay" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+        <item name="android:backgroundTint">@color/color_secondary_dark</item>
+        <item name="colorPrimary">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/color_on_primary_dark</item>
+    </style>
+</resources>

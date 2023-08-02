@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
-import br.com.joaovq.mydailypet.data.datastore.IS_NEW_USER_PREFERENCE_KEY
-import br.com.joaovq.mydailypet.data.datastore.PreferencesManager
+import br.com.joaovq.core.data.datastore.IS_NEW_USER_PREFERENCE_KEY
+import br.com.joaovq.core.data.datastore.PreferencesManager
 import br.com.joaovq.mydailypet.databinding.ActivityMainBinding
 import br.com.joaovq.mydailypet.home.presentation.view.HomeFragmentDirections
 import com.google.android.gms.ads.MobileAds

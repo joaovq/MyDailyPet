@@ -3,9 +3,9 @@ package br.com.joaovq.mydailypet.home.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.joaovq.mydailypet.core.util.extension.format
+import br.com.joaovq.core.util.extension.format
 import br.com.joaovq.mydailypet.databinding.ItemReminderBinding
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
+import br.com.joaovq.reminder_domain.model.Reminder
 
 class RemindersAdapter(
     private val items: List<Reminder>,

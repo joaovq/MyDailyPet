@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dark_mode">Modo dark</string>
+    <string name="template_version">Versão %s</string>
+    <string name="text_settings">Configurações</string>
+    <string name="title_about">Sobre</string>
+    <string name="text_my_greeting_about">Bem-vindo ao meu aplicativo. Espero que tenha te ajudado de alguma forma! 😀</string>
+    <string name="text_presentation_about_settings">O meu nome é João Vítor Queiroz Santos sou programador Android e gosto de ajudar as pessoas através da programação</string>
+</resources>

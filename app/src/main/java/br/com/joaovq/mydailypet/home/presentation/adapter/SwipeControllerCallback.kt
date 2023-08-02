@@ -3,7 +3,6 @@ package br.com.joaovq.mydailypet.home.presentation.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
@@ -66,7 +65,7 @@ class SwipeControllerCallback(
             (itemView.left + itemView.right).toFloat(),
             itemView.bottom.toFloat(),
         )
-        p.color = ContextCompat.getColor(context, R.color.color_primary)
+        p.color = ContextCompat.getColor(context, br.com.joaovq.core_ui.R.color.color_primary)
         c.drawRoundRect(leftButton, corners, corners, p)
         drawImage(c, leftButton, p)
         buttonInstance = null
@@ -75,7 +74,12 @@ class SwipeControllerCallback(
 
     private fun drawImage(c: Canvas, button: RectF, p: Paint) {
         val drawable = ContextCompat.getDrawable(context, R.drawable.ic_eye)
-        drawable?.setTint(ContextCompat.getColor(context, R.color.color_on_secondary))
+        drawable?.setTint(
+            ContextCompat.getColor(
+                context,
+                br.com.joaovq.core_ui.R.color.color_on_secondary,
+            ),
+        )
         val iconSize = (buttonWidth / (buttonWidth / 100)).toInt()
         val bitmap = drawable?.toBitmap(width = iconSize, height = iconSize)
         bitmap?.let {

@@ -4,23 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import br.com.joaovq.mydailypet.core.util.extension.compareSameDate
+import br.com.joaovq.core.util.extension.compareSameDate
 import br.com.joaovq.mydailypet.databinding.ItemMarkerDateReminderBinding
 import br.com.joaovq.mydailypet.databinding.ItemReminderListBinding
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
 import java.util.Calendar
 
 class ReminderListAdapter(
-    private val onClickReminder: (Reminder) -> Unit,
+    private val onClickReminder: (br.com.joaovq.reminder_domain.model.Reminder) -> Unit,
 ) :
     ListAdapter<ReminderListItem, ReminderListViewHolder>(DiffReminderList) {
 
-    fun renderListReminder(reminders: List<Reminder>) {
+    fun renderListReminder(reminders: List<br.com.joaovq.reminder_domain.model.Reminder>) {
         val items = mutableListOf<ReminderListItem>()
         val dates = reminders.map {
             it.toDate
         }.sortedDescending()
-        val remindersNewList = mutableListOf<Reminder>()
+        val remindersNewList = mutableListOf<br.com.joaovq.reminder_domain.model.Reminder>()
 
         dates.forEach { date ->
             val calendar = Calendar.getInstance()

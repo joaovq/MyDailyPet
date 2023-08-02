@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".onboarding.presentation.view.OnBoardingFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_on_boarding"
         android:layout_width="match_parent"

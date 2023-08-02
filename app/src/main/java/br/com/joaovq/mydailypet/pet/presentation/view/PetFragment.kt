@@ -18,28 +18,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.joaovq.core.data.image.BitmapHelperProvider
+import br.com.joaovq.core.model.Attach
+import br.com.joaovq.core.util.extension.calculateInterval
+import br.com.joaovq.core.util.extension.format
+import br.com.joaovq.core.util.extension.formatWeightToLocale
+import br.com.joaovq.core_ui.extension.gone
+import br.com.joaovq.core_ui.extension.loadImage
+import br.com.joaovq.core_ui.extension.navWithAnim
+import br.com.joaovq.core_ui.extension.snackbar
+import br.com.joaovq.core_ui.extension.toast
+import br.com.joaovq.core_ui.extension.viewBinding
+import br.com.joaovq.core_ui.extension.visible
+import br.com.joaovq.mappers.getStringRes
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.calculateInterval
-import br.com.joaovq.mydailypet.core.util.extension.format
-import br.com.joaovq.mydailypet.core.util.extension.formatWeightToLocale
-import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
 import br.com.joaovq.mydailypet.databinding.FragmentPetBinding
-import br.com.joaovq.mydailypet.pet.domain.mappers.getStringRes
-import br.com.joaovq.mydailypet.pet.domain.model.Attach
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
 import br.com.joaovq.mydailypet.pet.presentation.adapter.DetailsPetAdapter
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.PetIntent
 import br.com.joaovq.mydailypet.pet.presentation.viewmodel.PetScreenViewModel
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.PetState
-import br.com.joaovq.mydailypet.ui.NavAnim
-import br.com.joaovq.mydailypet.ui.permission.PickImagePermissionManager
-import br.com.joaovq.mydailypet.ui.util.extension.gone
-import br.com.joaovq.mydailypet.ui.util.extension.loadImage
-import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
-import br.com.joaovq.mydailypet.ui.util.extension.snackbar
-import br.com.joaovq.mydailypet.ui.util.extension.toast
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
-import br.com.joaovq.mydailypet.ui.util.extension.visible
+import br.com.joaovq.pet_domain.model.Pet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -56,7 +54,7 @@ class PetFragment : Fragment() {
     private val petArg: PetFragmentArgs by navArgs()
     private val petViewModel: PetScreenViewModel by viewModels()
     private var mImagePet: Uri? = null
-    private lateinit var pickImagePermissionManager: PickImagePermissionManager
+    private lateinit var pickImagePermissionManager: br.com.joaovq.core_ui.permission.PickImagePermissionManager
     private lateinit var mAdapter: DetailsPetAdapter
     private lateinit var bitmapHelperProvider: BitmapHelperProvider
     private lateinit var fileProviderPath: String
@@ -64,13 +62,14 @@ class PetFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pickImagePermissionManager = PickImagePermissionManager.from(this) { isGranted ->
-            if (isGranted) {
-                lifecycleScope.launch {
-                    shareImage()
+        pickImagePermissionManager =
+            br.com.joaovq.core_ui.permission.PickImagePermissionManager.from(this) { isGranted ->
+                if (isGranted) {
+                    lifecycleScope.launch {
+                        shareImage()
+                    }
                 }
             }
-        }
         bitmapHelperProvider = BitmapHelperProvider(requireActivity())
         fileProviderPath = requireActivity().packageName + ".fileprovider"
     }
@@ -97,7 +96,7 @@ class PetFragment : Fragment() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            toast(text = getString(R.string.text_error_occurred_contact_provider))
+            toast(text = getString(br.com.joaovq.core_ui.R.string.text_error_occurred_contact_provider))
         }
     }
 
@@ -148,8 +147,8 @@ class PetFragment : Fragment() {
         binding.llAddReminderPetFrag.setOnClickListener {
             findNavController().navWithAnim(
                 action = PetFragmentDirections.actionPetFragmentToAddReminderFragment(pet = pet),
-                animEnter = NavAnim.slideInLeft,
-                animPopExit = NavAnim.slideOutLeft,
+                animEnter = br.com.joaovq.core_ui.NavAnim.slideInLeft,
+                animPopExit = br.com.joaovq.core_ui.NavAnim.slideOutLeft,
             )
         }
     }
@@ -163,8 +162,8 @@ class PetFragment : Fragment() {
                 R.id.item_edit_pet -> {
                     findNavController().navWithAnim(
                         PetFragmentDirections.actionPetFragmentToAddPetFragment(pet = pet),
-                        animEnter = NavAnim.slideInLeft,
-                        animPopExit = NavAnim.slideOutLeft,
+                        animEnter = br.com.joaovq.core_ui.NavAnim.slideInLeft,
+                        animPopExit = br.com.joaovq.core_ui.NavAnim.slideOutLeft,
                     )
                     true
                 }
@@ -216,7 +215,7 @@ class PetFragment : Fragment() {
         }
     }
 
-    private fun setDetailsPetInView(pet: Pet) {
+    private fun setDetailsPetInView(pet: br.com.joaovq.pet_domain.model.Pet) {
         pet.apply {
             binding.laytPhotoPet.ivPhoto.loadImage(imageUrl)
             mImagePet = imageUrl.toUri()
@@ -254,11 +253,11 @@ class PetFragment : Fragment() {
         binding.rvDetailsPet.adapter = DetailsPetAdapter(
             object : DetailsPetAdapter.OnClickEvent {
                 override fun setOnClickShareAttach(uri: String) {
-                    toast(text = getString(R.string.text_not_implemented))
+                    toast(text = getString(br.com.joaovq.core_ui.R.string.text_not_implemented))
                 }
 
                 override fun setOnClickAttach(attach: Attach) {
-                    toast(text = getString(R.string.text_not_implemented))
+                    toast(text = getString(br.com.joaovq.core_ui.R.string.text_not_implemented))
                 }
             },
         ).also {
