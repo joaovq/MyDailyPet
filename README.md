@@ -111,9 +111,18 @@ The app was created using feature-data architecture. From this, features were cr
 
 
 # 📱  App Showcase
-
+[![image](https://github.com/joaovq/MyDailyPet/assets/101160670/b2b46a60-cd28-439c-b811-aec732209ead)](https://youtu.be/845OMLleMKk)
 # 📋 Change Logs
-
+## v1.0.1
+  - Bug fixes
+    - Crash in initial screen for configuration proguard-R8 fail
+    - Glitch in colors icons
+## v1.0.0
+ - Initial version
+   - Reminders exacts
+   - Pet's data (Name, Breed, Animal, Weight, Sex, Photo)
+   - Tasks for pet
+   - Notification 
 # ☑️ Lint 
 This project uses [ktlint](https://pinterest.github.io/ktlint/0.50.0/) 
 
