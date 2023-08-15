@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ReminderDao {
     @Insert
-    suspend fun insertReminder(reminderDto: ReminderDto)
+    suspend fun insertReminder(reminderDto: ReminderDto): Long
 
     @Query("SELECT * FROM $REMINDER_TABLE_NAME")
     fun selectAll(): Flow<List<ReminderDto>>
