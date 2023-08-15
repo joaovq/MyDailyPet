@@ -2,11 +2,11 @@ package br.com.joaovq.core.data.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
-import br.com.joaovq.core.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Random
 import javax.inject.Inject
@@ -21,6 +21,7 @@ interface NotificationService {
         description: String,
         @DrawableRes smallIcon: Int = br.com.joaovq.core_ui.R.drawable.ic_round_logo_2,
         tag: String = TAG_NOTIFICATION_DEFAULT,
+        contentIntent: PendingIntent? = null,
     )
 
     fun sendExpandableNotification(
@@ -67,9 +68,15 @@ class AppNotificationService @Inject constructor(
     override fun sendSmallNotification(
         message: String,
         description: String,
-        smallIcon: Int,
+        @DrawableRes smallIcon: Int,
         tag: String,
+        contentIntent: PendingIntent?,
     ) {
+        contentIntent?.let {
+            notificationBuilder.setContentIntent(
+                it,
+            )
+        }
         notificationBuilder
             .setContentTitle(message)
             .setContentText(description)
