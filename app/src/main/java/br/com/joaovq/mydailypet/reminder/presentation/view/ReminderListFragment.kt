@@ -54,10 +54,10 @@ class ReminderListFragment : Fragment() {
                         is RemindersListState.Success -> {
                             binding.rvRemindersList.setHasFixedSize(true)
                             binding.rvRemindersList.adapter =
-                                ReminderListAdapter { reminder: Reminder ->
+                                ReminderListAdapter { idReminder ->
                                     findNavController().navWithAnim(
                                         ReminderListFragmentDirections.actionReminderListFragmentToReminderFragment(
-                                            reminder,
+                                            idReminder,
                                         ),
                                     )
                                 }.also {

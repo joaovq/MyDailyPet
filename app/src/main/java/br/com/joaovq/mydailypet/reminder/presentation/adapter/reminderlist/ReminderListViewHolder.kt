@@ -28,7 +28,7 @@ sealed class ReminderListViewHolder(binding: ViewBinding) : RecyclerView.ViewHol
         ReminderListViewHolder(binding) {
         fun bind(
             reminderWithPet: br.com.joaovq.reminder_domain.model.Reminder,
-            onClickReminderItem: (br.com.joaovq.reminder_domain.model.Reminder) -> Unit,
+            onClickReminderItem: (id: Int) -> Unit,
         ) {
             binding.tvNameReminderItemList.text = reminderWithPet.name
             binding.tvDescriptionReminderItemList.text = reminderWithPet.description
@@ -38,7 +38,7 @@ sealed class ReminderListViewHolder(binding: ViewBinding) : RecyclerView.ViewHol
                 "${instance.get(Calendar.HOUR_OF_DAY)}hrs${instance.get(Calendar.MINUTE)}min"
             binding.tvDateReminderItemList.text = timeFormatted
             binding.root.setOnClickListener {
-                onClickReminderItem(reminderWithPet)
+                onClickReminderItem(reminderWithPet.id)
             }
         }
     }

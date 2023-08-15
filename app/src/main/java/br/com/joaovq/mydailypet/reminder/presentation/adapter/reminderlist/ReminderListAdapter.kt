@@ -10,7 +10,7 @@ import br.com.joaovq.mydailypet.databinding.ItemReminderListBinding
 import java.util.Calendar
 
 class ReminderListAdapter(
-    private val onClickReminder: (br.com.joaovq.reminder_domain.model.Reminder) -> Unit,
+    private val onClickReminder: (id: Int) -> Unit,
 ) :
     ListAdapter<ReminderListItem, ReminderListViewHolder>(DiffReminderList) {
 
