@@ -10,6 +10,8 @@ import br.com.joaovq.reminder_domain.usecases.EditReminder
 import br.com.joaovq.reminder_domain.usecases.EditReminderUseCase
 import br.com.joaovq.reminder_domain.usecases.GetAllReminderUseCase
 import br.com.joaovq.reminder_domain.usecases.GetAllReminders
+import br.com.joaovq.reminder_domain.usecases.GetReminder
+import br.com.joaovq.reminder_domain.usecases.GetReminderUseCase
 import br.com.joaovq.reminder_domain.usecases.ValidateDateTimeReminder
 import br.com.joaovq.reminder_domain.usecases.ValidateDateTimeReminderUseCase
 import br.com.joaovq.reminder_domain.usecases.ValidateFieldText
@@ -56,4 +58,9 @@ abstract class ReminderDomainModule {
     abstract fun bindDeleteReminder(
         deleteReminder: DeleteReminder,
     ): DeleteReminderUseCase
+
+    @Binds
+    abstract fun bindGetReminder(
+        getReminder: GetReminder,
+    ): GetReminderUseCase
 }
