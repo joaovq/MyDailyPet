@@ -250,7 +250,7 @@ class HomeFragment : Fragment() {
             ) { idReminder ->
                 findNavController().navWithAnim(
                     animEnter = R.anim.slide_in_left,
-                    animPopExit = R.anim.slide_in_left,
+                    animPopExit = R.anim.slide_in_right,
                     action = HomeFragmentDirections
                         .actionHomeFragmentToReminderFragment(
                             idReminder,
