@@ -79,8 +79,9 @@
             android:id="@+id/action_reminderFragment_to_addReminderFragment"
             app:destination="@id/addReminderFragment" />
         <argument
-            android:name="reminder"
-            app:argType="br.com.joaovq.reminder_domain.model.Reminder" />
+            android:name="idReminder"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/reminderListFragment"

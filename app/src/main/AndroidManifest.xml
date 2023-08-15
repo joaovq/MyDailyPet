@@ -75,7 +75,7 @@
         </activity>
 
         <receiver
-            android:name=".data.local.service.notification.NotificationReceiver"
+            android:name="br.com.joaovq.core.data.receivers.NotificationReceiver"
             android:exported="false"
             >
             <intent-filter>

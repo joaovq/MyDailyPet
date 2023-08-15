@@ -4,7 +4,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import br.com.joaovq.core.data.notification.NotificationReceiver
+import br.com.joaovq.core.data.receivers.DESCRIPTION_KEY_NOTIFICATION_RECEIVER
+import br.com.joaovq.core.data.receivers.ID_REMINDER_KEY_NOTIFICATION_RECEIVER
+import br.com.joaovq.core.data.receivers.MESSAGE_KEY_NOTIFICATION_RECEIVER
+import br.com.joaovq.core.data.receivers.NotificationReceiver
 import br.com.joaovq.core.model.AlarmItem
 import br.com.joaovq.core.model.NotificationAlarmItem
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,13 +17,16 @@ class AndroidAlarmScheduler @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : AlarmScheduler {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    override fun scheduleExactAlarmAllowWhileIdle(alarmItem: AlarmItem) {
+    override fun scheduleExactAlarmAllowWhileIdle(
+        alarmItem: AlarmItem,
+    ) {
         val alarmIntent =
             Intent(context, NotificationReceiver::class.java).let {
-                it.putExtra("message", alarmItem.message)
+                it.putExtra(MESSAGE_KEY_NOTIFICATION_RECEIVER, alarmItem.message)
                 when (alarmItem) {
                     is NotificationAlarmItem -> {
-                        it.putExtra("description", alarmItem.description)
+                        it.putExtra(DESCRIPTION_KEY_NOTIFICATION_RECEIVER, alarmItem.description)
+                        it.putExtra(ID_REMINDER_KEY_NOTIFICATION_RECEIVER, alarmItem.reminderId)
                     }
                 }
                 PendingIntent.getBroadcast(
@@ -40,10 +46,10 @@ class AndroidAlarmScheduler @Inject constructor(
     override fun scheduleRepeatAlarm(type: Int, alarmItem: AlarmItem, interval: Long) {
         val alarmIntent =
             Intent(context, NotificationReceiver::class.java).let {
-                it.putExtra("message", alarmItem.message)
+                it.putExtra(MESSAGE_KEY_NOTIFICATION_RECEIVER, alarmItem.message)
                 when (alarmItem) {
                     is NotificationAlarmItem -> {
-                        it.putExtra("description", alarmItem.description)
+                        it.putExtra(DESCRIPTION_KEY_NOTIFICATION_RECEIVER, alarmItem.description)
                     }
                 }
                 PendingIntent.getBroadcast(

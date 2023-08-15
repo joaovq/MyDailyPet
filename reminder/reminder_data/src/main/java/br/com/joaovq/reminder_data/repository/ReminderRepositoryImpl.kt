@@ -20,8 +20,8 @@ class ReminderRepositoryImpl @Inject constructor(
         return reminderDataSource.getById(id).map { it.toReminder() }
     }
 
-    override suspend fun insertReminder(reminder: Reminder) {
-        reminderDataSource.insert(reminder.toDto())
+    override suspend fun insertReminder(reminder: Reminder): Int {
+        return reminderDataSource.insertReminder(reminder)
     }
 
     override suspend fun updateReminder(reminder: Reminder) {

@@ -1,7 +1,7 @@
 package br.com.joaovq.reminder_domain.usecases
 
-import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.reminder_domain.model.Reminder
 import br.com.joaovq.reminder_domain.repository.ReminderRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,8 +19,8 @@ class CreateReminder @Inject constructor(
 ) : CreateReminderUseCase {
     override suspend fun invoke(reminder: Reminder) {
         withContext(dispatcher) {
-            reminderRepository.insertReminder(reminder)
-            scheduleOneTimeAlarm(reminder.alarmItem)
+            val id = reminderRepository.insertReminder(reminder)
+            scheduleOneTimeAlarm(reminder.alarmItem.copy(reminderId = id))
         }
     }
 

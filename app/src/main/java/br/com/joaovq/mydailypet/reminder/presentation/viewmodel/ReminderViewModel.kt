@@ -8,12 +8,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ReminderViewModel @Inject constructor(
     private val editReminderUseCase: br.com.joaovq.reminder_domain.usecases.EditReminderUseCase,
+    private val getReminderUseCase: br.com.joaovq.reminder_domain.usecases.GetReminderUseCase,
     private val validateFieldText: br.com.joaovq.reminder_domain.usecases.ValidateFieldText,
     private val deleteReminderUseCase: br.com.joaovq.reminder_domain.usecases.DeleteReminderUseCase,
     @br.com.joaovq.core.di.IODispatcher private val dispatcher: CoroutineDispatcher,
@@ -35,6 +37,27 @@ class ReminderViewModel @Inject constructor(
             }
 
             is ReminderIntent.DeleteReminder -> deleteReminder(intent.id, intent.reminder)
+            is ReminderIntent.GetReminder -> {
+                getReminderById(intent.id)
+            }
+        }
+    }
+
+    private fun getReminderById(id: Int) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                getReminderUseCase(id).collectLatest { reminder ->
+                    _state.value = ReminderState.Success(
+                        br.com.joaovq.core_ui.R.string.message_success,
+                        reminder,
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _state.value = ReminderState.Success(
+                    br.com.joaovq.core_ui.R.string.message_error,
+                )
+            }
         }
     }
 

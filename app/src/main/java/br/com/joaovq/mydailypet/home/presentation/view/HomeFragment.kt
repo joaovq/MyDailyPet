@@ -247,13 +247,13 @@ class HomeFragment : Fragment() {
         if (isNotEmptyTodayReminders && todayReminder != null) {
             binding.vpReminders.adapter = RemindersAdapter(
                 todayReminder,
-            ) { reminder ->
+            ) { idReminder ->
                 findNavController().navWithAnim(
                     animEnter = R.anim.slide_in_left,
                     animPopExit = R.anim.slide_in_left,
                     action = HomeFragmentDirections
                         .actionHomeFragmentToReminderFragment(
-                            reminder,
+                            idReminder,
                         ),
                 )
             }

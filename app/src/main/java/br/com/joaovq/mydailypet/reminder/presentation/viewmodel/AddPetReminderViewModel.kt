@@ -69,7 +69,7 @@ class AddPetReminderViewModel @Inject constructor(
         name: String,
         description: String,
         toDate: Date?,
-        pet: br.com.joaovq.pet_domain.model.Pet,
+        pet: Pet,
     ) {
         viewModelScope.launch(dispatcher) {
             try {

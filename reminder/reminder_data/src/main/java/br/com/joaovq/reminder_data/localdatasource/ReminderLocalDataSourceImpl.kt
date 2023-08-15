@@ -2,16 +2,23 @@ package br.com.joaovq.reminder_data.localdatasource
 
 import br.com.joaovq.core.data.localdatasource.LocalDataSource
 import br.com.joaovq.reminder_data.dao.ReminderDao
+import br.com.joaovq.reminder_data.mappers.toDto
 import br.com.joaovq.reminder_data.model.ReminderDto
+import br.com.joaovq.reminder_domain.model.Reminder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
-interface ReminderLocalDataSource : LocalDataSource<ReminderDto>
+interface ReminderLocalDataSource : LocalDataSource<ReminderDto> {
+    suspend fun insertReminder(reminder: Reminder): Int
+}
 
 class ReminderLocalDataSourceImpl @Inject constructor(
     private val reminderDao: ReminderDao,
 ) : ReminderLocalDataSource {
+    override suspend fun insertReminder(reminder: Reminder): Int {
+        return reminderDao.insertReminder(reminder.toDto()).toInt()
+    }
 
     override fun getAll(): Flow<List<ReminderDto>> {
         return try {

@@ -5,6 +5,10 @@ sealed interface ReminderIntent {
         val id: Int,
         val reminder: br.com.joaovq.reminder_domain.model.Reminder,
     ) : ReminderIntent
+
+    data class GetReminder(
+        val id: Int,
+    ) : ReminderIntent
     data class DeleteReminder(
         val id: Int,
         val reminder: br.com.joaovq.reminder_domain.model.Reminder,

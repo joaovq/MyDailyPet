@@ -4,4 +4,5 @@ data class NotificationAlarmItem(
     val timeForNotification: Long,
     val messageNotification: String,
     val description: String,
+    val reminderId: Int = 0
 ) : AlarmItem(timeForNotification, messageNotification)
