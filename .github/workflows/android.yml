@@ -21,7 +21,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
-
+      env:
+        run: 
+          echo AD_MOB_ID="{{secrets.AD_MOB_ID}}" > ./local.properties
+          echo BANNER_AD_MOB_ID="{{secrets.BANNER_AD_MOB_ID}}" > ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
