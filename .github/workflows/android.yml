@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
     - run: echo "This job is running on a ${{ runner.os }} server hosted by GitHub!"
@@ -23,6 +21,7 @@ jobs:
         cache: gradle
       env:
         run: 
+          cat > ./local.properties 
           echo AD_MOB_ID="{{secrets.AD_MOB_ID}}" > ./local.properties
           echo BANNER_AD_MOB_ID="{{secrets.BANNER_AD_MOB_ID}}" > ./local.properties
     - name: Grant execute permission for gradlew
