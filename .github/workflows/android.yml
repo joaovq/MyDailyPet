@@ -21,10 +21,12 @@ jobs:
         cache: gradle
     - name: Config enviroment
       env:
-        AD_MOB_ID: ${{secrets.AD_MOB_ID}}
-        BANNER_AD_MOB_ID: ${{secrets.BANNER_AD_MOB_ID}}
+        AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+        BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
       run: 
-          echo AD_MOB_ID="$AD_MOB_ID"'\n'BANNER_AD_MOB_ID="$BANNER_AD_MOB_ID" > ./local.properties
+          echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
+          echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID > ./local.properties 
+          cat ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
