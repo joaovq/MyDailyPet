@@ -25,7 +25,7 @@ jobs:
         BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
       run: |
          echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
-         echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID > ./local.properties 
+         echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
          cat ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
