@@ -3,7 +3,6 @@ package br.com.joaovq.mydailypet.pet.data.converters
 import br.com.joaovq.mydailypet.data.converters.SexTypeConverter
 import br.com.joaovq.mydailypet.pet.domain.model.SexType.FEMALE
 import br.com.joaovq.mydailypet.pet.domain.model.SexType.MALE
-import br.com.joaovq.mydailypet.pet.domain.model.SexType.NOT_IDENTIFIED
 import io.mockk.MockKAnnotations
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotSame
@@ -37,18 +36,6 @@ class SexTypeConverterTest {
     }
 
     @Test
-    fun `GIVEN NOT IDENTIFIED string WHEN to Sex Type THEN object NOT_IDENTIFIED`() {
-        val sexType = sexTypeConverter.toSexType("NOT IDENTIFIED")
-        assertEquals(NOT_IDENTIFIED, sexType)
-    }
-
-    @Test
-    fun `GIVEN blank string string WHEN to Sex Type THEN object NOT_IDENTIFIED`() {
-        val sexType = sexTypeConverter.toSexType("")
-        assertEquals(NOT_IDENTIFIED, sexType)
-    }
-
-    @Test
     fun `GIVEN object MALE WHEN from Sex Type THEN string MALE`() {
         val sexType = sexTypeConverter.fromSexType(MALE)
         assertEquals("MALE", sexType)
@@ -58,11 +45,5 @@ class SexTypeConverterTest {
     fun `GIVEN object FEMALE WHEN from Sex Type THEN string FEMALE`() {
         val sexType = sexTypeConverter.fromSexType(FEMALE)
         assertEquals("FEMALE", sexType)
-    }
-
-    @Test
-    fun `GIVEN object NOT_IDENTIFIED WHEN from Sex Type THEN string NOT IDENTIFIED`() {
-        val sexType = sexTypeConverter.fromSexType(NOT_IDENTIFIED)
-        assertEquals("NOT IDENTIFIED", sexType)
     }
 }
