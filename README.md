@@ -4,6 +4,7 @@
 ![Static Badge](https://img.shields.io/badge/JUnit-4.13.2-purple)
 ![Static Badge](https://img.shields.io/badge/Mockk-1.13.5-red)
 ![Static Badge](https://img.shields.io/badge/Coroutines-1.6.4-pink)
+![Android Ci](https://github.com/joaovq/MyDailyPet/actions/workflows/android.yml/badge.svg)
 
 App for Pet's owners controls daily with routines weekly.
 
