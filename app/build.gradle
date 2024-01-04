@@ -11,8 +11,8 @@ plugins {
 }
 Properties properties = new Properties()
 properties.load(rootProject.file('local.properties').newDataInputStream())
-def adModId = properties['AD_MOB_ID']
-def bannerId = properties['BANNER_AD_MOB_ID']
+def adModId = properties['AD_MOB_ID'] ?: ""
+def bannerId = properties['BANNER_AD_MOB_ID'] ?: ""
 android {
     namespace 'br.com.joaovq.mydailypet'
     compileSdk 33
