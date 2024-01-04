@@ -29,6 +29,7 @@ class PetScreenViewModel @Inject constructor(
     override fun dispatchIntent(intent: PetIntent) {
         when (intent) {
             is PetIntent.GetPetDetails -> getPet(intent.id)
+            else -> {}
         }
     }
 

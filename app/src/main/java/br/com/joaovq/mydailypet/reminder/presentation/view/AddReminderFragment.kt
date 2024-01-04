@@ -93,6 +93,8 @@ class AddReminderFragment : Fragment() {
                     null -> {
                         setInitialView()
                     }
+
+                    else -> {}
                 }
             }
         }
