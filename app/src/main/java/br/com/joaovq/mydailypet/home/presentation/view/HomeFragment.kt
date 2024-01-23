@@ -136,7 +136,7 @@ class HomeFragment : Fragment() {
     private fun setListenersOfView() {
         binding.llAddReminder.setOnClickListener {
             findNavController().navWithAnim(
-                HomeFragmentDirections.actionHomeFragmentToAddReminderFragment(),
+                HomeFragmentDirections.actionHomeFragmentToSuggestedReminderFragment(),
                 animEnter = NavAnim.slideInLeft,
                 animPopExit = NavAnim.slideOutLeft,
             )

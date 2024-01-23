@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="br.com.joaovq.reminder_domain.model.Reminder"/>
+        <variable
+            name="suggestedReminder"
+            type="Reminder" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".reminder.presentation.view.SuggestedReminderFragment">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tb_suggested_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/suggested_reminder_add_suggested_reminder"
+                app:titleCentered="true"
+                app:navigationIcon="@drawable/ic_arrow_back_ios"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_suggested_reminders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:spanCount="3"
+                android:padding="@dimen/space_10dp"
+                tools:listitem="@layout/item_suggested_reminder"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/btn_add_suggested_reminder"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_suggested_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/suggested_reminder_choose_other_reminder"
+                android:textAllCaps="true"
+                android:padding="@dimen/space_12dp"
+                android:layout_margin="@dimen/space_10dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:background="@android:color/transparent"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

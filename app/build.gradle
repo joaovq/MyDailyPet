@@ -41,7 +41,7 @@ android {
             testCoverageEnabled true
             minifyEnabled false
             shrinkResources false
-            resValue("string","AD_MOB_ID",adModId)
+            resValue("string","AD_MOB_ID","ca-app-pub-3940256099942544~3347511713")
             resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -140,6 +140,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.android.gms:play-services-ads:$ads_version")
+
+//    In App Update
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
 }
 kapt {
     correctErrorTypes true

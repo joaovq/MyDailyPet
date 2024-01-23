@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_homeFragment_to_taskFragment"
             app:destination="@id/task_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_suggestedReminderFragment"
+            app:destination="@id/suggestedReminderFragment" />
     </fragment>
 
     <fragment
@@ -133,4 +136,13 @@
     </fragment>
     <include app:graph="@navigation/task_graph" />
     <include app:graph="@navigation/settings_graph" />
+    <fragment
+        android:id="@+id/suggestedReminderFragment"
+        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.SuggestedReminderFragment"
+        android:label="fragment_suggested_reminder"
+        tools:layout="@layout/fragment_suggested_reminder" >
+        <action
+            android:id="@+id/action_suggestedReminderFragment_to_addReminderFragment"
+            app:destination="@id/addReminderFragment" />
+    </fragment>
 </navigation>
