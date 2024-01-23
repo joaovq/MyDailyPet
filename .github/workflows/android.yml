@@ -1,0 +1,73 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+    - run: echo "This job is running on a ${{ runner.os }} server hosted by GitHub!"
+    - uses: actions/checkout@v3
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+    - name: Create service_account.json
+      env: 
+        GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+      run: | 
+        cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
+        echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
+    - name: Config enviroment
+      env:
+        AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+        BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
+      run: |
+         echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
+         echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
+         cat ./local.properties
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug --stacktrace
+    - name: Unit tests
+      run: ./gradlew test
+  apk:
+    name: Generate APK
+    runs-on: ubuntu-latest
+    steps: 
+    - run: echo "Generating apk"
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: 17
+    - name: Create service_account.json
+      env: 
+        GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+      run: | 
+        cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
+        echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
+    - name: Config enviroment
+      env:
+        AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+        BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
+      run: |
+         echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
+         echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
+         cat ./local.properties
+    - name: Build APK
+      run: bash ./gradlew assembleDebug --stacktrace
+    - name: Upload APK
+      uses: actions/upload-artifact@v1
+      with:
+          name: apk
+          path: app/build/outputs/apk/debug/app-debug.apk 
+    needs: test

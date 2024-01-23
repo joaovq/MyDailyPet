@@ -1,5 +1,6 @@
 package br.com.joaovq.mydailypet.pet.data.converters
 
+
 import br.com.joaovq.core.model.SexType.FEMALE
 import br.com.joaovq.core.model.SexType.MALE
 import br.com.joaovq.data.converters.SexTypeConverter
