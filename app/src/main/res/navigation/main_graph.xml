@@ -6,10 +6,21 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="br.com.joaovq.mydailypet.onboarding.presentation.view.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding">
+        <action
+            android:id="@+id/action_onBoardingFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/onBoardingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
         android:id="@+id/homeFragment"
         android:name="br.com.joaovq.mydailypet.home.presentation.view.HomeFragment"
-        android:label="@string/home_label"
-        tools:layout="@layout/fragment_home">
+        android:label="@string/home_label">
         <action
             android:id="@+id/action_homeFragment_to_addPetFragment"
             app:destination="@id/addPetFragment" />
@@ -18,7 +29,7 @@
             app:destination="@id/petFragment" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settings_graph" />
         <action
             android:id="@+id/action_homeFragment_to_addReminderFragment"
             app:destination="@id/addReminderFragment" />
@@ -35,7 +46,53 @@
             app:destination="@id/reminderListFragment" />
         <action
             android:id="@+id/action_homeFragment_to_taskFragment"
-            app:destination="@id/taskFragment" />
+            app:destination="@id/task_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_suggestedReminderFragment"
+            app:destination="@id/suggestedReminderFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addReminderFragment"
+        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.AddReminderFragment"
+        android:label="fragment_add_reminder"
+        tools:layout="@layout/fragment_add_reminder" >
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="pet"
+            app:argType="br.com.joaovq.pet_domain.model.Pet"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/reminderFragment"
+        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.ReminderFragment"
+        android:label="fragment_reminder"
+        tools:layout="@layout/fragment_reminder">
+        <action
+            android:id="@+id/action_reminderFragment_to_addReminderFragment"
+            app:destination="@id/addReminderFragment" />
+        <argument
+            android:name="idReminder"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/reminderListFragment"
+        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.ReminderListFragment"
+        android:label="fragment_reminder_list">
+        <action
+            android:id="@+id/action_reminderListFragment_to_reminderFragment"
+            app:destination="@id/reminderFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPetFragment"
@@ -44,7 +101,7 @@
         tools:layout="@layout/fragment_add_pet" >
         <argument
             android:name="pet"
-            app:argType="br.com.joaovq.mydailypet.pet.domain.model.Pet"
+            app:argType="br.com.joaovq.pet_domain.model.Pet"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
@@ -68,78 +125,6 @@
             app:destination="@id/expandPhotoPetFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="br.com.joaovq.mydailypet.settings.presentation.view.SettingsFragment"
-        android:label="SettingsFragment" >
-        <action
-            android:id="@+id/action_settingsFragment_to_settingsAboutFragment"
-            app:destination="@id/settingsAboutFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addReminderFragment"
-        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.AddReminderFragment"
-        android:label="fragment_add_reminder"
-        tools:layout="@layout/fragment_add_reminder" >
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="description"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="pet"
-            app:argType="br.com.joaovq.mydailypet.pet.domain.model.Pet"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
-    <fragment
-        android:id="@+id/reminderFragment"
-        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.ReminderFragment"
-        android:label="fragment_reminder"
-        tools:layout="@layout/fragment_reminder">
-        <argument
-            android:name="reminder"
-            app:argType="br.com.joaovq.mydailypet.reminder.domain.model.Reminder" />
-        <action
-            android:id="@+id/action_reminderFragment_to_addReminderFragment"
-            app:destination="@id/addReminderFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/onBoardingFragment"
-        android:name="br.com.joaovq.mydailypet.onboarding.presentation.view.OnBoardingFragment"
-        android:label="fragment_on_boarding"
-        tools:layout="@layout/fragment_on_boarding">
-        <action
-            android:id="@+id/action_onBoardingFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/onBoardingFragment"
-            />
-    </fragment>
-    <fragment
-        android:id="@+id/reminderListFragment"
-        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.ReminderListFragment"
-        android:label="fragment_reminder_list"
-        tools:layout="@layout/fragment_reminder_list" >
-        <action
-            android:id="@+id/action_reminderListFragment_to_reminderFragment"
-            app:destination="@id/reminderFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/settingsAboutFragment"
-        android:name="br.com.joaovq.mydailypet.settings.presentation.view.SettingsAboutFragment"
-        android:label="fragment_settings_about"
-        tools:layout="@layout/fragment_settings_about" />
-    <fragment
-        android:id="@+id/taskFragment"
-        android:name="br.com.joaovq.mydailypet.tasks.presentation.view.TaskFragment"
-        android:label="fragment_task"
-        tools:layout="@layout/fragment_task" />
-    <fragment
         android:id="@+id/expandPhotoPetFragment"
         android:name="br.com.joaovq.mydailypet.pet.presentation.view.ExpandPhotoPetFragment"
         android:label="fragment_expand_photo_pet"
@@ -148,5 +133,16 @@
             android:name="imagePath"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <include app:graph="@navigation/task_graph" />
+    <include app:graph="@navigation/settings_graph" />
+    <fragment
+        android:id="@+id/suggestedReminderFragment"
+        android:name="br.com.joaovq.mydailypet.reminder.presentation.view.SuggestedReminderFragment"
+        android:label="fragment_suggested_reminder"
+        tools:layout="@layout/fragment_suggested_reminder" >
+        <action
+            android:id="@+id/action_suggestedReminderFragment_to_addReminderFragment"
+            app:destination="@id/addReminderFragment" />
     </fragment>
 </navigation>

@@ -27,7 +27,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".home.presentation.view.HomeFragment"
+            tools:context="br.com.joaovq.home_presentation.br.com.joaovq.mydailypet.home.presentation.view.HomeFragment"
             android:gravity="center"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 

@@ -3,25 +3,25 @@ package br.com.joaovq.mydailypet.home.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.joaovq.mydailypet.core.util.extension.format
+import br.com.joaovq.core.util.extension.format
 import br.com.joaovq.mydailypet.databinding.ItemReminderBinding
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
+import br.com.joaovq.reminder_domain.model.Reminder
 
 class RemindersAdapter(
     private val items: List<Reminder>,
-    private val onClickReminder: (Reminder) -> Unit,
+    private val onClickReminder: (id:Int) -> Unit,
 ) : RecyclerView.Adapter<RemindersAdapter.RemindersViewHolder>() {
 
     class RemindersViewHolder(
         private val binding: ItemReminderBinding,
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(reminder: Reminder, onClickReminder: (Reminder) -> Unit) {
+        fun bind(reminder: Reminder, onClickReminder: (id:Int) -> Unit) {
             binding.tvNameItemReminder.text = reminder.name
             binding.tvDescriptionItemReminder.text = reminder.description
             binding.tvFromDateItemReminder.text = reminder.toDate.format()
             binding.root.setOnClickListener {
-                onClickReminder(reminder)
+                onClickReminder(reminder.id)
             }
         }
     }

@@ -20,28 +20,25 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.joaovq.core.data.image.BitmapHelperProvider
+import br.com.joaovq.core.data.image.ImageProvider
+import br.com.joaovq.core.model.NotificationAlarmItem
+import br.com.joaovq.core.model.SexType
+import br.com.joaovq.core.util.extension.calculateIntervalNextBirthday
+import br.com.joaovq.core.util.extension.format
+import br.com.joaovq.core.util.extension.stringOrBlank
+import br.com.joaovq.core_ui.extension.animateShrinkExtendedFabButton
+import br.com.joaovq.core_ui.extension.goToSettingsAlertDialogForPermission
+import br.com.joaovq.core_ui.extension.simpleDatePickerDialog
+import br.com.joaovq.core_ui.extension.snackbar
+import br.com.joaovq.core_ui.extension.toast
+import br.com.joaovq.core_ui.extension.viewBinding
+import br.com.joaovq.core_ui.permission.CameraPermissionManager
+import br.com.joaovq.core_ui.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.calculateIntervalNextBirthday
-import br.com.joaovq.mydailypet.core.util.extension.format
-import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
-import br.com.joaovq.mydailypet.core.util.image.BitmapHelperProvider
-import br.com.joaovq.mydailypet.core.util.image.ImageProvider
-import br.com.joaovq.mydailypet.data.local.service.alarm.AlarmScheduler
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
-import br.com.joaovq.mydailypet.pet.domain.model.AddPetChoices
-import br.com.joaovq.mydailypet.pet.domain.model.SexType
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewmodel.AddPetViewModel
-import br.com.joaovq.mydailypet.ui.TextWatcherProvider
-import br.com.joaovq.mydailypet.ui.permission.CameraPermissionManager
-import br.com.joaovq.mydailypet.ui.permission.PickImagePermissionManager
-import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
-import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
-import br.com.joaovq.mydailypet.ui.util.extension.simpleDatePickerDialog
-import br.com.joaovq.mydailypet.ui.util.extension.snackbar
-import br.com.joaovq.mydailypet.ui.util.extension.toast
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -51,14 +48,11 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.Calendar
 import java.util.Date
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddPetFragment : Fragment() {
     private val binding by viewBinding(FragmentAddPetBinding::inflate)
 
-    @Inject
-    lateinit var alarmScheduler: AlarmScheduler
     private val addPetViewModel: AddPetViewModel by viewModels()
     private lateinit var cameraPermissionManager: CameraPermissionManager
     private lateinit var pickImagePermissionManager: PickImagePermissionManager
@@ -96,7 +90,7 @@ class AddPetFragment : Fragment() {
             }
         }
         pickImagePermissionManager.setOnShowRationale {
-            showSettingsDialog(R.string.rationale_message_pick_image)
+            showSettingsDialog(br.com.joaovq.core_ui.R.string.rationale_message_pick_image)
         }
         cameraPermissionManager = CameraPermissionManager.from(this) {
             if (it) {
@@ -104,7 +98,7 @@ class AddPetFragment : Fragment() {
             }
         }
         cameraPermissionManager.setOnShowRationale {
-            showSettingsDialog(R.string.rationale_message_capture_image)
+            showSettingsDialog(br.com.joaovq.core_ui.R.string.rationale_message_capture_image)
         }
         bitmapWriterProvider = BitmapHelperProvider(requireContext())
     }
@@ -193,7 +187,7 @@ class AddPetFragment : Fragment() {
             submitForms()
         }
         binding.etWeightAddPet.addTextChangedListener(
-            TextWatcherProvider { editable ->
+            br.com.joaovq.core_ui.TextWatcherProvider { editable ->
                 formatDoubleValueEditable(editable)
             },
         )
@@ -231,9 +225,9 @@ class AddPetFragment : Fragment() {
     private fun showAlertDialog() {
         val materialAlertDialogBuilder =
             MaterialAlertDialogBuilder(requireContext())
-        materialAlertDialogBuilder.setIcon(R.drawable.ic_round_logo_2)
+        materialAlertDialogBuilder.setIcon(br.com.joaovq.core_ui.R.drawable.ic_round_logo_2)
 
-        materialAlertDialogBuilder.setTitle(getString(R.string.text_select_option))
+        materialAlertDialogBuilder.setTitle(getString(br.com.joaovq.core_ui.R.string.text_select_option))
         materialAlertDialogBuilder.setItems(
             R.array.picture_alert_items,
         ) { _, position ->
@@ -250,7 +244,7 @@ class AddPetFragment : Fragment() {
         val path = getPathPhotoUrl()
         val bitmap = if (isImageSelected) binding.ivPhotoAddPet.ivPhoto.drawToBitmap() else null
         try {
-            if (mapChoicesAction() == AddPetChoices.UPDATE) {
+            if (mapChoicesAction() == br.com.joaovq.pet_domain.model.AddPetChoices.UPDATE) {
                 updatePet(sexType, path, bitmap)
             } else {
                 createPet(sexType, path, bitmap)
@@ -265,8 +259,8 @@ class AddPetFragment : Fragment() {
     }
 
     private fun mapChoicesAction() = when (args.pet != null) {
-        true -> AddPetChoices.UPDATE
-        false -> AddPetChoices.CREATE
+        true -> br.com.joaovq.pet_domain.model.AddPetChoices.UPDATE
+        false -> br.com.joaovq.pet_domain.model.AddPetChoices.CREATE
     }
 
     private fun getPathPhotoUrl() = if (isImageSelected) {
@@ -319,7 +313,8 @@ class AddPetFragment : Fragment() {
                     bitmap = bitmap,
                 ),
             )
-        } ?: snackbar(message = getString(R.string.message_date_is_cannot_be_null))
+        }
+            ?: snackbar(message = getString(br.com.joaovq.core.R.string.message_date_is_cannot_be_null))
     }
 
     private fun createNotificationForBirthday(it: Long) = NotificationAlarmItem(
@@ -329,8 +324,8 @@ class AddPetFragment : Fragment() {
     )
 
     private fun mapSexType() = when (binding.spSexAddPet.selectedItem as String) {
-        getString(R.string.text_male) -> SexType.MALE
-        getString(R.string.text_female) -> SexType.FEMALE
+        getString(br.com.joaovq.core.R.string.text_male) -> SexType.MALE
+        getString(br.com.joaovq.core.R.string.text_female) -> SexType.FEMALE
         else -> SexType.MALE
     }
 

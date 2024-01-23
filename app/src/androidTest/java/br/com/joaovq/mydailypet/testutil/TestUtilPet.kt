@@ -1,12 +1,11 @@
 package br.com.joaovq.mydailypet.testutil
 
-import br.com.joaovq.mydailypet.data.local.service.alarm.model.NotificationAlarmItem
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.core.model.NotificationAlarmItem
 import java.util.Date
 
 object TestUtilPet {
     val birth = Date()
-    val pet = Pet(
+    val pet = br.com.joaovq.pet_domain.model.Pet(
         id = 1,
         name = "Nina",
         nickname = "Neneca",

@@ -15,7 +15,7 @@ class ValidateDateTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    var validateDate = ValidateDate(UnconfinedTestDispatcher())
+    var validateDate = br.com.joaovq.pet_domain.usecases.ValidateDate(UnconfinedTestDispatcher())
 
     @Test
     fun `GIVEN yesterday date WHEN validate date THEN is valid`() = runTest {

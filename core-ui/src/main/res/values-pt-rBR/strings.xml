@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minha Rotina Pet</string>
+    <string name="label_name">Nome</string>
+    <string name="label_breed">Raça</string>
+    <string name="label_date">Data</string>
+    <string name="select_sex_pet">Selecione sexo do pet</string>
+    <string name="message_success">Sucesso</string>
+    <string name="message_error">Erro no processo</string>
+    <string name="text_select_option">Selecione a opção</string>
+    <string name="text_negative_button">Cancelar</string>
+    <string name="app_name_not_trim">Minha Rotina Pet</string>
+    <string name="text_goto_settings">Ir para as configurações</string>
+    <string name="rationale_message_capture_image">Para capturar a photo do seu pet nós precisamos da sua permissão de camera.</string>
+    <string name="text_not_implemented">Funcionalidade ainda não implementada. Uma atualização em breve trará esta funcionalidade.</string>
+    <string name="text_error_occurred_contact_provider">Ocorreu um erro. Contate o provedor para poder resolver este erro</string>
+    <string name="text_add_time">Adicionar horário</string>
+    <string name="see_details_pet_item_menu">Ver detalhes do pet</string>
+    <string name="rationale_message_pick_image">Para colocar uma foto da galeria nós precisamos da sua permissão de ler a galeria</string>
+</resources>

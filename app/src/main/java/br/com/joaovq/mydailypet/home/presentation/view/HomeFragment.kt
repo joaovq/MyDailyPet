@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -12,8 +11,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.compareSameDate
+import br.com.joaovq.core.util.extension.compareSameDate
+import br.com.joaovq.core_ui.AppMenuItem
+import br.com.joaovq.core_ui.NavAnim
+import br.com.joaovq.core_ui.R
+import br.com.joaovq.core_ui.extension.animateView
+import br.com.joaovq.core_ui.extension.createHelpDialog
+import br.com.joaovq.core_ui.extension.createPopMenu
+import br.com.joaovq.core_ui.extension.gone
+import br.com.joaovq.core_ui.extension.navWithAnim
+import br.com.joaovq.core_ui.extension.simpleAlertDialog
+import br.com.joaovq.core_ui.extension.snackbar
+import br.com.joaovq.core_ui.extension.toast
+import br.com.joaovq.core_ui.extension.viewBinding
+import br.com.joaovq.core_ui.permission.NotificationPermissionManager
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
 import br.com.joaovq.mydailypet.home.presentation.adapter.RemindersAdapter
@@ -21,20 +32,8 @@ import br.com.joaovq.mydailypet.home.presentation.adapter.SwipeControllerCallbac
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
-import br.com.joaovq.mydailypet.ui.AppMenuItem
-import br.com.joaovq.mydailypet.ui.NavAnim
-import br.com.joaovq.mydailypet.ui.permission.NotificationPermissionManager
-import br.com.joaovq.mydailypet.ui.util.extension.animateView
-import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
-import br.com.joaovq.mydailypet.ui.util.extension.createPopMenu
-import br.com.joaovq.mydailypet.ui.util.extension.gone
-import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
-import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
-import br.com.joaovq.mydailypet.ui.util.extension.snackbar
-import br.com.joaovq.mydailypet.ui.util.extension.toast
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.reminder_domain.model.Reminder
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +51,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        notificationPermissionManager = NotificationPermissionManager.from(this)
+        notificationPermissionManager =
+            NotificationPermissionManager.from(this)
     }
 
     override fun onCreateView(
@@ -71,6 +71,7 @@ class HomeFragment : Fragment() {
         setListenersOfView()
         initToolbar()
         initStates()
+        animateView()
         binding.ltNavBar.bottomNavApp.gone()
     }
 
@@ -89,7 +90,7 @@ class HomeFragment : Fragment() {
             adapter = PetsListAdapter(
                 object : PetsListAdapter.PetListItemClickListener {
                     override fun setOnClickListener() {
-                        toast(text = getString(R.string.message_click_in_pet_list))
+                        toast(text = getString(br.com.joaovq.mydailypet.R.string.message_click_in_pet_list))
                     }
 
                     override fun setOnLongClickListItem(view: View, pet: Pet) {
@@ -118,11 +119,11 @@ class HomeFragment : Fragment() {
     private fun renderMenuItems(pet: Pet): List<AppMenuItem> {
         return listOf(
             AppMenuItem(
-                R.string.delete_pet_title_pop_menu,
+                br.com.joaovq.mydailypet.R.string.delete_pet_title_pop_menu,
             ) {
                 simpleAlertDialog(
-                    title = R.string.title_alert_delete_pet,
-                    message = R.string.message_alert_delete_pet_list,
+                    title = br.com.joaovq.mydailypet.R.string.title_alert_delete_pet,
+                    message = br.com.joaovq.mydailypet.R.string.message_alert_delete_pet_list,
                 ) { deletePet(pet) }
             },
         )
@@ -135,7 +136,7 @@ class HomeFragment : Fragment() {
     private fun setListenersOfView() {
         binding.llAddReminder.setOnClickListener {
             findNavController().navWithAnim(
-                HomeFragmentDirections.actionHomeFragmentToAddReminderFragment(),
+                HomeFragmentDirections.actionHomeFragmentToSuggestedReminderFragment(),
                 animEnter = NavAnim.slideInLeft,
                 animPopExit = NavAnim.slideOutLeft,
             )
@@ -156,7 +157,7 @@ class HomeFragment : Fragment() {
             ltCategory.root.setOnClickListener {
                 findNavController().navWithAnim(
                     HomeFragmentDirections.actionHomeFragmentToTaskFragment(),
-                    animExit = NavAnim.slideUpPop,
+                    animExit = br.com.joaovq.core_ui.NavAnim.slideUpPop,
                 )
             }
         }
@@ -167,12 +168,12 @@ class HomeFragment : Fragment() {
         }
         binding.btnHelpTodayReminders.ivBtnHelp.setOnClickListener {
             createHelpDialog(
-                message = R.string.message_help_today_reminders_home,
+                message = br.com.joaovq.mydailypet.R.string.message_help_my_pet_home,
             )
         }
         binding.btnHelpMyPets.ivBtnHelp.setOnClickListener {
             createHelpDialog(
-                message = R.string.message_help_my_pet_home,
+                message = br.com.joaovq.mydailypet.R.string.message_help_my_pet_home,
             )
         }
     }
@@ -183,10 +184,10 @@ class HomeFragment : Fragment() {
         binding.tbHome.menu[0].isVisible = false
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.login_item -> {
+                br.com.joaovq.mydailypet.R.id.login_item -> {
                 }
 
-                R.id.settings_item -> {
+                br.com.joaovq.mydailypet.R.id.settings_item -> {
                     findNavController().navWithAnim(
                         HomeFragmentDirections.actionHomeFragmentToSettingsFragment(),
                     )
@@ -198,7 +199,7 @@ class HomeFragment : Fragment() {
 
     private fun animateView() {
         binding.tvReminders.animateView(animationId = androidx.appcompat.R.anim.abc_slide_in_top)
-        binding.rvMyPetsList.animateView(animationId = R.anim.slide_in_left)
+        binding.rvMyPetsList.animateView(animationId = br.com.joaovq.core_ui.R.anim.slide_in_left)
     }
 
     private fun initStates() {
@@ -213,7 +214,6 @@ class HomeFragment : Fragment() {
 
                             is HomeUiState.Success -> {
                                 setupViewHome(it)
-                                animateView()
                             }
 
                             HomeUiState.DeleteSuccess -> snackbar(message = getString(it.message))
@@ -247,13 +247,13 @@ class HomeFragment : Fragment() {
         if (isNotEmptyTodayReminders && todayReminder != null) {
             binding.vpReminders.adapter = RemindersAdapter(
                 todayReminder,
-            ) { reminder ->
+            ) { idReminder ->
                 findNavController().navWithAnim(
                     animEnter = R.anim.slide_in_left,
-                    animPopExit = R.anim.slide_out_left,
+                    animPopExit = R.anim.slide_in_right,
                     action = HomeFragmentDirections
                         .actionHomeFragmentToReminderFragment(
-                            reminder,
+                            idReminder,
                         ),
                 )
             }

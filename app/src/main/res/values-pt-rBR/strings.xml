@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Minha Rotina Pet</string>
-    <string name="label_name">Nome</string>
-    <string name="label_breed">Raça</string>
-    <string name="label_date">Data</string>
-    <string name="text_male">Macho</string>
-    <string name="text_female">Fêmea</string>
-    <string name="select_sex_pet">Selecione sexo do pet</string>
-    <string name="message_success">Sucesso</string>
-    <string name="message_error">Erro no processo</string>
-    <string name="text_select_option">Selecione a opção</string>
-    <string name="text_negative_button">Cancelar</string>
     <string name="title_home_menu">Início</string>
     <string name="title_profile_menu">Perfil</string>
     <string name="text_not_reminder_yet_home">Sem lembretes para hoje ou você não adicionou lembretes ainda</string>
@@ -35,7 +24,6 @@
     <string name="notification_description_birthday">Este é um dia especial para você e %s</string>
     <string name="attach_file_content_description">Anexar documento para seu pet</string>
     <string name="edit_pet">Editar pet</string>
-    <string name="see_details_pet_item_menu">Ver detalhes do pet</string>
     <string name="tooltip_nickname_of_pet">Apelido do pet</string>
     <string name="tooltip_name_of_pet">Nome do pet</string>
     <string name="tooltip_birth_of_pet">Data de nascimento do pet</string>
@@ -48,10 +36,7 @@
     <string name="text_none">Vira-Lata</string>
     <string name="text_get_picture_alert_item">Adicionar foto a partir da galeria</string>
     <string name="text_take_picture">Tirar foto</string>
-    <string name="title_dark_mode">Modo dark</string>
-    <string name="template_version">Versão %s</string>
     <string name="text_select_birth">Selecione a data de Nascimento</string>
-    <string name="text_settings">Configurações</string>
     <string name="text_reminder">Lembrete</string>
     <string name="text_put_an_description_reminder">Coloque uma descrição</string>
     <string name="text_put_an_name_for_your_reminder">Coloque um nome para o lembrete</string>
@@ -59,22 +44,10 @@
     <string name="text_select_pet_for_reminder">Selecione o pet</string>
     <string name="text_select_date">Selecione a data</string>
     <string name="text_message_success_reminder_was_added">Lembrete foi adicionado com sucesso</string>
-    <string name="app_name_not_trim">Minha Rotina Pet</string>
-    <string name="rationale_message_pick_image">Para colocar uma foto da galeria nós precisamos da sua permissão de ler a galeria</string>
-    <string name="text_goto_settings">Ir para as configurações</string>
-    <string name="rationale_message_capture_image">Para capturar a photo do seu pet nós precisamos da sua permissão de camera.</string>
-    <string name="message_date_is_not_valid">Data não é válida</string>
-    <string name="message_field_is_not_blank">O campo não pode estar vazio</string>
-    <string name="message_date_is_cannot_be_null">Data não pode ser nula.</string>
     <string name="tooltip_view_pager_reminders">Click para ver os detalhes do lembrete.</string>
-    <string name="message_field_havent_special_characters_or_numbers">Este campo não pode conter caracteres especiais ou números</string>
-    <string name="message_field_excedded_limit_characters">O campo não pode exceder o limit de caracteres.</string>
     <string name="message_pet_was_added">Parabéns!!! Seu pet foi adicionado.</string>
     <string name="hint_add_time">Adicionar horário</string>
     <string name="toolbar_title_my_pet">Meu pet</string>
-    <string name="text_add_time">Adicionar horário</string>
-    <string name="title_task">Tarefas</string>
-    <string name="text_not_tasks_added_yet">Sem tarefas adicionadas para este pet.</string>
     <string name="text_start_on_app">Comece agora!!</string>
     <string name="text_onboarding_page2">Com o nosso aplicativo, você pode definir rotinas e horários para cuidar do seu pet, além de receber informações sobre o estado de saúde do seu pet e de suas necessidades.</string>
     <string name="text_onboarding_page1">Bem-vindo ao nosso aplicativo de rotina de pet! Aqui, você pode acompanhar suas necessidades de cuidados e acompanhamento de seu pet de forma fácil e eficiente.</string>
@@ -86,7 +59,6 @@
     <string name="message_help_add_reminder">Nesta tela você pode definir um lembrete para um de seus animais de estimação cadastrados. Observe que você precisa ter um animal de estimação registrado para poder definir um lembrete!!</string>
     <string name="message_help_today_reminders_home">Aqui estão os seus lembretes para hoje. Caso tenha mais de um lembrete, arraste para o lado para ver todos os lembretes. Se você quiser ver mais detalhes sobre o lembrete, clique no lembrete.</string>
     <string name="message_help_my_pet_home">Caso você tenha pets cadastrado, aqui vão ser mostrados os seus pets. Arraste para o lado direito  para ações no pet ou clique para ver tarefas do seu pet.</string>
-    <string name="message_date_reminder_is_minor_then_actual">A data e o horário precisam ser maior ou igual a data atual.</string>
     <string name="add_reminder_content_description">Adicione lembrete para este pet</string>
     <string name="title_personal_data">Dados pessoais</string>
     <string name="label_birth">Data de nascimento</string>
@@ -104,9 +76,7 @@
     <string name="delete_pet_title_pop_menu">Delete o pet</string>
     <string name="title_alert_delete_pet">Deletar esse pet?</string>
     <string name="message_alert_delete_pet_list">Você vai deletar todos os dados deste pet.</string>
-    <string name="text_not_implemented">Funcionalidade ainda não implementada. Uma atualização em breve trará esta funcionalidade.</string>
     <string name="title_choser_share">Compartilhar com…</string>
-    <string name="text_error_occurred_contact_provider">Ocorreu um erro. Contate o provedor para poder resolver este erro</string>
     <string name="title_repeat">Repetir</string>
     <string name="message_help_detail_reminder">Nesta tela você vê os detalhes do lembrete e edita este lembrete. Repita o lembrete no menu de repetição do ícone.</string>
     <string name="title_tb_update_pet">Atualizar seu pet</string>
@@ -116,15 +86,14 @@
     <string name="title_delete_all_reminders">Apagar todos os lembretes</string>
     <string name="message_alert_delete_all_reminders">Você realmente deseja excluir todos os lembretes?</string>
     <string name="message_alert_delete_reminder">Deseja realmente excluir este lembrete?</string>
-    <string name="title_about">Sobre</string>
-    <string name="text_my_greeting_about">Bem-vindo ao meu aplicativo. Espero que tenha te ajudado de alguma forma! 😀</string>
-    <string name="text_presentation_about_settings">O meu nome é João Vítor Queiroz Santos sou programador Android e gosto de ajudar as pessoas através da programação</string>
-    <string name="title_tasks">Tarefas</string>
-    <string name="hint_add_task">Adicionar tarefa</string>
-    <string name="message_cannot_create_task">Para criar uma tarefa, você precisa ter um pet cadastrado.</string>
-    <string name="text_filter_by_pet">Filtrar por pet</string>
     <string name="message_error_weight_null">O peso não pode estar vazio</string>
     <string name="message_click_in_pet_list">Pressione por pelo menos 2 segundos para realizar ações neste animal de estimação</string>
     <string name="message_alert_reminder_need_of_permission_notification">Para agendar lembretes com notificação, precisamos da sua permissão para enviar notificações. Se você não permitir, poderá agendar lembretes, mas não será notificado sobre eles. Se você quiser habilitá-lo, vá para as configurações do aplicativo e habilite-o em permissões.</string>
     <string name="message_image_not_found">Imagem não encontrada</string>
+    <string name="suggested_reminder_choose_other_reminder">Adicione um lembrete customizado</string>
+    <string name="see_details_pet_item_menu">Veja os detalhes deste pet</string>
+    <string name="suggested_reminder_add_suggested_reminder">Adicione um lembrete sugerido</string>
+    <string name="suggested_reminder_wash">Banho</string>
+    <string name="suggested_reminder_walk">Andar</string>
+    <string name="suggested_reminder_medicament">Medicação</string>
 </resources>

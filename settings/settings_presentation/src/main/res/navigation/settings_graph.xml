@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_graph"
+    app:startDestination="@id/settingsFragment">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="br.com.joaovq.settings_presentation.view.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsAboutFragment"
+            app:destination="@id/settingsAboutFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsAboutFragment"
+        android:name="br.com.joaovq.settings_presentation.view.SettingsAboutFragment"
+        android:label="fragment_settings_about"
+        tools:layout="@layout/fragment_settings_about" />
+</navigation>

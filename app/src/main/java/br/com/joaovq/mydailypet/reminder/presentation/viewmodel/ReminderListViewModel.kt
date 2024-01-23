@@ -1,12 +1,8 @@
 package br.com.joaovq.mydailypet.reminder.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import br.com.joaovq.mydailypet.core.di.IODispatcher
-import br.com.joaovq.mydailypet.reminder.domain.usecases.DeleteAllRemindersUseCase
-import br.com.joaovq.mydailypet.reminder.domain.usecases.GetAllReminderUseCase
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.ReminderListIntent
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.RemindersListState
-import br.com.joaovq.mydailypet.ui.presenter.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,10 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReminderListViewModel @Inject constructor(
-    private val getAllReminderUseCase: GetAllReminderUseCase,
-    private val deleteAllReminders: DeleteAllRemindersUseCase,
-    @IODispatcher private val dispatcher: CoroutineDispatcher,
-) : BaseViewModel<ReminderListIntent, RemindersListState?>() {
+    private val getAllReminderUseCase: br.com.joaovq.reminder_domain.usecases.GetAllReminderUseCase,
+    private val deleteAllReminders: br.com.joaovq.reminder_domain.usecases.DeleteAllRemindersUseCase,
+    @br.com.joaovq.core.di.IODispatcher private val dispatcher: CoroutineDispatcher,
+) : br.com.joaovq.core_ui.presenter.BaseViewModel<ReminderListIntent, RemindersListState?>() {
     override val _state: MutableStateFlow<RemindersListState?> = MutableStateFlow(null)
     val state = _state.asStateFlow()
 

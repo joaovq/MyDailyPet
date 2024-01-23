@@ -4,7 +4,7 @@
     <data>
         <variable
             name="pet"
-            type="br.com.joaovq.mydailypet.pet.domain.model.Pet" />
+            type="br.com.joaovq.pet_domain.model.Pet" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,7 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pet.presentation.view.AddPetFragment">
+        tools:context="br.com.joaovq.pet_presentation.br.com.joaovq.mydailypet.pet.presentation.view.AddPetFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

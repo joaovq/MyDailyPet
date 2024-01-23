@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_tasks">Tarefas</string>
+    <string name="hint_add_task">Adicionar tarefa</string>
+    <string name="message_cannot_create_task">Para criar uma tarefa, você precisa ter um pet cadastrado.</string>
+    <string name="text_filter_by_pet">Filtrar por pet</string>
+    <string name="title_task">Tarefas</string>
+    <string name="text_not_tasks_added_yet">Sem tarefas adicionadas para este pet.</string>
+</resources>

@@ -14,3 +14,14 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MyDailyPet"
 include ':app'
+include ":pet:pet_data"
+include ':data'
+include ':core'
+include ':reminder:reminder_data'
+include ':tasks:tasks_data'
+include ':core-ui'
+include ':settings:settings_presentation'
+include ':pet:pet_domain'
+include ':reminder:reminder_domain'
+include ':tasks:tasks_domain'
+include ':tasks:tasks_presentation'

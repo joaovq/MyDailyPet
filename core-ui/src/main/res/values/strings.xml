@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Daily Pet</string>
+    <string name="label_name">Name</string>
+    <string name="label_breed">Breed</string>
+    <string name="label_date">Date</string>
+    <string name="select_sex_pet">Select sex pet</string>
+    <string name="message_success">Success</string>
+    <string name="message_error">Error in process. See you log</string>
+    <string name="text_select_option">Select Option</string>
+    <string name="text_negative_button">Cancel</string>
+    <string name="text_positive_button" translatable="false">OK</string>
+    <string name="app_name_not_trim">My Daily Pet</string>
+    <string name="text_goto_settings">Go to settings</string>
+    <string name="text_not_implemented">\nNot implemented yet. An update with this feature will be coming soon.</string>
+    <string name="text_error_occurred_contact_provider">Error occurred. Contact the provider this error.</string>
+    <string name="text_add_time">Add time</string>
+    <string name="see_details_pet_item_menu">See details pet</string>
+    <string name="rationale_message_capture_image">To capture your pet\'s photo, we need your camera permission.</string>
+    <string name="rationale_message_pick_image">To get your pet\'s photo from the gallery, we need your read external permission.</string>
+</resources>

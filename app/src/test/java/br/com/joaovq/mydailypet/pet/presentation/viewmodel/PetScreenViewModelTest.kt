@@ -1,6 +1,6 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
-import br.com.joaovq.mydailypet.pet.domain.usecases.GetPetUseCase
+import br.com.joaovq.pet_domain.usecases.GetPetUseCase
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.PetIntent
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.PetState
 import br.com.joaovq.mydailypet.testutil.TestUtilPet
@@ -21,7 +21,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class PetScreenViewModelTest {
     @MockK
-    private lateinit var getPetUseCase: GetPetUseCase
+    private lateinit var getPetUseCase: br.com.joaovq.pet_domain.usecases.GetPetUseCase
     private lateinit var petScreenViewModel: PetScreenViewModel
 
     @Before

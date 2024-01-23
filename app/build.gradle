@@ -1,29 +1,28 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
+    id "kotlin-kapt"
+    id "kotlin-parcelize"
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
-    id 'jacoco'
+    id "jacoco"
     id("com.google.gms.google-services")
     id "com.google.firebase.crashlytics"
 }
-
 Properties properties = new Properties()
 properties.load(rootProject.file('local.properties').newDataInputStream())
 def adModId = properties['AD_MOB_ID'] ?: ""
 def bannerId = properties['BANNER_AD_MOB_ID'] ?: ""
 android {
     namespace 'br.com.joaovq.mydailypet'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "br.com.joaovq.mydailypet"
         minSdk 24
-        targetSdk 33
-        versionCode 2
-        versionName "1.0.1"
+        targetSdk 34
+        versionCode 3
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,8 +39,11 @@ android {
         }
         debug {
             testCoverageEnabled true
-            resValue("string","AD_MOB_ID",adModId)
+            minifyEnabled false
+            shrinkResources false
+            resValue("string","AD_MOB_ID","ca-app-pub-3940256099942544~3347511713")
             resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -67,10 +69,27 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":core-ui"))
+    implementation(project(":data"))
+
+    implementation(project(":pet:pet_data"))
+    implementation(project(":pet:pet_domain"))
+
+    implementation(project(":reminder:reminder_domain"))
+    implementation(project(":reminder:reminder_data"))
+
+    implementation(project(":tasks:tasks_data"))
+    implementation(project(":tasks:tasks_domain"))
+    implementation(project(":tasks:tasks_presentation"))
+
+    implementation(project(":settings:settings_presentation"))
+
     implementation("androidx.core:core-ktx:$ktx_version_core")
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation ("com.google.android.material:material:$material_version")
     implementation ("androidx.constraintlayout:constraintlayout:" + constraint_layout_version)
+    implementation ("com.airbnb.android:lottie:$lottieVersion")
 
     testImplementation ("junit:junit:" + junit_version)
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
@@ -83,8 +102,8 @@ dependencies {
 
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation "io.mockk:mockk-android:${mockkVersion}"
-    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
     testImplementation "io.mockk:mockk-agent:${mockkVersion}"
+    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
     androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
 
     def hilt_version = "2.45"
@@ -121,6 +140,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.android.gms:play-services-ads:$ads_version")
+
+//    In App Update
+    implementation("com.google.android.play:app-update-ktx:$in_app_updateVersion")
 }
 kapt {
     correctErrorTypes true
@@ -130,7 +152,7 @@ kapt {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
-        html{
+        html {
             enabled true
         }
     }

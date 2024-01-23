@@ -14,21 +14,21 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.joaovq.core.util.extension.format
+import br.com.joaovq.core.util.extension.stringOrBlank
+import br.com.joaovq.core_ui.extension.createHelpDialog
+import br.com.joaovq.core_ui.extension.hideKeyboard
+import br.com.joaovq.core_ui.extension.loadImage
+import br.com.joaovq.core_ui.extension.navWithAnim
+import br.com.joaovq.core_ui.extension.simpleAlertDialog
+import br.com.joaovq.core_ui.extension.toast
+import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.format
-import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
 import br.com.joaovq.mydailypet.databinding.FragmentReminderBinding
-import br.com.joaovq.mydailypet.reminder.domain.model.Reminder
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.ReminderIntent
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.ReminderViewModel
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.ReminderState
-import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
-import br.com.joaovq.mydailypet.ui.util.extension.hideKeyboard
-import br.com.joaovq.mydailypet.ui.util.extension.loadImage
-import br.com.joaovq.mydailypet.ui.util.extension.navWithAnim
-import br.com.joaovq.mydailypet.ui.util.extension.simpleAlertDialog
-import br.com.joaovq.mydailypet.ui.util.extension.toast
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
+import br.com.joaovq.reminder_domain.model.Reminder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,6 +40,7 @@ class ReminderFragment : Fragment() {
     private val args by navArgs<ReminderFragmentArgs>()
     private var actionMode: ActionMode? = null
     private val reminderViewModel: ReminderViewModel by viewModels()
+    private var reminder: Reminder? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,11 +82,21 @@ class ReminderFragment : Fragment() {
                         }
 
                         is ReminderState.Success -> {
-                            toast(text = getString(safeState.message))
+                            safeState.reminder?.let { safeReminder ->
+                                reminder = safeReminder
+                                with(binding) {
+                                    reminder = safeReminder
+                                    civPetImageReminder.loadImage(safeReminder.pet.imageUrl)
+                                    val calendar = Calendar.getInstance()
+                                    calendar.time = safeReminder.toDate
+                                    val dateTimeFormat = getDateTimeFormat(calendar)
+                                    tvFromDateReminder.text = dateTimeFormat
+                                }
+                            }
                         }
 
                         ReminderState.SuccessDelete -> {
-                            toast(text = getString(R.string.message_success))
+                            toast(text = getString(br.com.joaovq.core_ui.R.string.message_success))
                             findNavController().popBackStack()
                         }
                     }
@@ -95,14 +106,12 @@ class ReminderFragment : Fragment() {
     }
 
     private fun setupView() {
-        with(binding) {
-            val reminderWithPet = args.reminder
-            reminder = args.reminder
-            civPetImageReminder.loadImage(reminderWithPet.pet.imageUrl)
-            val calendar = Calendar.getInstance()
-            calendar.time = reminderWithPet.toDate
-            val dateTimeFormat = getDateTimeFormat(calendar)
-            tvFromDateReminder.text = dateTimeFormat
+        if (args.idReminder != 0) {
+            reminderViewModel.dispatchIntent(
+                ReminderIntent.GetReminder(
+                    args.idReminder,
+                ),
+            )
         }
     }
 
@@ -129,12 +138,14 @@ class ReminderFragment : Fragment() {
                 }
 
                 R.id.item_menu_repeat_detail_reminder -> {
-                    findNavController().navWithAnim(
-                        ReminderFragmentDirections.actionReminderFragmentToAddReminderFragment(
-                            args.reminder.name,
-                            args.reminder.description,
-                        ),
-                    )
+                    reminder?.let {
+                        findNavController().navWithAnim(
+                            ReminderFragmentDirections.actionReminderFragmentToAddReminderFragment(
+                                it.name,
+                                it.description,
+                            ),
+                        )
+                    }
                     true
                 }
 
@@ -198,27 +209,31 @@ class ReminderFragment : Fragment() {
     }
 
     private fun deleteReminder() {
-        reminderViewModel.dispatchIntent(
-            ReminderIntent.DeleteReminder(
-                args.reminder.id,
-                args.reminder,
-            ),
-        )
+        reminder?.let {
+            reminderViewModel.dispatchIntent(
+                ReminderIntent.DeleteReminder(
+                    args.idReminder,
+                    reminder = it,
+                ),
+            )
+        }
     }
 
     private fun updateReminder() {
-        reminderViewModel.dispatchIntent(
-            ReminderIntent.EditReminder(
-                args.reminder.id,
-                Reminder(
-                    name = binding.tvNameReminder.text.toString(),
-                    description = binding.tvDescriptionReminder.text.toString(),
-                    pet = args.reminder.pet,
-                    toDate = args.reminder.toDate,
-                    alarmItem = args.reminder.alarmItem,
+        reminder?.let {
+            reminderViewModel.dispatchIntent(
+                ReminderIntent.EditReminder(
+                    args.idReminder,
+                    Reminder(
+                        name = binding.tvNameReminder.text.toString(),
+                        description = binding.tvDescriptionReminder.text.toString(),
+                        pet = it.pet,
+                        toDate = it.toDate,
+                        alarmItem = it.alarmItem,
+                    ),
                 ),
-            ),
-        )
+            )
+        }
     }
 
     private fun hideKeyBoard() {

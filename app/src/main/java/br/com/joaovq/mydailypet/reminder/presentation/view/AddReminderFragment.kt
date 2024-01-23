@@ -9,24 +9,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.joaovq.core.util.extension.format
+import br.com.joaovq.core.util.extension.stringOrBlank
+import br.com.joaovq.core_ui.extension.animateShrinkExtendedFabButton
+import br.com.joaovq.core_ui.extension.createHelpDialog
+import br.com.joaovq.core_ui.extension.goToSettingsAlertDialogForPermission
+import br.com.joaovq.core_ui.extension.simpleBottomSheetDialog
+import br.com.joaovq.core_ui.extension.simpleDatePickerDialog
+import br.com.joaovq.core_ui.extension.simpleTimePicker
+import br.com.joaovq.core_ui.extension.snackbar
+import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.core.util.extension.format
-import br.com.joaovq.mydailypet.core.util.extension.stringOrBlank
 import br.com.joaovq.mydailypet.databinding.FragmentAddReminderBinding
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
+import br.com.joaovq.mydailypet.pet.presentation.adapter.SelectorPetsAdapter
 import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEvents
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.AddPetReminderViewModel
 import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
-import br.com.joaovq.mydailypet.ui.adapter.SelectorPetsAdapter
-import br.com.joaovq.mydailypet.ui.permission.NotificationPermissionManager
-import br.com.joaovq.mydailypet.ui.util.extension.animateShrinkExtendedFabButton
-import br.com.joaovq.mydailypet.ui.util.extension.createHelpDialog
-import br.com.joaovq.mydailypet.ui.util.extension.goToSettingsAlertDialogForPermission
-import br.com.joaovq.mydailypet.ui.util.extension.simpleBottomSheetDialog
-import br.com.joaovq.mydailypet.ui.util.extension.simpleDatePickerDialog
-import br.com.joaovq.mydailypet.ui.util.extension.simpleTimePicker
-import br.com.joaovq.mydailypet.ui.util.extension.snackbar
-import br.com.joaovq.mydailypet.ui.util.extension.viewBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.timepicker.TimeFormat
@@ -41,11 +39,12 @@ class AddReminderFragment : Fragment() {
     private val addPetReminderViewModel: AddPetReminderViewModel by viewModels()
     private val args: AddReminderFragmentArgs by navArgs()
     private lateinit var calendar: Calendar
-    private lateinit var notificationPermissionManager: NotificationPermissionManager
+    private lateinit var notificationPermissionManager: br.com.joaovq.core_ui.permission.NotificationPermissionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        notificationPermissionManager = NotificationPermissionManager.from(this)
+        notificationPermissionManager =
+            br.com.joaovq.core_ui.permission.NotificationPermissionManager.from(this)
         notificationPermissionManager.setOnShowRationale {
             goToSettingsAlertDialogForPermission(
                 message = R.string.message_alert_reminder_need_of_permission_notification,
@@ -94,6 +93,8 @@ class AddReminderFragment : Fragment() {
                     null -> {
                         setInitialView()
                     }
+
+                    else -> {}
                 }
             }
         }
@@ -123,7 +124,10 @@ class AddReminderFragment : Fragment() {
             binding.etDescriptionReminder.setText(it.description)
             it.pet?.let { petSafe ->
                 binding.spSelectPetReminder.adapter =
-                    SelectorPetsAdapter(requireContext(), listOf(petSafe))
+                    SelectorPetsAdapter(
+                        requireContext(),
+                        listOf(petSafe),
+                    )
                 binding.spSelectPetReminder.isEnabled = false
             }
         }
@@ -145,7 +149,6 @@ class AddReminderFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.item_help_reminder -> {
                     createHelpDialog(
-                        icon = R.drawable.ic_help_outline,
                         message = R.string.message_help_add_reminder,
                     )
                 }
@@ -162,7 +165,7 @@ class AddReminderFragment : Fragment() {
                         binding.etNameReminder.text.toString(),
                         binding.etDescriptionReminder.text.toString(),
                         calendar.time,
-                        selectedPet as Pet,
+                        selectedPet as br.com.joaovq.pet_domain.model.Pet,
                     ),
                 )
             } ?: snackbar(message = getString(R.string.message_alert_add_reminder_not_found_pet))
@@ -205,7 +208,7 @@ class AddReminderFragment : Fragment() {
         }
     }
 
-    private fun initSelectorPet(pets: List<Pet>) {
+    private fun initSelectorPet(pets: List<br.com.joaovq.pet_domain.model.Pet>) {
         binding.spSelectPetReminder.isEnabled = pets.isNotEmpty()
         binding.spSelectPetReminder.adapter =
             SelectorPetsAdapter(

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.graphics.drawable.Drawable"/>
+        <variable
+            name="icon"
+            type="Drawable" />
+        <variable
+            name="text"
+            type="String" />
+    </data>
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeWidth="0.8dp"
+        android:minHeight="100dp"
+        android:checkable="true"
+        android:backgroundTint="?attr/colorSecondary"
+        android:layout_margin="@dimen/space_12dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="@dimen/space_20dp"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_suggested_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="?attr/colorPrimary"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_suggested_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Hello"
+                android:text="@{text}"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/text_size_14sp"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

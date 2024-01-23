@@ -1,12 +1,12 @@
 package br.com.joaovq.mydailypet.pet.presentation.viewmodel
 
 import br.com.joaovq.mydailypet.R
-import br.com.joaovq.mydailypet.pet.domain.model.Pet
-import br.com.joaovq.mydailypet.pet.domain.usecases.CreatePetUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.UpdateInfosPetUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateAnimalUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateDateUseCase
-import br.com.joaovq.mydailypet.pet.domain.usecases.ValidateNameUseCase
+import br.com.joaovq.pet_domain.model.Pet
+import br.com.joaovq.pet_domain.usecases.CreatePetUseCase
+import br.com.joaovq.pet_domain.usecases.UpdateInfosPetUseCase
+import br.com.joaovq.pet_domain.usecases.ValidateAnimalUseCase
+import br.com.joaovq.pet_domain.usecases.ValidateDateUseCase
+import br.com.joaovq.pet_domain.usecases.ValidateNameUseCase
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewstate.AddPetUiState
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
@@ -37,19 +37,19 @@ class AddPetViewModelTest {
     private lateinit var viewModel: AddPetViewModel
 
     @RelaxedMockK
-    private lateinit var createPetUseCase: CreatePetUseCase
+    private lateinit var createPetUseCase: br.com.joaovq.pet_domain.usecases.CreatePetUseCase
 
     @MockK
-    private lateinit var updateInfosPetUseCase: UpdateInfosPetUseCase
+    private lateinit var updateInfosPetUseCase: br.com.joaovq.pet_domain.usecases.UpdateInfosPetUseCase
 
     @MockK
-    private lateinit var validateName: ValidateNameUseCase
+    private lateinit var validateName: br.com.joaovq.pet_domain.usecases.ValidateNameUseCase
 
     @MockK
-    private lateinit var validateAnimal: ValidateAnimalUseCase
+    private lateinit var validateAnimal: br.com.joaovq.pet_domain.usecases.ValidateAnimalUseCase
 
     @MockK
-    private lateinit var validateDate: ValidateDateUseCase
+    private lateinit var validateDate: br.com.joaovq.pet_domain.usecases.ValidateDateUseCase
 
     private val submitSuccessAction = AddPetAction.Submit(
         name = TestUtilPet.pet.name,
@@ -93,7 +93,7 @@ class AddPetViewModelTest {
     fun `GIVEN action submit WHEN dispatch intent THEN message Pets is added in db`() =
         runTest {
             mockValidateUseCasesSuccess()
-            coEvery { createPetUseCase(pet = ofType(Pet::class), bitmap = any()) } returns Unit
+            coEvery { createPetUseCase(pet = ofType(br.com.joaovq.pet_domain.model.Pet::class), bitmap = any()) } returns Unit
             viewModel.dispatchIntent(
                 submitSuccessAction,
             )
@@ -107,7 +107,7 @@ class AddPetViewModelTest {
             mockValidateUseCasesSuccess()
             coEvery {
                 createPetUseCase.invoke(
-                    ofType(Pet::class),
+                    ofType(br.com.joaovq.pet_domain.model.Pet::class),
                     null,
                 )
             } throws Exception("Error in insert")
@@ -118,7 +118,7 @@ class AddPetViewModelTest {
             delay(3000)
             assertEquals("Error in insert", viewModel.state.value.exception?.message)
 
-            coVerifyAll { createPetUseCase(ofType(Pet::class), null) }
+            coVerifyAll { createPetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class), null) }
         }
 
     @Test
@@ -127,7 +127,7 @@ class AddPetViewModelTest {
             mockValidateUseCasesSuccess()
             coEvery {
                 updateInfosPetUseCase.invoke(
-                    ofType(Pet::class),
+                    ofType(br.com.joaovq.pet_domain.model.Pet::class),
                     null,
                 )
             } returns Unit
@@ -145,7 +145,7 @@ class AddPetViewModelTest {
 
             coVerifyAll {
                 updateInfosPetUseCase.invoke(
-                    ofType(Pet::class),
+                    ofType(br.com.joaovq.pet_domain.model.Pet::class),
                     null,
                 )
             }
@@ -157,7 +157,7 @@ class AddPetViewModelTest {
             mockValidateUseCasesSuccess()
             coEvery {
                 updateInfosPetUseCase.invoke(
-                    ofType(Pet::class),
+                    ofType(br.com.joaovq.pet_domain.model.Pet::class),
                     null,
                 )
             } returns Unit
@@ -175,7 +175,7 @@ class AddPetViewModelTest {
 
             coVerifyAll {
                 updateInfosPetUseCase.invoke(
-                    ofType(Pet::class),
+                    ofType(br.com.joaovq.pet_domain.model.Pet::class),
                     null,
                 )
             }

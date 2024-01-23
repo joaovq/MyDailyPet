@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.joaovq.mydailypet.databinding.ItemOnBoardingContentBinding
 
-class OnboardingPageAdapter: ListAdapter<OnboardingItem, OnboardingPageAdapter.OnboardingPageViewHolder>(OnboardingDiffUtil) {
+class OnboardingPageAdapter :
+    ListAdapter<OnboardingItem, OnboardingPageAdapter.OnboardingPageViewHolder>(
+        OnboardingDiffUtil,
+    ) {
     inner class OnboardingPageViewHolder(private val binding: ItemOnBoardingContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(onboardingItems: OnboardingItem) {
