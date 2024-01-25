@@ -5,6 +5,7 @@ import br.com.joaovq.core.di.DefaultDispatcher
 import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.core.data.alarm.AlarmInterval
 import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.core.di.AlarmManager
 import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.pet_domain.repository.PetRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +20,7 @@ interface CreatePetUseCase {
 class CreatePet @Inject constructor(
     private val petRepository: PetRepository,
     private val saveImagePetUseCase: SaveImagePetUseCase,
-    private val scheduler: AlarmScheduler,
+    @AlarmManager private val scheduler: AlarmScheduler,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : CreatePetUseCase {
     override suspend fun invoke(pet: Pet, bitmap: Bitmap?) {

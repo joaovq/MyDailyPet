@@ -149,7 +149,8 @@ kapt {
     showProcessorStats true
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+tasks.register('jacocoTestReport', JacocoReport) {
+    dependsOn['testDebugUnitTest', 'createDebugCoverageReport']
 
     reports {
         html {

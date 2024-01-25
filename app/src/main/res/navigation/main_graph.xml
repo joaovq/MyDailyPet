@@ -143,6 +143,8 @@
         tools:layout="@layout/fragment_suggested_reminder" >
         <action
             android:id="@+id/action_suggestedReminderFragment_to_addReminderFragment"
-            app:destination="@id/addReminderFragment" />
+            app:destination="@id/addReminderFragment"
+            app:popUpTo="@id/addReminderFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>
