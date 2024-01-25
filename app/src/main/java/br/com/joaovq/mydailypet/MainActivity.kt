@@ -32,9 +32,11 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private var updateType: Int = AppUpdateType.FLEXIBLE
-    private val appUpdateManager = AppUpdateManagerFactory.create(applicationContext).apply {
-        if (updateType == AppUpdateType.FLEXIBLE) {
-            registerListener(installUpdateStateListener)
+    private val appUpdateManager by lazy {
+        AppUpdateManagerFactory.create(applicationContext).apply {
+            if (updateType == AppUpdateType.FLEXIBLE) {
+                registerListener(installUpdateStateListener)
+            }
         }
     }
 
