@@ -1,6 +1,5 @@
 package br.com.joaovq.mydailypet.pet.domain.usecases
 
-import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
 import br.com.joaovq.mydailypet.testutil.TestUtilPet
 import junit.framework.TestCase.assertEquals
@@ -31,7 +30,7 @@ class ValidateNameTest {
         runTest {
             val validateStateName = validateNameUseCase("")
             assertFalse(validateStateName.isValid)
-            assertEquals(R.string.message_field_is_not_blank, validateStateName.errorMessage)
+            assertEquals(br.com.joaovq.core.R.string.message_field_is_not_blank, validateStateName.errorMessage)
         }
 
     @Test
@@ -45,7 +44,7 @@ class ValidateNameTest {
         val validateStateName = validateNameUseCase("Nin@")
         assertFalse(validateStateName.isValid)
         assertEquals(
-            R.string.message_field_havent_special_characters_or_numbers,
+            br.com.joaovq.core.R.string.message_field_havent_special_characters_or_numbers,
             validateStateName.errorMessage,
         )
     }
@@ -57,7 +56,7 @@ class ValidateNameTest {
         val validateStateName = validateNameUseCase(stringUpperLimit)
         assertFalse(validateStateName.isValid)
         assertEquals(
-            R.string.message_field_excedded_limit_characters,
+            br.com.joaovq.core.R.string.message_field_excedded_limit_characters,
             validateStateName.errorMessage,
         )
     }
