@@ -34,11 +34,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_suggested_reminders"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 app:spanCount="3"
                 android:padding="@dimen/space_10dp"
                 tools:listitem="@layout/item_suggested_reminder"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_constraintBottom_toTopOf="@id/btn_add_suggested_reminder"
                 app:layout_constraintTop_toTopOf="parent"
                 />
