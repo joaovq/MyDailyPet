@@ -3,6 +3,7 @@ package br.com.joaovq.mydailypet
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.google.firebase.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.logging.Level
@@ -15,7 +16,9 @@ class MyDailyPetApp : Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     override fun getWorkManagerConfiguration(): Configuration =
