@@ -2,6 +2,7 @@ package br.com.joaovq.pet_domain.usecases
 
 import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.core.di.AlarmManager
 import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.pet_domain.repository.PetRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,7 +15,7 @@ interface DeletePetUseCase {
 
 class DeletePet @Inject constructor(
     private val petRepository: PetRepository,
-    private val scheduler: AlarmScheduler,
+    @AlarmManager private val scheduler: AlarmScheduler,
     @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : DeletePetUseCase {
     override suspend fun invoke(pet: Pet) {
