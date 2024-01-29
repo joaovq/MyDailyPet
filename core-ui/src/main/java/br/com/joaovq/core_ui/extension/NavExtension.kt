@@ -9,10 +9,10 @@ import br.com.joaovq.core_ui.NavAnim
 
 fun NavController.navWithAnim(
     action: NavDirections,
-    @AnimRes animEnter: Int? = br.com.joaovq.core_ui.NavAnim.slideUp,
+    @AnimRes animEnter: Int? = NavAnim.slideUp,
     @AnimRes animExit: Int? = null,
     @AnimRes animPopEnter: Int? = null,
-    @AnimRes animPopExit: Int? = br.com.joaovq.core_ui.NavAnim.slideUpOut,
+    @AnimRes animPopExit: Int? = NavAnim.slideUpOut,
     popUpToInclusive: Boolean = false,
     @IdRes popUpToId: Int = 0,
 ) {
