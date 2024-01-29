@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.Surface
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -11,10 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import br.com.joaovq.core.data.datastore.IS_NEW_USER_PREFERENCE_KEY
+import br.com.joaovq.core.data.datastore.PreferencesManager
 import br.com.joaovq.core.util.extension.compareSameDate
 import br.com.joaovq.core_ui.AppMenuItem
 import br.com.joaovq.core_ui.NavAnim
-import br.com.joaovq.core_ui.R
 import br.com.joaovq.core_ui.extension.animateView
 import br.com.joaovq.core_ui.extension.createHelpDialog
 import br.com.joaovq.core_ui.extension.createPopMenu
@@ -29,17 +32,22 @@ import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
 import br.com.joaovq.mydailypet.home.presentation.adapter.RemindersAdapter
 import br.com.joaovq.mydailypet.home.presentation.adapter.SwipeControllerCallback
+import br.com.joaovq.mydailypet.home.presentation.compose.CategoriesNav
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
+import br.com.joaovq.mydailypet.ui.theme.MyDailyPetTheme
 import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.reminder_domain.model.Reminder
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -48,6 +56,9 @@ class HomeFragment : Fragment() {
     private lateinit var mPetsAdapter: PetsListAdapter
     private var petsList: List<Pet>? = null
     private lateinit var notificationPermissionManager: NotificationPermissionManager
+
+    @Inject
+    lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +71,35 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        //renderComposeView()
         return binding.root
+    }
+
+    private fun renderComposeView() {
+        binding.composeViewCategories.apply {
+            setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+            )
+            setContent {
+                MyDailyPetTheme {
+                    Surface {
+                        CategoriesNav(
+                            onClickCategory = {
+                                findNavController().navWithAnim(
+                                    it,
+                                    NavAnim.slideUpPop
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getIsNewUser()
         loadAds()
         initRecyclerView()
         checkPermissionNotification()
@@ -75,9 +110,34 @@ class HomeFragment : Fragment() {
         binding.ltNavBar.bottomNavApp.gone()
     }
 
+    private fun getIsNewUser() {
+        lifecycleScope.launch {
+            if (
+                preferencesManager.getBooleanValue(
+                    IS_NEW_USER_PREFERENCE_KEY,
+                    defaultValue = true,
+                )
+            ) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToOnBoardingFragment(),
+                )
+            }
+        }
+    }
+
     private fun loadAds() {
         MobileAds.initialize(requireContext()) {}
-        val adRequest = AdRequest.Builder().build()
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(
+                    listOf(
+
+                    )
+                )
+                .build()
+        )
+        val adRequest = AdRequest.Builder()
+            .build()
         binding.adView.loadAd(adRequest)
     }
 
@@ -157,7 +217,7 @@ class HomeFragment : Fragment() {
             ltCategory.root.setOnClickListener {
                 findNavController().navWithAnim(
                     HomeFragmentDirections.actionHomeFragmentToTaskFragment(),
-                    animExit = br.com.joaovq.core_ui.NavAnim.slideUpPop,
+                    animExit = NavAnim.slideUpPop,
                 )
             }
         }
@@ -249,8 +309,8 @@ class HomeFragment : Fragment() {
                 todayReminder,
             ) { idReminder ->
                 findNavController().navWithAnim(
-                    animEnter = R.anim.slide_in_left,
-                    animPopExit = R.anim.slide_in_right,
+                    animEnter = br.com.joaovq.core_ui.R.anim.slide_in_left,
+                    animPopExit = br.com.joaovq.core_ui.R.anim.slide_in_right,
                     action = HomeFragmentDirections
                         .actionHomeFragmentToReminderFragment(
                             idReminder,
