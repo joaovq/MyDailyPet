@@ -56,7 +56,6 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
 
-    def hilt_version = "2.45"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 }

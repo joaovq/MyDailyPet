@@ -1,35 +1,39 @@
 buildscript {
     ext {
-        ktx_version_core = "1.8.10"
+        ktx_version_core = "1.9.0"
         appcompat_version = "1.6.1"
-        material_version = "1.9.0"
+        material_version = "1.11.0"
         constraint_layout_version = "2.1.4"
         junit_version = "4.13.2"
         ext_junit_version = "1.1.5"
         espresso_version = "3.5.1"
-        nav_version = "2.6.0"
+        nav_version = "2.7.6"
         mockkVersion = "1.13.5"
         jacoco_version = "0.8.8"
         fragment_version = "1.5.6"
         fragment_testing_version = "1.6.0"
-        room_version = "2.5.1"
+        room_version = "2.6.1"
         glide_version = "4.15.0"
         datastore_version = "1.0.0"
         timber_version = "5.0.1"
         coroutines_version = "1.6.4"
         gson_version ="2.10.1"
         circular_image_view_version ="3.1.0"
-        work_version ="2.8.1"
-        hilt_work_version = "1.0.0"
+        work_version ="2.9.0"
+        hilt_work_version = "1.1.0"
         firebase_bom_version = "32.2.0"
         ads_version = "22.2.0"
         crashlytics_version = "2.9.7"
         lottieVersion = "6.1.0"
         in_app_updateVersion = "2.1.0"
+        hilt_version = "2.50"
+        hilt_compiler_version = "1.1.0"
     }
     dependencies {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics_version"
+        classpath("com.google.firebase:firebase-crashlytics-gradle:$crashlytics_version")
+        classpath("com.android.tools.build:gradle:7.4.1")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.50")
     }
 }
 
@@ -37,6 +41,6 @@ plugins {
     id 'com.android.application' version '8.0.2' apply false
     id 'com.android.library' version '8.0.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
-    id "com.google.dagger.hilt.android" version "2.45" apply false
+    id "com.google.dagger.hilt.android" version "2.50" apply false
     id("com.google.gms.google-services") version "4.3.15" apply false
 }

@@ -1,20 +1,24 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id "kotlin-kapt"
-    id "kotlin-parcelize"
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
-    id "jacoco"
+    id("jacoco")
     id("com.google.gms.google-services")
-    id "com.google.firebase.crashlytics"
+    id("com.google.firebase.crashlytics")
 }
+
 Properties properties = new Properties()
 properties.load(rootProject.file('local.properties').newDataInputStream())
+Properties keystore = new Properties()
+keystore.load(rootProject.file('keystore.properties').newDataInputStream())
 def adModId = properties['AD_MOB_ID'] ?: ""
 def bannerId = properties['BANNER_AD_MOB_ID'] ?: ""
+
 android {
-    namespace 'br.com.joaovq.mydailypet'
+    namespace "br.com.joaovq.mydailypet"
     compileSdk 34
 
     defaultConfig {
@@ -27,6 +31,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias "joaovqapps"
+            keyPassword keystore['keystore-alias-pswd']
+            storeFile file(keystore['keystore-file'])
+            storePassword keystore['keystore-pswd']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -35,7 +48,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue("string","AD_MOB_ID",adModId)
             resValue("string","BANNER_ID", bannerId)
-            signingConfig signingConfigs.debug
+            _isDebuggable = false
+            signingConfig signingConfigs.release
         }
         debug {
             testCoverageEnabled true
@@ -43,9 +57,31 @@ android {
             shrinkResources false
             resValue("string","AD_MOB_ID","ca-app-pub-3940256099942544~3347511713")
             resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
+            //applicationIdSuffix ".debug"
+            _isDebuggable = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        staging {
+            initWith debug
+            //manifestPlaceholders = [localhost:"internal.br.joaovq.com"]
+            //applicationIdSuffix ".debugStaging"
+        }
     }
+//    TODO add product flavors
+    /*flavorDimensions.add("mode")
+    productFlavors {
+        demo {
+            dimension "mode"
+            applicationIdSuffix ".demo"
+            minSdkVersion 24
+            versionNameSuffix "-demo"
+        }
+        full {
+            dimension "mode"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+        }
+    }*/
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -56,6 +92,10 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
     packagingOptions {
         resources.excludes.add("META-INF/*")
@@ -106,7 +146,6 @@ dependencies {
     androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
     androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
 
-    def hilt_version = "2.45"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 
@@ -118,8 +157,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:$glide_version")
     kapt("com.github.bumptech.glide:compiler:$glide_version")
 
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt("androidx.room:room-compiler:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
@@ -129,20 +168,54 @@ dependencies {
     implementation("org.jacoco:org.jacoco.core:$jacoco_version")
 
     //Gson
-    implementation "com.google.code.gson:gson:$gson_version"
+    implementation("com.google.code.gson:gson:$gson_version")
 
-    implementation "de.hdodenhof:circleimageview:$circular_image_view_version"
+    implementation("de.hdodenhof:circleimageview:$circular_image_view_version")
 
     implementation("androidx.work:work-runtime-ktx:$work_version")
     implementation("androidx.hilt:hilt-work:$hilt_work_version")
 
     implementation(platform("com.google.firebase:firebase-bom:$firebase_bom_version"))
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.android.gms:play-services-ads:$ads_version")
 
 //    In App Update
     implementation("com.google.android.play:app-update-ktx:$in_app_updateVersion")
+
+//    Compose
+    implementation("com.google.android.material:compose-theme-adapter:1.2.1")
+
+
+    def composeBom = platform('androidx.compose:compose-bom:2024.01.00')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    implementation("androidx.compose.material3:material3")
+
+    // Android Studio Preview support
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // UI Tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // Optional - Included automatically by material, only add when you need
+    // the icons but not the material library (e.g. when using Material3 or a
+    // custom design system based on Foundation)
+    implementation("androidx.compose.material:material-icons-core")
+    // Optional - Add full set of material icons
+    implementation("androidx.compose.material:material-icons-extended")
+    // Optional - Add window size utils
+    implementation("androidx.compose.material3:material3-window-size-class")
+
+    def activity_version = "1.8.2"
+
+    // Kotlin
+    implementation("androidx.activity:activity-compose:$activity_version")
+
+    implementation("androidx.compose.ui:ui")
 }
 kapt {
     correctErrorTypes true

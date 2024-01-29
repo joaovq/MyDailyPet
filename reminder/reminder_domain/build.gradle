@@ -42,7 +42,6 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     implementation ("com.jakewharton.timber:timber:" + timber_version)
 
-    def hilt_version = "2.45"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 }
