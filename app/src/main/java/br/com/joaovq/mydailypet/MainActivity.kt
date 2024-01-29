@@ -5,12 +5,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import br.com.joaovq.core.data.datastore.IS_NEW_USER_PREFERENCE_KEY
-import br.com.joaovq.core.data.datastore.PreferencesManager
 import br.com.joaovq.mydailypet.databinding.ActivityMainBinding
-import br.com.joaovq.mydailypet.home.presentation.view.HomeFragmentDirections
 import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -21,9 +16,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 import com.google.android.play.core.install.model.ActivityResult as PlayActivityResult
 
 @AndroidEntryPoint
@@ -31,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
     private var updateType: Int = AppUpdateType.FLEXIBLE
     private val appUpdateManager by lazy {
         AppUpdateManagerFactory.create(applicationContext).apply {
@@ -40,8 +34,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Inject
-    lateinit var preferencesManager: PreferencesManager
 
     private val updateResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
@@ -61,26 +53,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         MobileAds.initialize(this)
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
-        getIsDarkPreferences(navHost)
         checkUpdateAvailable()
     }
 
-    private fun getIsDarkPreferences(navHost: NavHostFragment) {
-        lifecycleScope.launch {
-            if (
-                preferencesManager.getBooleanValue(
-                    IS_NEW_USER_PREFERENCE_KEY,
-                    defaultValue = true,
-                )
-            ) {
-                navHost.navController.navigate(
-                    HomeFragmentDirections.actionHomeFragmentToOnBoardingFragment(),
-                )
-            }
-        }
-    }
 
     private val installUpdateStateListener = InstallStateUpdatedListener { installState ->
         if (installState.totalBytesToDownload().toInt() == InstallStatus.DOWNLOADED) {
