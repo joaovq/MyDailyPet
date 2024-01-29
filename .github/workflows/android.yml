@@ -71,3 +71,15 @@ jobs:
           name: apk
           path: app/build/outputs/apk/debug/app-debug.apk 
     needs: test
+  # release: 
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Sign artifact
+  #     id: signArtifact
+  #     uses: r0adkll/sign-android-release@v1.0.1
+  #     with:
+  #       releaseDirectory: app/build/outputs/apk/ourbuildtype/release
+  #       alias: ${{ secrets.KEYALIAS }}
+  #       signingKeyBase64: ${{ secrets.KEYSTORE }}
+  #       keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+  #       keyPassword: ${{ secrets.KEY_PASSWORD }}
