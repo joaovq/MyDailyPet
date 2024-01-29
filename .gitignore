@@ -13,4 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+keystore.properties
+*.properties
 /app/google-services.json
+/app/my-daily-pet.jks
