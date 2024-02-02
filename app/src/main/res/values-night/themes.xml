@@ -1,7 +1,7 @@
 <resources>
     <style name="Base.Theme.MyDailyPet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/color_primary_dark</item>
-        <item name="colorOnPrimary">@color/color_on_primary_dark</item>
+        <item name="colorOnPrimary">@color/ic_app_background</item>
         <item name="colorSecondary">@color/color_secondary_dark</item>
         <item name="colorOnSecondary">@color/color_on_secondary_dark</item>
         <item name="colorTertiary">@color/white</item>
@@ -17,6 +17,21 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_ios</item>
         <item name="popupMenuBackground">@drawable/bg_custom_pop_menu_app</item>
+    </style>
+    <style name="Theme.MyDailyPet.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation
+           duration. -->
+        <item name="windowSplashScreenBackground">?attr/colorSecondary</item>
+
+        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
+             drawable. One of these is required. -->
+        <item name="windowSplashScreenAnimatedIcon">@raw/splash_animation</item>
+        <!-- Required for animated icons. -->
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+
+        <!-- Set the theme of the Activity that directly follows your splash
+        screen. This is required. -->
+        <item name="postSplashScreenTheme">@style/Theme.MyDailyPet</item>
     </style>
 
     <style name="Theme.MyDailyPet.Card">

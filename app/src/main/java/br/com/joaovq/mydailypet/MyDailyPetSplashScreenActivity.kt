@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import br.com.joaovq.core.data.datastore.DARKMODE_PREFERENCE_KEY
 import br.com.joaovq.core.data.datastore.PreferencesManager
@@ -18,34 +19,23 @@ import javax.inject.Inject
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class MyDailyPetSplashScreenActivity : AppCompatActivity() {
-    private val binding by lazy {
-        ActivityMydailypetSplashScreenBinding.inflate(layoutInflater)
-    }
-
     @Inject
     lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        splashScreen.setKeepOnScreenCondition {
+            true
+        }
         lifecycleScope.launch {
             setNightTheme()
-            navigateToUserUi()
         }
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
     }
 
     private suspend fun setNightTheme() {
         setNightThemeApp(preferencesManager.getBooleanValue(DARKMODE_PREFERENCE_KEY))
-    }
-
-    private fun navigateToUserUi() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-            finish()
-        }, DELAY_MILLIS_SPLASH_ANIMATION_SCREEN)
-    }
-
-    companion object {
-        private const val DELAY_MILLIS_SPLASH_ANIMATION_SCREEN = 2000L
     }
 }
