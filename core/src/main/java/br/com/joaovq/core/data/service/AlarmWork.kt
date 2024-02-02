@@ -15,6 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 @HiltWorker
 class AlarmWork @AssistedInject constructor(
@@ -23,7 +24,7 @@ class AlarmWork @AssistedInject constructor(
     @IODispatcher private  val coroutineDispatcher: CoroutineDispatcher,
     private val navLinksApp: NavLinksApp
 ) : CoroutineWorker(context, workerParameters) {
-
+    private val TAG = this::class.java.simpleName
     override suspend fun doWork(): Result {
         return withContext(coroutineDispatcher) {
             try {
@@ -43,10 +44,11 @@ class AlarmWork @AssistedInject constructor(
                             )
                         },
                     )
-                    Log.e(this::class.simpleName, "Sended")
+                    Timber.tag(TAG).i("Success alarm work send notification: id reminder - %d", idReminder)
                 }
                 Result.success()
             } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Failed alarm work send notification")
                 Result.failure()
             }
         }

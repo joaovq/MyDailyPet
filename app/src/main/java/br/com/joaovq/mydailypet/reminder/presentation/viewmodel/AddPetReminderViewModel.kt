@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -96,7 +97,8 @@ class AddPetReminderViewModel @Inject constructor(
                     val notificationAlarm = NotificationAlarmItem(
                          toDate.time - Date().time,
                         name,
-                        description
+                        description,
+                        id = UUID.randomUUID()
                     )
                     createReminderUseCase(
                         Reminder(
