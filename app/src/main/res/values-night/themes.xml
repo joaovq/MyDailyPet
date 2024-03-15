@@ -19,18 +19,9 @@
         <item name="popupMenuBackground">@drawable/bg_custom_pop_menu_app</item>
     </style>
     <style name="Theme.MyDailyPet.Starting" parent="Theme.SplashScreen">
-        <!-- Set the splash screen background, animated icon, and animation
-           duration. -->
         <item name="windowSplashScreenBackground">?attr/colorSecondary</item>
-
-        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
-             drawable. One of these is required. -->
-        <item name="windowSplashScreenAnimatedIcon">@raw/splash_animation</item>
-        <!-- Required for animated icons. -->
-        <item name="windowSplashScreenAnimationDuration">2000</item>
-
-        <!-- Set the theme of the Activity that directly follows your splash
-        screen. This is required. -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
         <item name="postSplashScreenTheme">@style/Theme.MyDailyPet</item>
     </style>
 

@@ -5,6 +5,11 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import br.com.joaovq.core.data.datastore.DARKMODE_PREFERENCE_KEY
+import br.com.joaovq.core.data.datastore.PreferencesManager
+import br.com.joaovq.core.data.datastore.setNightThemeApp
 import br.com.joaovq.mydailypet.databinding.ActivityMainBinding
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -15,7 +20,9 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 import com.google.android.play.core.install.model.ActivityResult as PlayActivityResult
 
 @AndroidEntryPoint
@@ -23,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    @Inject
+    lateinit var preferencesManager: PreferencesManager
 
     private var updateType: Int = AppUpdateType.FLEXIBLE
     private val appUpdateManager by lazy {
@@ -49,10 +58,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        //MobileAds.initialize(this)
+        lifecycleScope.launch {
+            setNightTheme()
+        }
         checkUpdateAvailable()
+    }
+
+    private suspend fun setNightTheme() {
+        setNightThemeApp(preferencesManager.getBooleanValue(DARKMODE_PREFERENCE_KEY))
     }
 
 

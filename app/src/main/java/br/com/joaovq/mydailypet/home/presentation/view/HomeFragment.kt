@@ -78,10 +78,14 @@ class HomeFragment : Fragment() {
     private fun renderComposeView() {
         binding.composeViewCategories.apply {
             setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
+                    activity?.lifecycle ?: lifecycle
+                )
             )
             setContent {
-                MyDailyPetTheme {
+                MyDailyPetTheme(
+                    dynamicColor = false
+                ) {
                     Surface {
                         CategoriesNav(
                             onClickCategory = {
@@ -130,11 +134,8 @@ class HomeFragment : Fragment() {
         MobileAds.setRequestConfiguration(
             RequestConfiguration.Builder()
                 .setTestDeviceIds(
-                    listOf(
-
-                    )
-                )
-                .build()
+                    listOf()
+                ).build()
         )
         val adRequest = AdRequest.Builder()
             .build()

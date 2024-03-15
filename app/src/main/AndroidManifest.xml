@@ -29,7 +29,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyDailyPet"
+        android:theme="@style/Theme.MyDailyPet.Starting"
         tools:targetApi="tiramisu">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -56,18 +56,14 @@
 
         </provider>
         <activity
-            android:name=".MyDailyPetSplashScreenActivity"
+            android:name=".MainActivity"
             android:exported="true"
+            android:theme="@style/Theme.MyDailyPet.Starting"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
                 <action android:name="android.intent.action.VIEW_PERMISSION_USAGE_FOR_PERIOD" />

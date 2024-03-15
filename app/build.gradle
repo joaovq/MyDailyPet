@@ -25,8 +25,8 @@ android {
         applicationId "br.com.joaovq.mydailypet"
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName "1.1.1"
+        versionCode 5
+        versionName "1.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,6 +50,7 @@ android {
             resValue("string","BANNER_ID", bannerId)
             _isDebuggable = false
             signingConfig signingConfigs.release
+            buildConfigField("Boolean","DEBUG", "false")
         }
         debug {
             testCoverageEnabled true
@@ -59,6 +60,7 @@ android {
             resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
             //applicationIdSuffix ".debug"
             _isDebuggable = true
+            buildConfigField("Boolean","DEBUG", "true")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         staging {
@@ -93,6 +95,7 @@ android {
         viewBinding true
         dataBinding true
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.2"
@@ -130,6 +133,7 @@ dependencies {
     implementation ("com.google.android.material:material:$material_version")
     implementation ("androidx.constraintlayout:constraintlayout:" + constraint_layout_version)
     implementation ("com.airbnb.android:lottie:$lottieVersion")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     testImplementation ("junit:junit:" + junit_version)
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
@@ -173,6 +177,8 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:$circular_image_view_version")
 
     implementation("androidx.work:work-runtime-ktx:$work_version")
+    // optional - Test helpers
+    androidTestImplementation "androidx.work:work-testing:$work_version"
     implementation("androidx.hilt:hilt-work:$hilt_work_version")
 
     implementation(platform("com.google.firebase:firebase-bom:$firebase_bom_version"))
