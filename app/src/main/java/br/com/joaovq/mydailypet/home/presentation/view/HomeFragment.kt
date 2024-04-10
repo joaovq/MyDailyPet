@@ -28,6 +28,7 @@ import br.com.joaovq.core_ui.extension.snackbar
 import br.com.joaovq.core_ui.extension.toast
 import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.core_ui.permission.NotificationPermissionManager
+import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
 import br.com.joaovq.mydailypet.home.presentation.adapter.RemindersAdapter
@@ -56,7 +57,6 @@ class HomeFragment : Fragment() {
     private lateinit var mPetsAdapter: PetsListAdapter
     private var petsList: List<Pet>? = null
     private lateinit var notificationPermissionManager: NotificationPermissionManager
-
     @Inject
     lateinit var preferencesManager: PreferencesManager
 
@@ -139,6 +139,7 @@ class HomeFragment : Fragment() {
         )
         val adRequest = AdRequest.Builder()
             .build()
+        binding.adView.adUnitId = getString(R.string.BANNER_ID)
         binding.adView.loadAd(adRequest)
     }
 
@@ -151,7 +152,7 @@ class HomeFragment : Fragment() {
             adapter = PetsListAdapter(
                 object : PetsListAdapter.PetListItemClickListener {
                     override fun setOnClickListener() {
-                        toast(text = getString(br.com.joaovq.mydailypet.R.string.message_click_in_pet_list))
+                        toast(text = getString(R.string.message_click_in_pet_list))
                     }
 
                     override fun setOnLongClickListItem(view: View, pet: Pet) {
@@ -180,11 +181,11 @@ class HomeFragment : Fragment() {
     private fun renderMenuItems(pet: Pet): List<AppMenuItem> {
         return listOf(
             AppMenuItem(
-                br.com.joaovq.mydailypet.R.string.delete_pet_title_pop_menu,
+                R.string.delete_pet_title_pop_menu,
             ) {
                 simpleAlertDialog(
-                    title = br.com.joaovq.mydailypet.R.string.title_alert_delete_pet,
-                    message = br.com.joaovq.mydailypet.R.string.message_alert_delete_pet_list,
+                    title = R.string.title_alert_delete_pet,
+                    message = R.string.message_alert_delete_pet_list,
                 ) { deletePet(pet) }
             },
         )
@@ -229,12 +230,12 @@ class HomeFragment : Fragment() {
         }
         binding.btnHelpTodayReminders.ivBtnHelp.setOnClickListener {
             createHelpDialog(
-                message = br.com.joaovq.mydailypet.R.string.message_help_my_pet_home,
+                message = R.string.message_help_my_pet_home,
             )
         }
         binding.btnHelpMyPets.ivBtnHelp.setOnClickListener {
             createHelpDialog(
-                message = br.com.joaovq.mydailypet.R.string.message_help_my_pet_home,
+                message = R.string.message_help_my_pet_home,
             )
         }
     }
@@ -245,10 +246,10 @@ class HomeFragment : Fragment() {
         binding.tbHome.menu[0].isVisible = false
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                br.com.joaovq.mydailypet.R.id.login_item -> {
+                R.id.login_item -> {
                 }
 
-                br.com.joaovq.mydailypet.R.id.settings_item -> {
+                R.id.settings_item -> {
                     findNavController().navWithAnim(
                         HomeFragmentDirections.actionHomeFragmentToSettingsFragment(),
                     )

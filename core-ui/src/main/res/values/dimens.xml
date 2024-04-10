@@ -27,4 +27,5 @@
     <dimen name="corner_radius_image_pet">10dp</dimen>
     <dimen name="corner_radius_field_app">10dp</dimen>
     <dimen name="stroke_width_app">0.3dp</dimen>
+    <dimen name="size_image_bottom_sheet_success">30dp</dimen>
 </resources>
