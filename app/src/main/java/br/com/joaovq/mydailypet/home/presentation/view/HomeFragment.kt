@@ -139,7 +139,6 @@ class HomeFragment : Fragment() {
         )
         val adRequest = AdRequest.Builder()
             .build()
-        binding.adView.adUnitId = getString(R.string.BANNER_ID)
         binding.adView.loadAd(adRequest)
     }
 
