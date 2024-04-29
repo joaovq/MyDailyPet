@@ -74,19 +74,19 @@ jobs:
   release: 
     runs-on: ubuntu-latest
     steps:
-    - uses: r0adkll/sign-android-release@v1.0.1
-      id: signArtifact
-      name: Sign artifact
-      with:
-        releaseDirectory: app/build/outputs/apk/release
-        alias: ${{ secrets.KEY_ALIAS }}
-        signingKeyBase64: ${{ secrets.KEYSTORE }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-      env:
-      # override default build-tools version (33.0.0) -- optional
-        BUILD_TOOLS_VERSION: "34.0.0"
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Signed app bundle
-        path: ${{steps.signArtifact.outputs.signedReleaseFile}}
+      - uses: r0adkll/sign-android-release@v1.0.1
+        id: signArtifact
+        name: Sign artifact
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          alias: ${{ secrets.KEY_ALIAS }}
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+        # override default build-tools version (33.0.0) -- optional
+          BUILD_TOOLS_VERSION: "34.0.0"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Signed app bundle
+          path: ${{steps.signArtifact.outputs.signedReleaseFile}}
