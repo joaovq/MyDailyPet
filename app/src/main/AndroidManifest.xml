@@ -31,6 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDailyPet.Starting"
         tools:targetApi="tiramisu">
+        <profileable android:shell="true"/>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/AD_MOB_ID"/>
