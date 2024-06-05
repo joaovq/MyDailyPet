@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDirections
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.home.presentation.view.HomeFragmentDirections
+import br.com.joaovq.mydailypet.ui.theme.MyDailyPetTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoriesNav(
     modifier: Modifier = Modifier,
@@ -45,7 +45,7 @@ fun CategoriesNav(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val border = BorderStroke(.4.dp, MaterialTheme.colorScheme.onSecondary)
+        val border = BorderStroke(.8.dp, MaterialTheme.colorScheme.onSecondary)
         categoryDirections.forEach { category ->
             Box(
                 Modifier
@@ -91,13 +91,12 @@ fun CategoriesNav(
     }
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
+@Preview(showBackground = true)
 @Composable
 fun CategoryNavPreview() {
-    CategoriesNav()
+    MyDailyPetTheme {
+        CategoriesNav()
+    }
 }
 
 val categoryDirections = listOf(

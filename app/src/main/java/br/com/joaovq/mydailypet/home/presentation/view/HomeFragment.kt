@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,7 @@ import br.com.joaovq.core_ui.extension.snackbar
 import br.com.joaovq.core_ui.extension.toast
 import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.core_ui.permission.NotificationPermissionManager
+import br.com.joaovq.mydailypet.MainViewModel
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
@@ -52,13 +54,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private val binding by viewBinding(FragmentHomeBinding::inflate)
+    private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var mPetsAdapter: PetsListAdapter
     private var petsList: List<Pet>? = null
     private lateinit var notificationPermissionManager: NotificationPermissionManager
-    @Inject
-    lateinit var preferencesManager: PreferencesManager
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,21 +72,16 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        //renderComposeView()
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        renderComposeView()
         return binding.root
     }
 
     private fun renderComposeView() {
         binding.composeViewCategories.apply {
-            setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
-                    activity?.lifecycle ?: lifecycle
-                )
-            )
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                MyDailyPetTheme(
-                    dynamicColor = false
-                ) {
+                MyDailyPetTheme(dynamicColor = false) {
                     Surface {
                         CategoriesNav(
                             onClickCategory = {
@@ -116,15 +112,12 @@ class HomeFragment : Fragment() {
 
     private fun getIsNewUser() {
         lifecycleScope.launch {
-            if (
-                preferencesManager.getBooleanValue(
-                    IS_NEW_USER_PREFERENCE_KEY,
-                    defaultValue = true,
-                )
-            ) {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToOnBoardingFragment(),
-                )
+            viewModel.isNewUser.collectLatest { isNewUser ->
+                if (isNewUser == true) {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToOnBoardingFragment(),
+                    )
+                }
             }
         }
     }

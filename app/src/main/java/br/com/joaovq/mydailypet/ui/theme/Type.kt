@@ -5,16 +5,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.Typeface
 import androidx.compose.ui.unit.sp
-import br.com.joaovq.mydailypet.R
+import br.com.joaovq.core_ui.R as CoreUiResources
 
 
 val FontFamily.Companion.Poppins: FontFamily
     get() = FontFamily(
-        Font(br.com.joaovq.core_ui.R.font.poppins),
-        Font(br.com.joaovq.core_ui.R.font.poppins_bold),
-        Font(br.com.joaovq.core_ui.R.font.poppins_semibold)
+        Font(CoreUiResources.font.poppins),
+        Font(CoreUiResources.font.poppins_bold),
+        Font(CoreUiResources.font.poppins_semibold)
     )
 
 val type = Typography(

@@ -18,13 +18,6 @@
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_ios</item>
         <item name="popupMenuBackground">@drawable/bg_custom_pop_menu_app</item>
     </style>
-    <style name="Theme.MyDailyPet.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">?attr/colorSecondary</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-        <item name="windowSplashScreenAnimationDuration">200</item>
-        <item name="postSplashScreenTheme">@style/Theme.MyDailyPet</item>
-    </style>
-
     <style name="Theme.MyDailyPet.Card">
         <item name="android:backgroundTint">@color/color_secondary_dark</item>
         <item name="strokeColor">@color/color_secondary_dark</item>
