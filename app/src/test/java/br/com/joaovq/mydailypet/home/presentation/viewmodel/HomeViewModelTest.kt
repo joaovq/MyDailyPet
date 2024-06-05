@@ -82,11 +82,7 @@ class HomeViewModelTest {
         coEvery { getAllPetsUseCase() } returns emptyFlow()
         coEvery { deletePetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class)) } returns Unit
         backgroundScope.launch(testRule.testDispatcher) {
-            homeViewModel.dispatchIntent(
-                HomeAction.DeletePet(
-                    TestUtilPet.pet,
-                ),
-            )
+            homeViewModel.dispatchIntent(HomeAction.DeletePet(TestUtilPet.pet))
         }
         assertTrue(homeViewModel.homeState.value is HomeUiState.DeleteSuccess)
         coVerifyAll { deletePetUseCase(ofType(br.com.joaovq.pet_domain.model.Pet::class)) }

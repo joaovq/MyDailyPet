@@ -52,6 +52,11 @@ android {
             signingConfig signingConfigs.debug
             buildConfigField("Boolean","DEBUG", "false")
             resValue("string", "app_name", "@string/app_name")
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                strippedNativeLibsDir 'build/intermediates/stripped_native_libs/release/out/lib'
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
         }
         debug {
             testCoverageEnabled true
@@ -64,10 +69,12 @@ android {
             _isDebuggable = true
             buildConfigField("Boolean","DEBUG", "true")
             resValue("string", "app_name", "My Daily Pet - DEBUG")
+            manifestPlaceholders.appBuildTypeSuffix = " - DEBUG"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         staging {
             initWith debug
+            resValue("string", "app_name", "My Daily Pet - STAGING")
             //manifestPlaceholders = [localhost:"internal.br.joaovq.com"]
             //applicationIdSuffix ".debugStaging"
         }
@@ -77,21 +84,6 @@ android {
             debuggable false
         }
     }
-//    TODO add product flavors
-    /*flavorDimensions.add("mode")
-    productFlavors {
-        demo {
-            dimension "mode"
-            applicationIdSuffix ".demo"
-            minSdkVersion 24
-            versionNameSuffix "-demo"
-        }
-        full {
-            dimension "mode"
-            applicationIdSuffix ".full"
-            versionNameSuffix "-full"
-        }
-    }*/
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -199,9 +191,7 @@ dependencies {
 
 //    Compose
     implementation("com.google.android.material:compose-theme-adapter:1.2.1")
-
-
-    def composeBom = platform('androidx.compose:compose-bom:2024.01.00')
+    def composeBom = platform("androidx.compose:compose-bom:$compose_bom_version")
     implementation composeBom
     androidTestImplementation composeBom
 
@@ -224,8 +214,6 @@ dependencies {
     // Optional - Add window size utils
     implementation("androidx.compose.material3:material3-window-size-class")
 
-    def activity_version = "1.8.2"
-
     // Kotlin
     implementation("androidx.activity:activity-compose:$activity_version")
 
@@ -244,7 +232,6 @@ tasks.register('jacocoTestReport', JacocoReport) {
 
     reports {
         html {
-            s
             enabled true
         }
     }

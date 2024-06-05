@@ -29,6 +29,8 @@ buildscript {
         in_app_updateVersion = "2.1.0"
         hilt_version = "2.50"
         hilt_compiler_version = "1.1.0"
+        compose_bom_version = "2024.05.00"
+        activity_version = "1.9.0"
     }
     dependencies {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
