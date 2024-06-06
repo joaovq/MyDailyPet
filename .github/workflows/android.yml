@@ -75,12 +75,15 @@ jobs:
          echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
          echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
          cat ./local.properties
+         echo "${{ secrets.KEYSTORE }}" > ./app/my-daily-pet.jks
+         cat ./app/my-daily-pet.jks
+         echo keystore-file=my-daily-pet.jks > ./keystore.properties
+         echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
+         echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
+         cat ./keystore.properties
     - name: Build APK
       run: bash ./gradlew assembleDebug --stacktrace
     - name: Upload APK
-      env: 
-        KEY_PASSWORD: $keyPassword
-        KEY_STORE_PASSWORD: $keyStorePassword
       uses: actions/upload-artifact@v1
       with:
           name: apk
