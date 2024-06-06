@@ -4,6 +4,12 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  keyAlias: ${{ secrets.KEY_ALIAS }}
+  keyBase64: ${{ secrets.KEYSTORE }}
+  keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+  keyPassword: ${{ secrets.KEY_PASSWORD }}
+  
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -85,10 +91,10 @@ jobs:
         name: Sign artifact
         with:
           releaseDirectory: app/build/outputs/apk/release
-          alias: ${{ secrets.KEY_ALIAS }}
-          signingKeyBase64: ${{ secrets.KEYSTORE }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          alias: $keyAlias
+          signingKeyBase64: $keyBase64
+          keyStorePassword: $keyStorePassword
+          keyPassword: $keyPassword
         env:
         # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
