@@ -6,6 +6,7 @@ import androidx.room.withTransaction
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.data.local.dao.PetDao
 import br.com.joaovq.data.local.database.MyDailyPetDatabase
 import br.com.joaovq.model.PetDto
@@ -17,13 +18,19 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.UUID
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class PetDaoQueriesTest {
     private var petDao: PetDao? = null
     private lateinit var db: MyDailyPetDatabase
-    private val birthAlarm = br.com.joaovq.core.model.NotificationAlarmItem(0L, "", "")
+    private val birthAlarm = NotificationAlarmItem(
+        0L,
+        "",
+        "",
+        id = UUID.randomUUID()
+    )
 
     @Before
     fun setUp() {

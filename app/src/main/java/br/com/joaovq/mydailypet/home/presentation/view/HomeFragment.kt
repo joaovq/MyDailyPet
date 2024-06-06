@@ -14,8 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import br.com.joaovq.core.data.datastore.IS_NEW_USER_PREFERENCE_KEY
-import br.com.joaovq.core.data.datastore.PreferencesManager
 import br.com.joaovq.core.util.extension.compareSameDate
 import br.com.joaovq.core_ui.AppMenuItem
 import br.com.joaovq.core_ui.NavAnim
@@ -27,7 +25,6 @@ import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.core_ui.extension.simpleAlertDialog
 import br.com.joaovq.core_ui.extension.snackbar
 import br.com.joaovq.core_ui.extension.toast
-import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.core_ui.permission.NotificationPermissionManager
 import br.com.joaovq.mydailypet.MainViewModel
 import br.com.joaovq.mydailypet.R
@@ -49,7 +46,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import javax.inject.Inject
 
 
 @AndroidEntryPoint

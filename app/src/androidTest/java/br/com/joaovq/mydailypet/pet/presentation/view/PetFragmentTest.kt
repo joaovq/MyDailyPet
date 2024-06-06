@@ -57,9 +57,7 @@ class PetFragmentTest {
     fun clickShareLayout(): Unit = runBlocking {
         onView(withId(R.id.sv_pet_screen))
             .check(matches(isDisplayed()))
-            .perform(
-                swipeUp(),
-            )
+            .perform(swipeUp())
         onView(withId(R.id.item_share_pet))
             .check(matches(isDisplayed()))
             .inRoot(RootMatchers.isTouchable())
