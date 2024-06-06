@@ -82,12 +82,16 @@ jobs:
          echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
          cat ./keystore.properties
     - name: Build APK
-      run: bash ./gradlew assembleDebug --stacktrace
+      run: | 
+        bash ./gradlew assembleRelease --stacktrace
+      env: 
+        KEY_STORE_PASSWORD: $keyStorePassword
+        KEY_PASSWORD: $keyPassword
     - name: Upload APK
       uses: actions/upload-artifact@v1
       with:
           name: apk
-          path: app/build/outputs/apk/debug/app-debug.apk 
+          path: app/build/outputs/apk/release/app-release.apk 
     needs: test
   release: 
     runs-on: ubuntu-latest
@@ -111,4 +115,4 @@ jobs:
           name: Release artifact
           path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
       
-    needs: test
+    needs: apk
