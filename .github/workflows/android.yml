@@ -98,6 +98,8 @@ jobs:
   release: 
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
+        name: Checkout code
       - uses: r0adkll/sign-android-release@v1
         id: signArtifact
         name: Sign artifact
