@@ -48,6 +48,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.Calendar
 import java.util.Date
+import java.util.UUID
 
 @AndroidEntryPoint
 class AddPetFragment : Fragment() {
@@ -321,6 +322,7 @@ class AddPetFragment : Fragment() {
         System.currentTimeMillis() + it,
         getString(R.string.notification_title_birthday, binding.etNameAddPet.text),
         getString(R.string.notification_description_birthday, binding.etNameAddPet.text),
+        id = UUID.randomUUID()
     )
 
     private fun mapSexType() = when (binding.spSexAddPet.selectedItem as String) {

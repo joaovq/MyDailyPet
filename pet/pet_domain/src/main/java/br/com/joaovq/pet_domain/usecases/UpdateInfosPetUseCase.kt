@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.core.data.alarm.AlarmInterval
 import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.core.di.AlarmManager
+import br.com.joaovq.core.di.DefaultDispatcher
 import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.pet_domain.repository.PetRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,8 +20,8 @@ interface UpdateInfosPetUseCase {
 class UpdateInfosPet @Inject constructor(
     private val repository: PetRepository,
     private val saveImagePetUseCase: SaveImagePetUseCase,
-    private val alarmScheduler: AlarmScheduler,
-    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @AlarmManager private val alarmScheduler: AlarmScheduler,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : UpdateInfosPetUseCase {
     override suspend fun invoke(pet: Pet, bitmap: Bitmap?) {
         withContext(dispatcher) {
@@ -34,11 +36,11 @@ class UpdateInfosPet @Inject constructor(
                 pet
             }
             repository.updatePet(newPet)
-            scheculeBirthPet(pet.birthAlarm)
+            scheduleBirthPet(pet.birthAlarm)
         }
     }
 
-    private fun scheculeBirthPet(alarmItem: NotificationAlarmItem) {
+    private fun scheduleBirthPet(alarmItem: NotificationAlarmItem) {
         alarmScheduler.scheduleRepeatAlarm(
             alarmItem = alarmItem,
             interval = TimeUnit.DAYS.toMillis(AlarmInterval.ONE_YEAR_IN_DAYS.value),

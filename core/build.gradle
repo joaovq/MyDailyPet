@@ -29,6 +29,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
     kotlinOptions {
         jvmTarget = '17'
     }
@@ -39,9 +42,22 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     implementation("androidx.datastore:datastore-preferences:" + datastore_version)
 
-    def hilt_version = "2.45"
+    testImplementation ("junit:junit:" + junit_version)
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+
+    androidTestImplementation ("androidx.test.ext:junit:" + ext_junit_version)
+    androidTestImplementation ("androidx.test.espresso:espresso-core:$espresso_version")
+    androidTestImplementation ("androidx.fragment:fragment-testing:$fragment_testing_version")
+
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation ("com.jakewharton.timber:timber:" + timber_version)
+
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+    // optional - Test helpers
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+    implementation("androidx.hilt:hilt-work:$hilt_work_version")
+    kapt("androidx.hilt:hilt-compiler:$hilt_compiler_version")
 }
 
 kapt {

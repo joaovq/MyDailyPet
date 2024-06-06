@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeFragment"
+    android:label="main_graph">
 
     <fragment
         android:id="@+id/onBoardingFragment"
@@ -20,10 +21,12 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="br.com.joaovq.mydailypet.home.presentation.view.HomeFragment"
-        android:label="@string/home_label">
+        android:label="@string/home_label"
+        app:route="home">
         <action
             android:id="@+id/action_homeFragment_to_addPetFragment"
-            app:destination="@id/addPetFragment" />
+            app:destination="@id/addPetFragment"
+            app:restoreState="true"/>
         <action
             android:id="@+id/action_homeFragment_to_petFragment"
             app:destination="@id/petFragment" />
@@ -56,7 +59,8 @@
         android:id="@+id/addReminderFragment"
         android:name="br.com.joaovq.mydailypet.reminder.presentation.view.AddReminderFragment"
         android:label="fragment_add_reminder"
-        tools:layout="@layout/fragment_add_reminder" >
+        tools:layout="@layout/fragment_add_reminder"
+        app:route="add_reminder">
         <argument
             android:name="name"
             app:argType="string"
@@ -143,6 +147,8 @@
         tools:layout="@layout/fragment_suggested_reminder" >
         <action
             android:id="@+id/action_suggestedReminderFragment_to_addReminderFragment"
-            app:destination="@id/addReminderFragment" />
+            app:destination="@id/addReminderFragment"
+            app:popUpTo="@id/addReminderFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

@@ -15,11 +15,14 @@ class MyDailyPetApp : Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
-    override fun getWorkManagerConfiguration(): Configuration =
-        Configuration.Builder()
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .setMinimumLoggingLevel(Level.ALL.intValue())
             .build()

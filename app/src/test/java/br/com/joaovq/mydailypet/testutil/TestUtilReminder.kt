@@ -3,6 +3,7 @@ package br.com.joaovq.mydailypet.testutil
 import br.com.joaovq.core.model.NotificationAlarmItem
 import java.util.Calendar
 import java.util.Date
+import java.util.UUID
 
 object TestUtilReminder {
     private val toDateReminder: Date = Calendar.getInstance().apply {
@@ -15,6 +16,7 @@ object TestUtilReminder {
             toDateReminder.time,
             "Nina",
             "dsfjhfohgfud",
+            id = UUID.randomUUID()
         ),
         toDate = toDateReminder,
         pet = TestUtilPet.pet,

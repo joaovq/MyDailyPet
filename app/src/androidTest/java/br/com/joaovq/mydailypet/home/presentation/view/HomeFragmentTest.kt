@@ -75,12 +75,11 @@ class HomeFragmentTest {
     fun testNavigateClickAddPet() {
         val testNavHostController =
             TestNavHostController(ApplicationProvider.getApplicationContext())
-        val fragmentScenario =
-            launchFragmentInHiltContainer<HomeFragment>(themeResId = R.style.Theme_MyDailyPet) {
-                testNavHostController.setGraph(R.navigation.main_graph)
-                testNavHostController.setCurrentDestination(R.id.addPetFragment)
-                Navigation.setViewNavController(requireView(), testNavHostController)
-            }
+        launchFragmentInHiltContainer<HomeFragment>(themeResId = R.style.Theme_MyDailyPet) {
+            testNavHostController.setGraph(R.navigation.main_graph)
+            testNavHostController.setCurrentDestination(R.id.addPetFragment)
+            Navigation.setViewNavController(requireView(), testNavHostController)
+        }
         onView(ViewMatchers.withId(R.id.lt_add_pet_category)).check(matches(isDisplayed()))
             .perform(scrollTo())
             .perform(click())

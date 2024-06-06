@@ -37,10 +37,12 @@ android {
         viewBinding true
         dataBinding true
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
-
     implementation(project(":core-ui"))
     implementation(project(":core"))
     implementation(project(":tasks:tasks_domain"))
@@ -55,12 +57,11 @@ dependencies {
     androidTestImplementation ("androidx.test.espresso:espresso-idling-resource:$espresso_version")
 
     testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation "io.mockk:mockk-android:${mockkVersion}"
-    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
-    testImplementation "io.mockk:mockk-agent:${mockkVersion}"
-    androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
+    testImplementation("io.mockk:mockk-android:${mockkVersion}")
+    androidTestImplementation("io.mockk:mockk-android:${mockkVersion}")
+    testImplementation("io.mockk:mockk-agent:${mockkVersion}")
+    androidTestImplementation("io.mockk:mockk-agent:${mockkVersion}")
 
-    def hilt_version = "2.45"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 

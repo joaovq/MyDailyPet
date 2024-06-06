@@ -1,21 +1,16 @@
 package br.com.joaovq.mydailypet.reminder.presentation.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentSuggestedReminderBinding
 import br.com.joaovq.mydailypet.reminder.presentation.adapter.suggestedReminder.SuggestedReminderAdapter
 import br.com.joaovq.mydailypet.reminder.presentation.adapter.suggestedReminder.SuggestedReminderItem
-import br.com.joaovq.pet_domain.model.Pet
-import br.com.joaovq.reminder_domain.model.Reminder
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SuggestedReminderFragment : Fragment() {
     private val binding by viewBinding(FragmentSuggestedReminderBinding::inflate)

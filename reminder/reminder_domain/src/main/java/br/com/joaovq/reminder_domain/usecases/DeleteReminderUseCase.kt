@@ -2,6 +2,8 @@ package br.com.joaovq.reminder_domain.usecases
 
 import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.core.di.DefaultDispatcher
+import br.com.joaovq.core.di.SchedulerManager
 import br.com.joaovq.reminder_domain.model.Reminder
 import br.com.joaovq.reminder_domain.repository.ReminderRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,8 +16,8 @@ interface DeleteReminderUseCase {
 
 class DeleteReminder @Inject constructor(
     private val reminderRepository: ReminderRepository,
-    private val scheduler: AlarmScheduler,
-    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @SchedulerManager private val scheduler: AlarmScheduler,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : DeleteReminderUseCase {
     override suspend fun invoke(reminder: Reminder) {
         withContext(dispatcher) {

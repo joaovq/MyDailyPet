@@ -65,7 +65,6 @@ class SettingsFragment : Fragment() {
         binding.swtDarkMode.setOnCheckedChangeListener { _, isChecked ->
             lifecycleScope.launch {
                 settingsViewModel.setPreferenceIsDarkMode(isChecked)
-                requireContext().setNightThemeApp(isChecked)
             }
         }
         binding.llAboutSettings.setOnClickListener {

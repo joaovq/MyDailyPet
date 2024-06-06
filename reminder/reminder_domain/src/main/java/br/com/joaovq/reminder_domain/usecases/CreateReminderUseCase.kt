@@ -1,6 +1,8 @@
 package br.com.joaovq.reminder_domain.usecases
 
 import br.com.joaovq.core.data.alarm.AlarmScheduler
+import br.com.joaovq.core.di.DefaultDispatcher
+import br.com.joaovq.core.di.SchedulerManager
 import br.com.joaovq.core.model.NotificationAlarmItem
 import br.com.joaovq.reminder_domain.model.Reminder
 import br.com.joaovq.reminder_domain.repository.ReminderRepository
@@ -14,8 +16,8 @@ interface CreateReminderUseCase {
 
 class CreateReminder @Inject constructor(
     private val reminderRepository: ReminderRepository,
-    private val alarmScheduler: AlarmScheduler,
-    @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @SchedulerManager private val alarmScheduler: AlarmScheduler,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : CreateReminderUseCase {
     override suspend fun invoke(reminder: Reminder) {
         withContext(dispatcher) {

@@ -30,16 +30,16 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    buildFeatures {
-        viewBinding true
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
     }
     buildFeatures {
+        viewBinding true
         dataBinding true
     }
 }
 
 dependencies {
-
     implementation "com.google.android.material:material:$material_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
