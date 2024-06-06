@@ -34,8 +34,8 @@ jobs:
          echo "${{ secrets.KEYSTORE }}" > ./app/my-daily-pet.jks
          cat ./app/my-daily-pet.jks
          echo keystore-file=my-daily-pet.jks > ./keystore.properties
-         echo keystore-pswd=$KEY_STORE_PASSWORD >> ./keystore.properties 
-         echo keystore-alias-pswd=156678894 >> ./keystore.properties
+         echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
+         echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
          cat ./keystore.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -80,7 +80,7 @@ jobs:
   release: 
     runs-on: ubuntu-latest
     steps:
-      - uses: r0adkll/sign-android-release@v1.0.1
+      - uses: r0adkll/sign-android-release@v1
         id: signArtifact
         name: Sign artifact
         with:
@@ -92,7 +92,11 @@ jobs:
         env:
         # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
-      - uses: actions/upload-artifact@v2
+      - name: Output artifact ID
+        run:  echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
+      - uses: actions/upload-artifact@v4
         with:
-          name: Signed app bundle
-          path: ${{steps.signArtifact.outputs.signedReleaseFile}}
+          name: Release artifact
+          path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
+      
+    needs: test
