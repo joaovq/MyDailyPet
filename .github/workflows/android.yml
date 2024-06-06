@@ -64,8 +64,6 @@ jobs:
     - name: Create service_account.json
       env: 
         GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
       run: | 
         cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
         echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
@@ -80,6 +78,9 @@ jobs:
     - name: Build APK
       run: bash ./gradlew assembleDebug --stacktrace
     - name: Upload APK
+      env: 
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
       uses: actions/upload-artifact@v1
       with:
           name: apk
