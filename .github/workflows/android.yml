@@ -33,7 +33,7 @@ jobs:
          cat ./local.properties
          echo "${{ secrets.KEYSTORE }}" > ./app/my-daily-pet.jks
          cat ./app/my-daily-pet.jks
-         echo keystore-file=$KEYSTORE > ./keystore.properties
+         echo keystore-file=my-daily-pet.jks > ./keystore.properties
          echo keystore-pswd=$KEY_STORE_PASSWORD >> ./keystore.properties 
          echo keystore-alias-pswd=156678894 >> ./keystore.properties
          cat ./keystore.properties
