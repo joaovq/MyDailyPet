@@ -81,6 +81,8 @@ jobs:
          echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
          echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
          cat ./keystore.properties
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
     - name: Build APK
       run: | 
         ./gradlew assembleRelease --stacktrace
