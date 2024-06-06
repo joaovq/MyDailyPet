@@ -5,4 +5,8 @@
         <item name="colorPrimary">@color/color_primary_dark</item>
         <item name="colorOnPrimary">@color/color_on_primary_dark</item>
     </style>
+    <style name="Theme.MyDailyPet.TextAppearanceTitleToolbar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/poppins_family</item>
+    </style>
 </resources>

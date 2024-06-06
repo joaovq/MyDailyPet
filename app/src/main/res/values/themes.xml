@@ -42,11 +42,6 @@
         <item name="itemIconTint">@color/color_primary</item>
     </style>
 
-    <style name="Theme.MyDailyPet.TextAppearanceTitleToolbar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/poppins_family</item>
-    </style>
-
     <style name="Theme.MyDailyPet.DatePickerOverlay" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
         <item name="android:backgroundTint">@color/white</item>
         <item name="colorPrimary">@color/color_primary</item>

@@ -13,13 +13,11 @@ plugins {
 Properties properties = new Properties()
 properties.load(rootProject.file('local.properties').newDataInputStream())
 def keyAliasPassword = System.getenv("KEY_PASSWORD")
-def keystoreFile = System.getenv("keystore-file")
 def keystorePassword = System.getenv("KEY_STORE_PASSWORD")
 if (keyAliasPassword == null) {
     Properties keystoreProperties = new Properties()
     keystoreProperties.load(rootProject.file('keystore.properties').newDataInputStream())
     keyAliasPassword = keystoreProperties['keystore-alias-pswd'] ?: ""
-    keystoreFile = keystoreProperties['keystore-file'] ?: ""
     keystorePassword = keystoreProperties['keystore-pswd'] ?: ""
 }
 
