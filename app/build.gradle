@@ -72,12 +72,6 @@ android {
             manifestPlaceholders.appBuildTypeSuffix = " - DEBUG"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        staging {
-            initWith debug
-            resValue("string", "app_name", "My Daily Pet - STAGING")
-            //manifestPlaceholders = [localhost:"internal.br.joaovq.com"]
-            //applicationIdSuffix ".debugStaging"
-        }
         benchmark {
             initWith release
             matchingFallbacks = ['release']
