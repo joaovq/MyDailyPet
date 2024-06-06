@@ -83,7 +83,7 @@ jobs:
          cat ./keystore.properties
     - name: Build APK
       run: | 
-        bash ./gradlew assembleRelease --stacktrace
+        ./gradlew assembleRelease --stacktrace
       env: 
         KEY_STORE_PASSWORD: $keyStorePassword
         KEY_PASSWORD: $keyPassword
