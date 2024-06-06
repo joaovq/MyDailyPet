@@ -12,8 +12,17 @@ plugins {
 
 Properties properties = new Properties()
 properties.load(rootProject.file('local.properties').newDataInputStream())
-Properties keystore = new Properties()
-keystore.load(rootProject.file('keystore.properties').newDataInputStream())
+def keyAliasPassword = System.getenv("keystore-alias-pswd")
+def keystoreFile = System.getenv("keystore-file")
+def keystorePassword = System.getenv("keystore-pswd")
+if (keyAliasPassword == null) {
+    Properties keystoreProperties = new Properties()
+    keystoreProperties.load(rootProject.file('keystore.properties').newDataInputStream())
+    keyAliasPassword = keystoreProperties['keystore-alias-pswd'] ?: ""
+    keystoreFile = keystoreProperties['keystore-file'] ?: ""
+    keystorePassword = keystoreProperties['keystore-pswd'] ?: ""
+}
+
 def adModId = properties['AD_MOB_ID'] ?: ""
 def bannerId = properties['BANNER_AD_MOB_ID'] ?: ""
 
@@ -34,9 +43,9 @@ android {
     signingConfigs {
         release {
             keyAlias "joaovqapps"
-            keyPassword keystore['keystore-alias-pswd']
-            storeFile file(keystore['keystore-file'])
-            storePassword keystore['keystore-pswd']
+            keyPassword keyAliasPassword
+            storeFile file(keystoreFile)
+            storePassword keystorePassword
         }
     }
 
