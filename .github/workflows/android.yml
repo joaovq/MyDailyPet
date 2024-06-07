@@ -85,7 +85,7 @@ jobs:
       run: chmod +x ./gradlew
     - name: Build APK
       run: | 
-        ./gradlew assembleRelease --stacktrace
+        ./gradlew bundleRelease --stacktrace
       env: 
         KEY_STORE_PASSWORD: $keyStorePassword
         KEY_PASSWORD: $keyPassword
@@ -93,7 +93,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
           name: Release apk
-          path: app/build/outputs/apk/release/app-release.apk 
+          path: app/build/outputs/bundle/release/app-release.aab 
     needs: test
   release: 
     runs-on: ubuntu-latest
@@ -104,7 +104,7 @@ jobs:
         id: signArtifact
         name: Sign artifact
         with:
-          releaseDirectory: app/build/outputs/apk/release
+          releaseDirectory: app/build/outputs/bundle/release
           alias: $keyAlias
           signingKeyBase64: $keyBase64
           keyStorePassword: $keyStorePassword
