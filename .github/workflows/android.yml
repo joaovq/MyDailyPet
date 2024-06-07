@@ -94,41 +94,22 @@ jobs:
       with:
           name: Release apk
           path: app/build/outputs/apk/release/app-release.apk 
-    needs: test
-  release: 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        name: Checkout code
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      - name: Build APK
-        run: | 
-         ./gradlew assembleRelease --stacktrace
-        env: 
-          KEY_STORE_PASSWORD: $keyStorePassword
-          KEY_PASSWORD: $keyPassword
-      - uses: r0adkll/sign-android-release@v1
-        id: signArtifact
-        name: Sign artifact
-        with:
-          releaseDirectory: app/build/outputs/bundle/release
+    - uses: r0adkll/sign-android-release@v1
+      id: signArtifact
+      name: Sign artifact
+      with:
+          releaseDirectory: app/build/outputs/apk/release
           alias: $keyAlias
           signingKeyBase64: $keyBase64
           keyStorePassword: $keyStorePassword
           keyPassword: $keyPassword
-        env:
+      env:
         # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Release apk
-          path: app/build/outputs/apk/release/app-release.apk 
-      - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Signed app bundle
-          path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
-    needs: apk
+    - name: Output artifact ID
+      run:  echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Signed app bundle
+        path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
+    needs: test
