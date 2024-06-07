@@ -92,7 +92,7 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v1
       with:
-          name: apk
+          name: Release apk
           path: app/build/outputs/apk/release/app-release.apk 
     needs: test
   release: 
@@ -116,7 +116,7 @@ jobs:
         run:  echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
       - uses: actions/upload-artifact@v4
         with:
-          name: Release artifact
+          name: Signed app bundle
           path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
       
     needs: apk
