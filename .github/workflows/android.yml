@@ -104,7 +104,7 @@ jobs:
         id: signArtifact
         name: Sign artifact
         with:
-          releaseDirectory: app/build/outputs/bundle/release
+          releaseDirectory: app/build/outputs/apk/release
           alias: $keyAlias
           signingKeyBase64: $keyBase64
           keyStorePassword: $keyStorePassword
