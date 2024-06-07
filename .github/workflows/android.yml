@@ -55,7 +55,7 @@ jobs:
     steps: 
     - run: echo "Generating apk"
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
     - name: Setup JDK
       uses: actions/setup-java@v3
       with:
@@ -98,7 +98,7 @@ jobs:
   release: 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         name: Checkout code
       - uses: r0adkll/sign-android-release@v1
         id: signArtifact
