@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Minha Rotina Pet</string>
     <string name="title_home_menu">Início</string>
     <string name="title_profile_menu">Perfil</string>
     <string name="text_not_reminder_yet_home">Sem lembretes para hoje ou você não adicionou lembretes ainda</string>

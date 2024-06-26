@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">My Daily Pet</string>
     <!--Reminder-->
     <string name="text_reminder">Reminder</string>
     <string name="text_put_an_description_reminder">Put an description</string>
