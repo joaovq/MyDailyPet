@@ -151,17 +151,20 @@ fun Fragment.simpleTimePicker(
     @StringRes title: Int = R.string.text_add_time,
     tag: String = this.javaClass.simpleName,
     @TimeFormat timeFormat: Int = TimeFormat.CLOCK_24H,
+    calendar: Calendar = Calendar.getInstance(),
     inputMode: Int = INPUT_MODE_CLOCK,
     onPositiveButtonClick: (hour: Int, minute: Int) -> Unit,
 ) {
     val timePicker = MaterialTimePicker.Builder()
         .setTimeFormat(timeFormat)
         .setTitleText(title)
+        /*.setHour(calendar.get(Calendar.HOUR_OF_DAY))
+        .setMinute(calendar.get(Calendar.MINUTE))*/
         .setInputMode(inputMode)
         .build()
     timePicker.addOnPositiveButtonClickListener {
-        Timber.tag(tag).e(timePicker.hour.toString())
-        Timber.tag(tag).e(timePicker.minute.toString())
+        Timber.tag(tag).d(timePicker.hour.toString())
+        Timber.tag(tag).d(timePicker.minute.toString())
         onPositiveButtonClick(timePicker.hour, timePicker.minute)
     }
     timePicker.show(childFragmentManager, tag)
@@ -171,7 +174,7 @@ fun Fragment.createHelpDialog(
     @DrawableRes icon: Int? = R.drawable.ic_round_logo_2,
     @StringRes message: Int,
     @StringRes textButton: Int = R.string.text_positive_button,
-    onClickPositiveButton: (DialogInterface, Int) -> Unit = { dialog, i -> },
+    onClickPositiveButton: (DialogInterface, Int) -> Unit = { _, _ -> },
 ) {
     val alertDialog = MaterialAlertDialogBuilder(requireContext())
     icon?.let {

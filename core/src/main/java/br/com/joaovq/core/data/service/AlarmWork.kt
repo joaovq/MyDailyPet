@@ -24,7 +24,7 @@ class AlarmWork @AssistedInject constructor(
     @IODispatcher private  val coroutineDispatcher: CoroutineDispatcher,
     private val navLinksApp: NavLinksApp
 ) : CoroutineWorker(context, workerParameters) {
-    private val TAG = this::class.java.simpleName
+    private val log = Timber.tag(this::class.java.simpleName)
     override suspend fun doWork(): Result {
         return withContext(coroutineDispatcher) {
             try {
@@ -39,16 +39,14 @@ class AlarmWork @AssistedInject constructor(
                         contentIntent = if (idReminder == 0) {
                             null
                         } else {
-                            navLinksApp.getToReminderDetailsIntent(
-                                idReminder,
-                            )
+                            navLinksApp.getToReminderDetailsIntent(idReminder)
                         },
                     )
-                    Timber.tag(TAG).i("Success alarm work send notification: id reminder - %d", idReminder)
+                    log.i("success alarm work send notification: id reminder - %d", idReminder)
                 }
                 Result.success()
             } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Failed alarm work send notification")
+                log.e(e, "failed alarm work send notification")
                 Result.failure()
             }
         }

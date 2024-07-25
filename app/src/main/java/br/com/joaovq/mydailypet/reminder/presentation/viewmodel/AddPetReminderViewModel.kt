@@ -95,7 +95,7 @@ class AddPetReminderViewModel @Inject constructor(
                 )
                 if (states.all { it.isValid } && toDate != null) {
                     val notificationAlarm = NotificationAlarmItem(
-                         toDate.time - Date().time,
+                        toDate.time - Date().time,
                         name,
                         description,
                         id = UUID.randomUUID()

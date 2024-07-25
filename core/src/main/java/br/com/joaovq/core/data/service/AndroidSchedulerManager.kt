@@ -1,9 +1,9 @@
 package br.com.joaovq.core.data.service
 
 import android.content.Context
-import android.util.Log
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -23,7 +23,7 @@ class AndroidSchedulerManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) : AlarmScheduler {
 
-    private val TAG: String = this::class.java.simpleName
+    private val log = Timber.tag(this::class.java.simpleName)
 
 
     private val manager = WorkManager
@@ -31,18 +31,15 @@ class AndroidSchedulerManager @Inject constructor(
 
     override fun scheduleExactAlarmAllowWhileIdle(alarmItem: AlarmItem) {
         val alarmWorkData = getData(alarmItem)
-        Timber.tag(TAG).d("Get alarm: ${alarmItem.uuid}")
+        log.d("Get alarm: ${alarmItem.uuid}")
         val workRequest = OneTimeWorkRequestBuilder<AlarmWork>()
-            .setInputData(
-                alarmWorkData
-            )
+            .setInputData(alarmWorkData)
             .addTag(getTagAlarm(alarmItem))
             .setId(alarmItem.uuid ?: UUID.randomUUID())
             .setInitialDelay(alarmItem.time, timeUnit = TimeUnit.MILLISECONDS)
             .build()
-        manager
-            .enqueue(workRequest)
-        Timber.tag(TAG).d("Enqueue work task notification alarm")
+        manager.enqueue(workRequest)
+        log.d("enqueue work task notification alarm")
     }
 
     private fun getTagAlarm(alarmItem: AlarmItem) =
@@ -80,12 +77,13 @@ class AndroidSchedulerManager @Inject constructor(
         when {
             uuid != null -> {
                 manager.cancelWorkById(uuid)
-                Timber.tag(TAG).d("Cancel work by id: $uuid")
+                log.d("cancel work by id: $uuid")
             }
+
             else -> {
                 val alarmTag = getTagAlarm(alarmItem)
                 manager.cancelAllWorkByTag(alarmTag)
-                Timber.tag(TAG).d("Cancel work by tag: $alarmTag")
+                log.d("cancel work by tag: $alarmTag")
             }
         }
     }

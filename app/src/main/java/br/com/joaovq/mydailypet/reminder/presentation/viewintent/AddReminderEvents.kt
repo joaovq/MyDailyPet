@@ -4,7 +4,7 @@ import br.com.joaovq.pet_domain.model.Pet
 import java.util.Date
 
 sealed interface AddReminderEvents {
-    object GetAllPets : AddReminderEvents
+    data object GetAllPets : AddReminderEvents
     data class SubmitData(
         val name: String,
         val description: String,

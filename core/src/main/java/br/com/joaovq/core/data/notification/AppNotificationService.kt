@@ -73,9 +73,7 @@ class AppNotificationService @Inject constructor(
         contentIntent: PendingIntent?,
     ) {
         contentIntent?.let {
-            notificationBuilder.setContentIntent(
-                it,
-            )
+            notificationBuilder.setContentIntent(it)
         }
         notificationBuilder
             .setContentTitle(message)

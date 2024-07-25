@@ -125,16 +125,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/space_20dp"
+                        app:cursorColor="@color/black"
+                        app:placeholderText="@string/label_breed"
                         app:layout_constraintTop_toBottomOf="@id/tv_label_breed_add_pet">
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/atctv_bredd_add_pet"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_field_app"
                             android:padding="@dimen/space_10dp"
                             android:inputType="textCapWords"
-                            android:cursorVisible="true"
                             android:textCursorDrawable="?attr/colorPrimary"
+                            android:cursorVisible="true"
                             android:textColor="?attr/colorPrimary"
                             app:endIconDrawable="@drawable/ic_close"
                             app:endIconMode="clear_text"
@@ -148,6 +150,7 @@
                         android:layout_marginStart="@dimen/space_10dp"
                         android:layout_marginTop="@dimen/space_20dp"
                         android:text="@string/label_animal"
+                        app:cursorColor="@color/black"
                         app:layout_constraintStart_toStartOf="@id/til_breed_add_pet"
                         app:layout_constraintTop_toBottomOf="@id/til_breed_add_pet" />
 
@@ -156,9 +159,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/space_20dp"
+                        app:placeholderText="@string/label_animal"
                         app:layout_constraintStart_toStartOf="@id/tv_label_animal_add_pet"
                         app:layout_constraintTop_toBottomOf="@id/tv_label_animal_add_pet" >
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/atctv_animal_add_pet"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
