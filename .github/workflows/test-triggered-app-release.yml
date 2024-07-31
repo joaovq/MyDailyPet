@@ -13,8 +13,8 @@ on:
         type: string
 
 name: Upload Release Asset
-# permissions:
-  # contents: write
+permissions:
+  contents: write
 
 jobs:
   build:
