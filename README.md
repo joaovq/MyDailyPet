@@ -5,6 +5,7 @@
 ![Static Badge](https://img.shields.io/badge/Mockk-1.13.5-red)
 ![Static Badge](https://img.shields.io/badge/Coroutines-1.6.4-pink)
 ![Android Ci](https://github.com/joaovq/MyDailyPet/actions/workflows/android.yml/badge.svg)
+[![Upload Release Asset](https://github.com/joaovq/MyDailyPet/actions/workflows/test-triggered-app-release.yml/badge.svg)](https://github.com/joaovq/MyDailyPet/actions/workflows/test-triggered-app-release.yml)
 
 App for Pet's owners controls daily with routines weekly.
 
