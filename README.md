@@ -1,5 +1,5 @@
 # 🐶 My Daily Pet
-![Static Badge](https://img.shields.io/badge/Version-1.0.1-blue)
+![GitHub Release](https://img.shields.io/github/v/release/joaovq/MyDailyPet?display_name=release&style=flat)
 ![Static Badge](https://img.shields.io/badge/Kotlin-1.8.10-purple)
 ![Static Badge](https://img.shields.io/badge/JUnit-4.13.2-purple)
 ![Static Badge](https://img.shields.io/badge/Mockk-1.13.5-red)
