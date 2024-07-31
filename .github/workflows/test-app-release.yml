@@ -7,14 +7,14 @@ on:
   #    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
   workflow_dispatch:
     inputs: 
-      tag_name: 
+      release_tag_name: 
         description: 'Tag version for release'
         required: true
         type: string
 
 name: Upload Release Asset
-permissions:
-  contents: write
+# permissions:
+  # contents: write
 
 jobs:
   build:
