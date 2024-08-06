@@ -21,7 +21,7 @@ jobs:
     # permissions: write-all
     name: Upload Release Asset
     runs-on: ubuntu-latest
-    if: ${{ inputs.release_tag_name }}
+    # if: ${{ inputs.release_tag_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
