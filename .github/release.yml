@@ -2,13 +2,13 @@ changelog:
   categories:
     - title: Breaking Changes 🛠
       labels:
-      - breaking-change
+        - breaking-change
     - title: Exciting New Features 🎉
       labels:
-      - enhancement
+        - enhancement
     - title: Bug fixes Changes
       labels:
-      - bug
+        - bug
     - title: Other Changes
       labels:
         - "*"
