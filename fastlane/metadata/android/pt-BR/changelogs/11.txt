@@ -1,0 +1,1 @@
+Correção de bugs e crash na inicialização do app

@@ -143,6 +143,7 @@ dependencies {
     androidTestImplementation ("androidx.fragment:fragment-testing:$fragment_testing_version")
     androidTestImplementation ("androidx.test.espresso:espresso-contrib:$espresso_version")
     androidTestImplementation ("androidx.test.espresso:espresso-idling-resource:$espresso_version")
+    androidTestImplementation("tools.fastlane:screengrab:2.1.1")
 
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation "io.mockk:mockk-android:${mockkVersion}"

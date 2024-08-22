@@ -19,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import tools.fastlane.screengrab.Screengrab
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -35,9 +36,11 @@ class PetFragmentTest {
 
     @Test
     fun clickPhotoPet(): Unit = runBlocking {
+        Screengrab.screenshot("before_click_pet_photo")
         onView(withId(R.id.layt_photo_pet))
             .check(matches(isDisplayed()))
             .perform(click())
+        Screengrab.screenshot("after_click_pet_photo")
     }
 
     @Test
