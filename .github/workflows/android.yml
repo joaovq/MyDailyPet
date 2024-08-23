@@ -9,118 +9,124 @@ env:
   keyBase64: ${{ secrets.KEYSTORE }}
   keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
   keyPassword: ${{ secrets.KEY_PASSWORD }}
-  
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-    - run: echo "This job is running on a ${{ runner.os }} server hosted by GitHub!"
-    - uses: actions/checkout@v3
-    - name: set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
-    - name: Create service_account.json
-      env: 
-        GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-      run: | 
-        cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
-        echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
-    - name: Config enviroment
-      env:
-        AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
-        BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
-      run: |
-         echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
-         echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
-         cat ./local.properties
-         echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./app/my-daily-pet.jks
-         cat ./app/my-daily-pet.jks
-         echo keystore-file=my-daily-pet.jks > ./keystore.properties
-         echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
-         echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
-         cat ./keystore.properties
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew assembleDebug --stacktrace
-    - name: Unit tests
-      run: ./gradlew test
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is running on a ${{ runner.os }} server hosted by GitHub!"
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Create service_account.json
+        env:
+          GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
+          echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
+      - name: Config enviroment
+        env:
+          AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+          BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
+        run: |
+          echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
+          echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
+          cat ./local.properties
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./app/my-daily-pet.jks
+          cat ./app/my-daily-pet.jks
+          echo keystore-file=my-daily-pet.jks > ./keystore.properties
+          echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
+          echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
+          cat ./keystore.properties
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew assembleDebug --stacktrace
+      - name: Unit tests
+        run: ./gradlew test
   apk:
     name: Generate APK
     runs-on: ubuntu-latest
-    steps: 
-    - run: echo "Generating apk"
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Setup JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: 17
-    - name: Create service_account.json
-      env: 
-        GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-      run: | 
-        cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
-        echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
-    - name: Config enviroment
-      env:
-        AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
-        BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
-      run: |
-         echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
-         echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
-         cat ./local.properties
-         echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./app/my-daily-pet.jks
-         cat ./app/my-daily-pet.jks
-         echo keystore-file=my-daily-pet.jks > ./keystore.properties
-         echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
-         echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
-         cat ./keystore.properties
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
-    - name: Build APK
-      run: | 
-        ./gradlew assembleRelease --stacktrace
-      env: 
-        KEY_STORE_PASSWORD: $keyStorePassword
-        KEY_PASSWORD: $keyPassword
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
+    steps:
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+      - run: echo "Generating apk"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: Create service_account.json
+        env:
+          GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
+          echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
+      - name: Config enviroment
+        env:
+          AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+          BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
+        run: |
+          echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
+          echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
+          cat ./local.properties
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./app/my-daily-pet.jks
+          cat ./app/my-daily-pet.jks
+          echo keystore-file=my-daily-pet.jks > ./keystore.properties
+          echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
+          echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
+          cat ./keystore.properties
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Build APK
+        run: |
+          ./gradlew assembleRelease --stacktrace
+        env:
+          KEY_STORE_PASSWORD: $keyStorePassword
+          KEY_PASSWORD: $keyPassword
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
           name: Release apk
-          path: app/build/outputs/apk/release/app-release.apk 
-    - name: Build APK
-      run: | 
-        ./gradlew bundleRelease --stacktrace
-      env: 
-        KEY_STORE_PASSWORD: $keyStorePassword
-        KEY_PASSWORD: $keyPassword
-    - name: Generate AAB
-      uses: actions/upload-artifact@v4
-      with:
+          path: app/build/outputs/apk/release/app-release.apk
+      - name: Build AAB
+        run: |
+          ./gradlew bundleRelease --stacktrace
+        env:
+          KEY_STORE_PASSWORD: $keyStorePassword
+          KEY_PASSWORD: $keyPassword
+      - name: Generate AAB
+        uses: actions/upload-artifact@v4
+        with:
           name: Release aab
-          path: app/release/app-release.aab 
-    - uses: r0adkll/sign-android-release@v1
-      id: signArtifact
-      name: Sign artifact
-      with:
+          path: app/release/app-release.aab
+      - uses: r0adkll/sign-android-release@v1
+        id: signArtifact
+        name: Sign artifact
+        with:
           releaseDirectory: app/build/outputs/apk/release
           alias: $keyAlias
           signingKeyBase64: $keyBase64
           keyStorePassword: $keyStorePassword
           keyPassword: $keyPassword
-      env:
-        # override default build-tools version (33.0.0) -- optional
+        env:
+          # override default build-tools version (33.0.0) -- optional
           BUILD_TOOLS_VERSION: "34.0.0"
-    - name: Output artifact ID
-      run:  echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
-    - uses: actions/upload-artifact@v4
-      with:
-        name: Signed app bundle
-        path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
+      - name: Output artifact ID
+        run: echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Signed app bundle
+          path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
     needs: test
