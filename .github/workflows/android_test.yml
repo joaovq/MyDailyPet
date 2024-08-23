@@ -8,4 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: fastlane test
+      - run: | 
+          chmod +x ./gradlew
+          fastlane test
