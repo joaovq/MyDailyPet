@@ -94,6 +94,17 @@ jobs:
       with:
           name: Release apk
           path: app/build/outputs/apk/release/app-release.apk 
+    - name: Build APK
+      run: | 
+        ./gradlew bundleRelease --stacktrace
+      env: 
+        KEY_STORE_PASSWORD: $keyStorePassword
+        KEY_PASSWORD: $keyPassword
+    - name: Generate AAB
+      uses: actions/upload-artifact@v4
+      with:
+          name: Release aab
+          path: app/release/app-release.aab 
     - uses: r0adkll/sign-android-release@v1
       id: signArtifact
       name: Sign artifact
