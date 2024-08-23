@@ -95,38 +95,35 @@ jobs:
         env:
           KEY_STORE_PASSWORD: $keyStorePassword
           KEY_PASSWORD: $keyPassword
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Release apk
-          path: app/build/outputs/apk/release/app-release.apk
       - name: Build AAB
         run: |
-          ./gradlew bundleRelease --stacktrace
+          ./gradlew app:bundleRelease --stacktrace
         env:
           KEY_STORE_PASSWORD: $keyStorePassword
           KEY_PASSWORD: $keyPassword
-      - name: Generate AAB
+      - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
           name: Release aab
-          path: app/release/app-release.aab
-      - uses: r0adkll/sign-android-release@v1
-        id: signArtifact
-        name: Sign artifact
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          alias: $keyAlias
-          signingKeyBase64: $keyBase64
-          keyStorePassword: $keyStorePassword
-          keyPassword: $keyPassword
-        env:
-          # override default build-tools version (33.0.0) -- optional
-          BUILD_TOOLS_VERSION: "34.0.0"
-      - name: Output artifact ID
-        run: echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Signed app bundle
-          path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
+          path: |
+            app/release/app-release.aab
+            app/build/outputs/apk/release/app-release.apk
+#      - uses: r0adkll/sign-android-release@v1
+#        id: signArtifact
+#        name: Sign artifact
+#        with:
+#          releaseDirectory: app/build/outputs/apk/release
+#          alias: $keyAlias
+#          signingKeyBase64: $keyBase64
+#          keyStorePassword: $keyStorePassword
+#          keyPassword: $keyPassword
+#        env:
+#          # override default build-tools version (33.0.0) -- optional
+#          BUILD_TOOLS_VERSION: "34.0.0"
+#      - name: Output artifact ID
+#        run: echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
+#      - uses: actions/upload-artifact@v4
+#        with:
+#          name: Signed app bundle
+#          path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
     needs: test
