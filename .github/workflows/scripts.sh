@@ -1,4 +1,3 @@
- cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json| base64
  echo "${{ secrets.SERVICE_ACCOUNT_JSON }}" > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
  echo AD_MOB_ID="${{ secrets.AD_MOB_ID }}" > ./local.properties
  echo BANNER_AD_MOB_ID="${{ secrets.BANNER_AD_MOB_ID }}" >> ./local.properties
