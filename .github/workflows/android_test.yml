@@ -8,6 +8,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Create service_account.json
+        env:
+          GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
+          echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
+      - name: Config enviroment
+        env:
+          AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+          BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
+        run: |
+          echo AD_MOB_ID=$AD_MOB_ID > ./local.properties
+          echo BANNER_AD_MOB_ID=$BANNER_AD_MOB_ID >> ./local.properties 
+          cat ./local.properties
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./app/my-daily-pet.jks
+          cat ./app/my-daily-pet.jks
+          echo keystore-file=my-daily-pet.jks > ./keystore.properties
+          echo keystore-pswd=${{ secrets.KEY_STORE_PASSWORD }} >> ./keystore.properties 
+          echo keystore-alias-pswd=${{ secrets.KEY_ALIAS }} >> ./keystore.properties
+          cat ./keystore.properties
       - run: | 
           chmod +x ./gradlew
-          fastlane test
+      - name: Run Fastlane 
+        run: fastlane test
