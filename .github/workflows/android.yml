@@ -106,7 +106,7 @@ jobs:
         with:
           name: Release aab
           path: |
-            app/release/app-release.aab
+            app/build/outputs/bundle/release/app-release.aab
             app/build/outputs/apk/release/app-release.apk
 #      - uses: r0adkll/sign-android-release@v1
 #        id: signArtifact
