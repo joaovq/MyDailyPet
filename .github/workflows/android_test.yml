@@ -4,7 +4,7 @@ on:
     branches:
       - "main"
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,5 +36,13 @@ jobs:
           cat ./keystore.properties
       - run: | 
           chmod +x ./gradlew
-      - name: Run Fastlane 
+      - name: Test with Fastlane
         run: fastlane test
+      - name: Build Release aab
+        run: fastlane android build_release
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+            name: Release aab
+            path: |
+              app/build/outputs/bundle/release/app-release.aab
