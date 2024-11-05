@@ -83,6 +83,6 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy in GPlay
-        run: echo "Deploying in google play"
+      - name: Deploy in play store
+        run: fastlane android deploy
     needs: build
