@@ -33,10 +33,10 @@ buildscript {
         activity_version = "1.9.0"
     }
     dependencies {
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:$crashlytics_version")
-        classpath("com.android.tools.build:gradle:8.0.2")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.50")
+        classpath(libs.androidx.navigation.safe.args.gradle.plugin)
+        classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.gradle)
+        classpath(libs.hilt.android.gradle.plugin)
     }
 }
 
@@ -47,4 +47,5 @@ plugins {
     id "com.google.dagger.hilt.android" version "2.50" apply false
     id("com.google.gms.google-services") version "4.3.15" apply false
     id 'com.android.test' version '8.0.2' apply false
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10" apply false
 }

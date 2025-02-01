@@ -10,9 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentExpandPhotoPetBinding
-import br.com.joaovq.core_ui.extension.viewBinding
 
 class ExpandPhotoPetFragment : Fragment() {
     private val binding by viewBinding(FragmentExpandPhotoPetBinding::inflate)
@@ -29,7 +29,7 @@ class ExpandPhotoPetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedElementEnterTransition = TransitionInflater.from(requireContext())
             .inflateTransition(br.com.joaovq.core_ui.R.transition.share_image)
-        ViewCompat.setTransitionName(binding.ivPhotoPetExpanded,"photo-expanded-pet")
+        ViewCompat.setTransitionName(binding.ivPhotoPetExpanded, "photo-expanded-pet")
         expandPhotoPetFragmentArgs.imagePath?.let {
             binding.ivPhotoPetExpanded.setImageURI(it.toUri())
         }

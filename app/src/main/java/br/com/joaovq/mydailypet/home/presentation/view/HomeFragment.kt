@@ -4,8 +4,42 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,7 +47,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import br.com.joaovq.core.util.extension.compareSameDate
 import br.com.joaovq.core_ui.AppMenuItem
 import br.com.joaovq.core_ui.NavAnim
@@ -31,8 +64,9 @@ import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
 import br.com.joaovq.mydailypet.home.presentation.adapter.PetsListAdapter
 import br.com.joaovq.mydailypet.home.presentation.adapter.RemindersAdapter
-import br.com.joaovq.mydailypet.home.presentation.adapter.SwipeControllerCallback
-import br.com.joaovq.mydailypet.home.presentation.compose.CategoriesNav
+import br.com.joaovq.mydailypet.home.presentation.compose.CategoryList
+import br.com.joaovq.mydailypet.home.presentation.compose.PetCard
+import br.com.joaovq.mydailypet.home.presentation.compose.PetCardListener
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewmodel.HomeViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
@@ -47,12 +81,21 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var mPetsAdapter: PetsListAdapter
+    private val mPetsAdapter: PetsListAdapter = PetsListAdapter(
+        object : PetsListAdapter.PetListItemClickListener {
+            override fun setOnClickListener() {
+                toast(text = getString(R.string.message_click_in_pet_list))
+            }
+
+            override fun setOnLongClickListItem(view: View, pet: Pet) {
+                showPopUpMenuPet(view, pet)
+            }
+        }
+    )
     private var petsList: List<Pet>? = null
     private lateinit var notificationPermissionManager: NotificationPermissionManager
     private val viewModel by activityViewModels<MainViewModel>()
@@ -78,15 +121,163 @@ class HomeFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 MyDailyPetTheme(dynamicColor = false) {
+                    val state by homeViewModel.homeState.collectAsState()
                     Surface {
-                        CategoriesNav(
-                            onClickCategory = {
-                                findNavController().navWithAnim(
-                                    it,
-                                    NavAnim.slideUpPop
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            when (val safeState = state) {
+                                is HomeUiState.Success -> {
+                                    var isMarkerLimit by rememberSaveable {
+                                        mutableStateOf(true)
+                                    }
+                                    val slicedData by remember(safeState.data, isMarkerLimit) {
+                                        derivedStateOf {
+                                            if (safeState.data.size > 3 && isMarkerLimit) {
+                                                safeState.data.slice(0..2)
+                                            } else {
+                                                safeState.data
+                                            }
+                                        }
+                                    }
+                                    slicedData.forEach { pet ->
+                                        PetCard(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(start = 16.dp, bottom = 16.dp),
+                                            pet = pet,
+                                            listener = object : PetCardListener {
+                                                override fun onExpanded() {
+                                                    findNavController().navigate(
+                                                        HomeFragmentDirections.actionHomeFragmentToPetFragment(
+                                                            pet.id
+                                                        )
+                                                    )
+                                                }
+
+                                                override fun onCollapsed() {
+                                                    // Unused
+                                                }
+
+                                                override fun onLongPress() {
+                                                    // Unused
+                                                }
+
+                                                override fun onDeleteItemClick() {
+                                                    simpleAlertDialog(
+                                                        title = R.string.title_alert_delete_pet,
+                                                        message = R.string.message_alert_delete_pet_list,
+                                                    ) {
+                                                        homeViewModel.dispatchIntent(
+                                                            HomeAction.DeletePet(
+                                                                pet
+                                                            )
+                                                        )
+                                                    }
+                                                }
+                                            },
+                                            actions = {
+                                                Card(
+                                                    modifier = Modifier.fillMaxHeight(),
+                                                    shape = RoundedCornerShape(
+                                                        topStart = 10.dp,
+                                                        bottomStart = 10.dp
+                                                    ),
+                                                    border = BorderStroke(0.3.dp, Color.DarkGray),
+                                                    colors = CardDefaults.cardColors(
+                                                        containerColor = MaterialTheme.colorScheme.primary
+                                                    )
+                                                ) {
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxSize()
+                                                            .padding(10.dp)
+                                                    ) {
+                                                        Box(
+                                                            modifier = Modifier
+                                                                .size(60.dp)
+                                                                .clip(RoundedCornerShape(10.dp)),
+                                                            contentAlignment = Alignment.Center
+                                                        ) {
+                                                            Icon(
+                                                                modifier = Modifier.size(30.dp),
+                                                                painter = painterResource(R.drawable.ic_eye),
+                                                                contentDescription = null
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        )
+                                    }
+                                    val isShowSeeMore by remember {
+                                        derivedStateOf {
+                                            safeState.data.size > 3 && isMarkerLimit
+                                        }
+                                    }
+                                    AnimatedVisibility(isShowSeeMore) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .clickable {
+                                                    isMarkerLimit = false
+                                                },
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(
+                                                4.dp,
+                                                Alignment.End
+                                            )
+                                        ) {
+                                            Text(
+                                                stringResource(R.string.text_see_all),
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                            Icon(
+                                                painter = painterResource(R.drawable.ic_arrow_down),
+                                                contentDescription = null
+                                            )
+                                        }
+                                    }
+                                }
+
+                                else -> {}
+                            }
+                            Spacer(modifier = Modifier.height(30.dp))
+                            CategoryList(
+                                onClickCategory = {
+                                    findNavController().navWithAnim(it, NavAnim.slideUpPop)
+                                }
+                            )
+                        }
+                        /*LazyColumn(
+                            modifier = Modifier
+                                .wrapContentHeight(),
+                            contentPadding = PaddingValues(vertical = 10.dp),
+                            userScrollEnabled = false
+                        ) {
+                            item {
+                                Text("My pets")
+                            }
+                            when (val safeState = state) {
+                                is HomeUiState.Success -> {
+                                    items(safeState.data, key = { it.id }) { pet ->
+                                        PetCard(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(start = 30.dp),
+                                            pet = pet
+                                        )
+                                    }
+                                }
+
+                                else -> {}
+                            }
+                            item {
+                                CategoryList(
+                                    onClickCategory = {
+                                        findNavController().navWithAnim(it, NavAnim.slideUpPop)
+                                    }
                                 )
                             }
-                        )
+                        }*/
                     }
                 }
             }
@@ -111,7 +302,7 @@ class HomeFragment : Fragment() {
             viewModel.isNewUser.collectLatest { isNewUser ->
                 if (isNewUser == true) {
                     findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToOnBoardingFragment(),
+                        HomeFragmentDirections.actionHomeFragmentToOnBoardingFragment()
                     )
                 }
             }
@@ -121,13 +312,9 @@ class HomeFragment : Fragment() {
     private fun loadAds() {
         MobileAds.initialize(requireContext()) {}
         MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder()
-                .setTestDeviceIds(
-                    listOf()
-                ).build()
+            RequestConfiguration.Builder().setTestDeviceIds(listOf()).build()
         )
-        val adRequest = AdRequest.Builder()
-            .build()
+        val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
     }
 
@@ -136,29 +323,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        with(binding.rvMyPetsList) {
-            adapter = PetsListAdapter(
-                object : PetsListAdapter.PetListItemClickListener {
-                    override fun setOnClickListener() {
-                        toast(text = getString(R.string.message_click_in_pet_list))
-                    }
+        /*  with(binding.rvMyPetsList) {
+              adapter = PetsListAdapter(
+                  object : PetsListAdapter.PetListItemClickListener {
+                      override fun setOnClickListener() {
+                          toast(text = getString(R.string.message_click_in_pet_list))
+                      }
 
-                    override fun setOnLongClickListItem(view: View, pet: Pet) {
-                        showPopUpMenuPet(view, pet)
-                    }
-                },
-            ).also {
-                mPetsAdapter = it
-            }
-            val toEditCallback = SwipeControllerCallback(requireContext()) {
-                val id = mPetsAdapter.currentList[it].id
-                findNavController().navWithAnim(
-                    HomeFragmentDirections.actionHomeFragmentToPetFragment(id),
-                )
-            }
-            val itemTouchHelper = ItemTouchHelper(toEditCallback)
-            itemTouchHelper.attachToRecyclerView(this)
-        }
+                      override fun setOnLongClickListItem(view: View, pet: Pet) {
+                          showPopUpMenuPet(view, pet)
+                      }
+                  },
+              ).also {
+                  mPetsAdapter = it
+              }
+              val toEditCallback = SwipeControllerCallback(requireContext()) {
+                  val id = mPetsAdapter.currentList[it].id
+                  findNavController().navWithAnim(
+                      HomeFragmentDirections.actionHomeFragmentToPetFragment(id),
+                  )
+              }
+              val itemTouchHelper = ItemTouchHelper(toEditCallback)
+              itemTouchHelper.attachToRecyclerView(this)
+          }*/
     }
 
     private fun showPopUpMenuPet(view: View, pet: Pet) {
@@ -174,13 +361,9 @@ class HomeFragment : Fragment() {
                 simpleAlertDialog(
                     title = R.string.title_alert_delete_pet,
                     message = R.string.message_alert_delete_pet_list,
-                ) { deletePet(pet) }
+                ) { homeViewModel.dispatchIntent(HomeAction.DeletePet(pet)) }
             },
         )
-    }
-
-    private fun deletePet(pet: Pet) {
-        homeViewModel.dispatchIntent(HomeAction.DeletePet(pet))
     }
 
     private fun setListenersOfView() {
@@ -191,30 +374,8 @@ class HomeFragment : Fragment() {
                 animPopExit = NavAnim.slideOutLeft,
             )
         }
-        with(binding.ltCategories) {
-            ltAddPetCategory.root.setOnClickListener {
-                findNavController().navWithAnim(
-                    HomeFragmentDirections.actionHomeFragmentToAddPetFragment(),
-                    animExit = NavAnim.slideUpPop,
-                )
-            }
-            ltDailyCategory.root.setOnClickListener {
-                findNavController().navWithAnim(
-                    HomeFragmentDirections.actionHomeFragmentToReminderListFragment(),
-                    animExit = NavAnim.slideUpPop,
-                )
-            }
-            ltCategory.root.setOnClickListener {
-                findNavController().navWithAnim(
-                    HomeFragmentDirections.actionHomeFragmentToTaskFragment(),
-                    animExit = NavAnim.slideUpPop,
-                )
-            }
-        }
         binding.llSeeMore.setOnClickListener {
-            petsList?.let {
-                mPetsAdapter.submitList(it)
-            }
+            petsList?.let(mPetsAdapter::submitList)
         }
         binding.btnHelpTodayReminders.ivBtnHelp.setOnClickListener {
             createHelpDialog(
@@ -249,7 +410,7 @@ class HomeFragment : Fragment() {
 
     private fun animateView() {
         binding.tvReminders.animateView(animationId = androidx.appcompat.R.anim.abc_slide_in_top)
-        binding.rvMyPetsList.animateView(animationId = br.com.joaovq.core_ui.R.anim.slide_in_left)
+        /*binding.rvMyPetsList.animateView(animationId = br.com.joaovq.core_ui.R.anim.slide_in_left)*/
     }
 
     private fun initStates() {
@@ -258,23 +419,15 @@ class HomeFragment : Fragment() {
                 homeState.collectLatest { stateCollected ->
                     stateCollected?.let {
                         when (it) {
-                            is HomeUiState.Error -> {
-                                toast(text = getString(it.message))
-                            }
-
-                            is HomeUiState.Success -> {
-                                setupViewHome(it)
-                            }
-
+                            is HomeUiState.Error -> toast(text = getString(it.message))
+                            is HomeUiState.Success -> setupViewHome(it)
                             HomeUiState.DeleteSuccess -> snackbar(message = getString(it.message))
                         }
                     }
                 }
             }
             lifecycleScope.launch {
-                reminders.collectLatest { remindersCollected ->
-                    setTodayReminders(remindersCollected)
-                }
+                reminders.collectLatest(::setTodayReminders)
             }
         }
     }
@@ -282,11 +435,11 @@ class HomeFragment : Fragment() {
     private fun setupViewHome(it: HomeUiState.Success) {
         mPetsAdapter.submitList(
             when {
-                it.data.size > 3 -> it.data.slice((0..2))
+                it.data.size > INITIAL_LIMIT_PETS_ADAPTER -> it.data.slice((0..2))
                 else -> it.data
             },
         )
-        binding.llSeeMore.isVisible = it.data.size > 3
+        // binding.llSeeMore.isVisible = it.data.size > INITIAL_LIMIT_PETS_ADAPTER
         petsList = it.data
     }
 
@@ -317,4 +470,8 @@ class HomeFragment : Fragment() {
             val calendar = Calendar.getInstance()
             calendar.compareSameDate(reminderWithPet.toDate)
         }
+
+    companion object {
+        private const val INITIAL_LIMIT_PETS_ADAPTER = 3
+    }
 }

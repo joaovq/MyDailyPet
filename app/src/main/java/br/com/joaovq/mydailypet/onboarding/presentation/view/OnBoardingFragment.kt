@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
 class OnBoardingFragment : Fragment() {
@@ -48,7 +49,7 @@ class OnBoardingFragment : Fragment() {
     private fun setOnClickListeners() {
         binding.btnStartOnApp.setOnClickListener {
             lifecycleScope.launch {
-                delay(2000)
+                delay(2.seconds)
                 preferencesManager.setBooleanValue(IS_NEW_USER_PREFERENCE_KEY, false)
                 findNavController().navWithAnim(
                     OnBoardingFragmentDirections.actionOnBoardingFragmentToHomeFragment(),

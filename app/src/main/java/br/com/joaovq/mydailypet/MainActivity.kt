@@ -8,8 +8,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import br.com.joaovq.core.data.datastore.DARKMODE_PREFERENCE_KEY
-import br.com.joaovq.core.data.datastore.PreferencesManager
 import br.com.joaovq.core.data.datastore.setNightThemeApp
 import br.com.joaovq.mydailypet.databinding.ActivityMainBinding
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -24,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 import com.google.android.play.core.install.model.ActivityResult as PlayActivityResult
 
 @AndroidEntryPoint
