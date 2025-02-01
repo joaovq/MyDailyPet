@@ -33,13 +33,8 @@ android {
         applicationId "br.com.joaovq.mydailypet"
         minSdk 24
         targetSdk 34
-<<<<<<< Updated upstream
-        versionCode 11
-        versionName "1.1.8"
-=======
         versionCode System.getenv("VERSION_CODE") ?: 11
         versionName System.getenv("VERSION_NAME") ?: "1.1.8"
->>>>>>> Stashed changes
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -63,11 +58,7 @@ android {
             resValue("string", "BANNER_ID", bannerId)
             _isDebuggable = false
             signingConfig signingConfigs.debug
-<<<<<<< Updated upstream
             buildConfigField("Boolean","DEBUG", "false")
-=======
-            buildConfigField("Boolean", "DEBUG", "false")
->>>>>>> Stashed changes
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
                 strippedNativeLibsDir 'build/intermediates/stripped_native_libs/release/out/lib'
@@ -78,12 +69,12 @@ android {
             testCoverageEnabled true
             minifyEnabled false
             shrinkResources false
-            resValue("string", "AD_MOB_ID", "ca-app-pub-3940256099942544~3347511713")
-            resValue("string", "BANNER_ID", "ca-app-pub-3940256099942544/6300978111")
+            resValue("string","AD_MOB_ID","ca-app-pub-3940256099942544~3347511713")
+            resValue("string","BANNER_ID","ca-app-pub-3940256099942544/6300978111")
             applicationIdSuffix ".debug"
             versionNameSuffix "- debug"
             _isDebuggable = true
-            buildConfigField("Boolean", "DEBUG", "true")
+            buildConfigField("Boolean","DEBUG", "true")
             resValue("string", "app_name", "My Daily Pet - DEBUG")
             manifestPlaceholders.appBuildTypeSuffix = " - DEBUG"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -148,21 +139,12 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
 
-<<<<<<< Updated upstream
-    androidTestImplementation ("androidx.test.ext:junit:" + ext_junit_version)
-    androidTestImplementation ("androidx.test.espresso:espresso-core:$espresso_version")
-    androidTestImplementation ("androidx.fragment:fragment-testing:$fragment_testing_version")
-    androidTestImplementation ("androidx.test.espresso:espresso-contrib:$espresso_version")
-    androidTestImplementation ("androidx.test.espresso:espresso-idling-resource:$espresso_version")
-    androidTestImplementation("tools.fastlane:screengrab:2.1.1")
-=======
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.fragment.testing)
     androidTestImplementation(libs.androidx.espresso.contrib)
     androidTestImplementation(libs.androidx.espresso.idling.resource)
     androidTestImplementation(libs.fastlane.screengrab)
->>>>>>> Stashed changes
 
     testImplementation(libs.mockk)
     testImplementation libs.mockk.android
