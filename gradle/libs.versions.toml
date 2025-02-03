@@ -1,0 +1,112 @@
+[versions]
+activityCompose = "1.9.0"
+appcompat = "1.6.1"
+appUpdateKtx = "2.1.0"
+circleimageview = "3.1.0"
+compiler = "4.15.0"
+compose = "1.0.0-beta01"
+composeBom = "2024.05.00"
+composeThemeAdapter = "1.2.1"
+constraintlayout = "2.1.4"
+coreKtx = "1.13.0"
+coreSplashscreen = "1.0.1"
+datastorePreferences = "1.0.0"
+espressoCore = "3.5.1"
+firebaseBom = "32.2.0"
+firebaseCrashlyticsGradle = "2.9.7"
+fragmentTesting = "1.6.2"
+githubGlide = "4.15.0"
+gradle = "8.0.2"
+gson = "2.10.1"
+hiltCompiler = "1.0.0"
+hiltVersion = "2.50"
+hiltWork = "1.1.0"
+integrity = "1.4.0"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+lottieVersion = "6.1.0"
+material = "1.11.0"
+mockkVersion = "1.13.9"
+navigationFragmentKtx = "2.7.6"
+navigationSafeArgsGradlePlugin = "2.7.6"
+navigationUiKtx = "2.7.6"
+navigationTesting = "2.7.6"
+orgJacocoCore = "0.8.11"
+playServicesAds = "22.2.0"
+roomCompiler = "2.6.1"
+roomRuntime = "2.6.1"
+roomKtx = "2.6.1"
+roomTesting = "2.6.1"
+screengrab = "2.1.1"
+timber = "5.0.1"
+workRuntimeKtx = "2.9.0"
+coroutinesVersion = "1.6.4"
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espressoCore" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-espresso-idling-resource = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "espressoCore" }
+androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragmentTesting" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompiler" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
+androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigationTesting" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTesting" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workRuntimeKtx" }
+app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+com-github-bumptech-glide = { module = "com.github.bumptech.glide:glide", version.ref = "githubGlide" }
+glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "compose" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+compose-theme-adapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "composeThemeAdapter" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltVersion" }
+integrity = { module = "com.google.android.play:integrity", version.ref = "integrity" }
+junit = { module = "junit:junit", version.ref = "junit" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottieVersion" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+fastlane-screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkVersion" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
+mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkVersion" }
+org-jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "orgJacocoCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+[plugins]
+[bundles]
+compose = [
+    "androidx-activity-compose",
+    "compose-theme-adapter",
+    "androidx-compose-ui-tooling",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-material3"
+]

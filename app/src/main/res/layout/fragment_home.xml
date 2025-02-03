@@ -158,7 +158,7 @@
                             android:layout_marginStart="@dimen/space_10dp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.recyclerview.widget.RecyclerView
+                  <!--  <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_my_pets_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -171,7 +171,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:itemCount="1"
-                        tools:listitem="@layout/item_pet_list" />
+                        tools:listitem="@layout/item_pet_list" />-->
+
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/ll_see_more"
@@ -180,6 +181,7 @@
                         android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/space_16dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:minHeight="@dimen/accessibility_min_height"
                         android:paddingHorizontal="@dimen/space_10dp">
 
@@ -199,21 +201,11 @@
                             app:srcCompat="@drawable/ic_arrow_right" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <include
-                        android:id="@+id/lt_categories"
-                        layout="@layout/layout_categories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                       />
-
                     <androidx.compose.ui.platform.ComposeView
                         android:id="@+id/compose_view_categories"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:composableName="br.com.joaovq.mydailypet.home.presentation.compose.CategoriesNavKt.CategoryNavPreview" />
+                        tools:composableName="br.com.joaovq.mydailypet.home.presentation.compose.CategoriesNavKt.CategoryListPreview" />
 
                     <TextView
                         android:layout_width="wrap_content"
