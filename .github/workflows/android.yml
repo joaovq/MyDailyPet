@@ -108,22 +108,4 @@ jobs:
           path: |
             app/build/outputs/bundle/release/app-release.aab
             app/build/outputs/apk/release/app-release.apk
-#      - uses: r0adkll/sign-android-release@v1
-#        id: signArtifact
-#        name: Sign artifact
-#        with:
-#          releaseDirectory: app/build/outputs/apk/release
-#          alias: $keyAlias
-#          signingKeyBase64: $keyBase64
-#          keyStorePassword: $keyStorePassword
-#          keyPassword: $keyPassword
-#        env:
-#          # override default build-tools version (33.0.0) -- optional
-#          BUILD_TOOLS_VERSION: "34.0.0"
-#      - name: Output artifact ID
-#        run: echo 'Artifact ID is ${{ steps.signArtifact.outputs.artifact-id }}'
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          name: Signed app bundle
-#          path: ${{ steps.signArtifact.outputs.signedReleaseFile }}
     needs: test
