@@ -46,11 +46,11 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result: ActivityResult ->
         when {
-            result.resultCode == PlayActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {}
+            result.resultCode == PlayActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
+                log.e("Result in app update failed! Result code: %s", result.resultCode)
+            }
             result.resultCode != RESULT_OK -> {
-                log.e("Update flow failed! Result code: %s", result.resultCode);
-                // If the update is canceled or fails,
-                // you can request to start the update again.
+                log.e("Update flow failed! Result code: %s", result.resultCode)
             }
         }
     }
