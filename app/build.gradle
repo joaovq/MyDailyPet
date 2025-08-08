@@ -27,12 +27,12 @@ def bannerId = properties['BANNER_AD_MOB_ID'] ?: ""
 
 android {
     namespace "br.com.joaovq.mydailypet"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "br.com.joaovq.mydailypet"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode System.getenv("VERSION_CODE") ?: 11
         versionName System.getenv("VERSION_NAME") ?: "1.1.8"
 

@@ -13,8 +13,7 @@ class NotificationPermissionManager private constructor(
     private var rationale: () -> Unit = {
     }
     private val registerForActivity =
-        fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val allGranted = permissions.all { it.value }
+        fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
             action(true)
         }
 
