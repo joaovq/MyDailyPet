@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AppInsightsSettings">
+    <option name="selectedTabId" value="Android Vitals" />
     <option name="tabSettings">
       <map>
         <entry key="Android Vitals">
@@ -22,7 +23,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="br.com.joaovq.mydailypet.debug" />
+                  <option name="appId" value="br.com.joaovq.mydailypet" />
                   <option name="mobileSdkAppId" value="1:1036144155591:android:3c8dcb233e620a626417e2" />
                   <option name="projectId" value="mydailypet" />
                   <option name="projectNumber" value="1036144155591" />

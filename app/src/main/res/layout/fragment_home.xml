@@ -158,22 +158,6 @@
                             android:layout_marginStart="@dimen/space_10dp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                  <!--  <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_my_pets_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_20dp"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="vertical"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toTopOf="@id/lt_categories"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_pet_list" />-->
-
-
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/ll_see_more"
                         android:layout_width="wrap_content"
@@ -224,11 +208,5 @@
             android:layout_gravity="bottom"
             ads:adSize="BANNER"
             ads:adUnitId="@string/BANNER_ID"/>
-
-        <include
-            android:id="@+id/lt_nav_bar"
-            layout="@layout/layout_bottom_nav_home"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:visibility="visible" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

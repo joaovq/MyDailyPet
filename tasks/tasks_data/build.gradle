@@ -1,19 +1,20 @@
 plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
-    id("com.google.dagger.hilt.android")
-    id 'jacoco'
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.jacoco)
 }
 
 android {
     namespace 'br.com.joaovq.tasks_data'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 24
-        targetSdk 34
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -42,27 +43,26 @@ dependencies {
     implementation(project(':pet:pet_data'))
     implementation(project(':pet:pet_domain'))
     implementation(project(":tasks:tasks_domain"))
-    testImplementation("junit:junit:" + junit_version)
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 
-    androidTestImplementation("androidx.test.ext:junit:" + ext_junit_version)
-    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_version")
-    androidTestImplementation("androidx.fragment:fragment-testing:$fragment_testing_version")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espresso_version")
-    androidTestImplementation("androidx.test.espresso:espresso-idling-resource:$espresso_version")
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.androidx.espresso.idling.resource)
 
-    testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation "io.mockk:mockk-android:${mockkVersion}"
-    androidTestImplementation "io.mockk:mockk-android:${mockkVersion}"
-    testImplementation "io.mockk:mockk-agent:${mockkVersion}"
-    androidTestImplementation "io.mockk:mockk-agent:${mockkVersion}"
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.mockk.agent)
 
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    kapt("androidx.room:room-compiler:$room_version")
-    testImplementation("androidx.room:room-testing:$room_version")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    testImplementation(libs.androidx.room.testing)
 
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }

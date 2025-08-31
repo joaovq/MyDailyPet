@@ -10,10 +10,8 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import br.com.joaovq.core_ui.AppMenuItem
 import br.com.joaovq.core_ui.R
 import br.com.joaovq.core_ui.databinding.LayoutBottomSheetSuccessBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -77,40 +75,18 @@ fun Fragment.simpleDatePickerDialog(
     datePicker.addOnPositiveButtonClickListener { time ->
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.timeInMillis = time
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val year = calendar[Calendar.YEAR]
+        val month = calendar[Calendar.MONTH]
+        val day = calendar[Calendar.DAY_OF_MONTH]
         action(year, month, day)
     }
     datePicker.show(childFragmentManager, tag)
-}
-
-fun Fragment.createPopMenu(
-    view: View,
-    title: String = getString(R.string.see_details_pet_item_menu),
-    items: List<AppMenuItem> = listOf(),
-): PopupMenu {
-    val popUpMenu = PopupMenu(requireContext(), view)
-    items.forEach {
-        popUpMenu.menu.add(it.title)
-    }
-    popUpMenu.setOnMenuItemClickListener { item ->
-        val first = items.firstOrNull { item.title == getString(it.title) }
-        if (first != null) {
-            first.action()
-            true
-        } else {
-            false
-        }
-    }
-    return popUpMenu
 }
 
 fun Fragment.simpleBottomSheetDialog(
     text: String,
     description: String = "",
     @DrawableRes imageId: Int = R.drawable.ic_time,
-    onDismiss: () -> Unit = {},
 ) {
     val bottomSheetDialog = BottomSheetDialog(requireContext())
     val binding = LayoutBottomSheetSuccessBinding.inflate(layoutInflater)
@@ -158,8 +134,6 @@ fun Fragment.simpleTimePicker(
     val timePicker = MaterialTimePicker.Builder()
         .setTimeFormat(timeFormat)
         .setTitleText(title)
-        /*.setHour(calendar.get(Calendar.HOUR_OF_DAY))
-        .setMinute(calendar.get(Calendar.MINUTE))*/
         .setInputMode(inputMode)
         .build()
     timePicker.addOnPositiveButtonClickListener {

@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import br.com.joaovq.core.data.datastore.setNightThemeApp
-import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.settings_presentation.R
 import br.com.joaovq.settings_presentation.databinding.FragmentSettingsBinding
 import br.com.joaovq.settings_presentation.viewmodel.SettingsViewModel
@@ -68,7 +66,7 @@ class SettingsFragment : Fragment() {
             }
         }
         binding.llAboutSettings.setOnClickListener {
-            findNavController().navWithAnim(
+            findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsAboutFragment(),
             )
         }

@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class MyDailyPetApp : Application(), Configuration.Provider {
-
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
     override fun onCreate() {
@@ -20,7 +19,6 @@ class MyDailyPetApp : Application(), Configuration.Provider {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
         Firebase.crashlytics.setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
-
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()

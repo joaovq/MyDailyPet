@@ -1,14 +1,15 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
-    id("com.google.dagger.hilt.android")
-    id("androidx.navigation.safeargs.kotlin")
-    id("jacoco")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.jacoco)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.compose)
 }
 
 Properties properties = new Properties()
@@ -27,12 +28,12 @@ def bannerId = properties['BANNER_AD_MOB_ID'] ?: ""
 
 android {
     namespace "br.com.joaovq.mydailypet"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "br.com.joaovq.mydailypet"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode System.getenv("VERSION_CODE") ?: 11
         versionName System.getenv("VERSION_NAME") ?: "1.1.8"
 
@@ -52,7 +53,6 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue("string", "AD_MOB_ID", adModId)
             resValue("string", "BANNER_ID", bannerId)
@@ -64,9 +64,11 @@ android {
                 strippedNativeLibsDir 'build/intermediates/stripped_native_libs/release/out/lib'
                 unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
             }
+            enableUnitTestCoverage false
+            enableAndroidTestCoverage false
         }
         debug {
-            testCoverageEnabled true
+            manifestPlaceholders
             minifyEnabled false
             shrinkResources false
             resValue("string","AD_MOB_ID","ca-app-pub-3940256099942544~3347511713")
@@ -78,11 +80,15 @@ android {
             resValue("string", "app_name", "My Daily Pet - DEBUG")
             manifestPlaceholders.appBuildTypeSuffix = " - DEBUG"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
         benchmark {
             initWith release
             matchingFallbacks = ['release']
             debuggable false
+            enableUnitTestCoverage false
+            enableAndroidTestCoverage false
         }
     }
     compileOptions {
@@ -99,7 +105,7 @@ android {
         buildConfig true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
+        kotlinCompilerExtensionVersion = "1.5.12"
     }
     packagingOptions {
         resources.excludes.add("META-INF/*")
@@ -153,21 +159,20 @@ dependencies {
     androidTestImplementation(libs.mockk.agent)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     androidTestImplementation(libs.androidx.navigation.testing)
 
     // Glide
-    implementation(libs.com.github.bumptech.glide)
-    kapt(libs.glide.compiler)
+    implementation(libs.glide)
+    ksp(libs.glide.compiler)
     implementation libs.glide.compose
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    annotationProcessor libs.androidx.room.compiler
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     testImplementation(libs.androidx.room.testing)
 
     implementation(libs.androidx.datastore.preferences)
@@ -206,7 +211,6 @@ dependencies {
 
     implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.material.icons.extended)
-    //implementation(libs.androidx.material3.window.size.class)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui)

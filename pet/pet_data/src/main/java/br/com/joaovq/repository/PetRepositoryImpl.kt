@@ -12,10 +12,10 @@ import javax.inject.Inject
 class PetRepositoryImpl @Inject constructor(
     private val petLocalDataSource: PetLocalDataSource,
 ) : PetRepository {
-    override suspend fun getAll(): Flow<List<Pet>> =
+    override fun getAll(): Flow<List<Pet>> =
         petLocalDataSource.getAll().map { pets -> pets.map { it.toDomain() } }
 
-    override suspend fun getById(id: Int): Flow<Pet> =
+    override fun getById(id: Int): Flow<Pet> =
         petLocalDataSource.getById(id).map { it.toDomain() }
 
     override suspend fun updatePet(pet: Pet) {

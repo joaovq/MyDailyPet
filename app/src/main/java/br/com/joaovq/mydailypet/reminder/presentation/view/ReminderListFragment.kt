@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.core_ui.extension.simpleAlertDialog
 import br.com.joaovq.core_ui.extension.snackbar
 import br.com.joaovq.core_ui.extension.viewBinding
@@ -55,7 +54,7 @@ class ReminderListFragment : Fragment() {
                             binding.rvRemindersList.setHasFixedSize(true)
                             binding.rvRemindersList.adapter =
                                 ReminderListAdapter { idReminder ->
-                                    findNavController().navWithAnim(
+                                    findNavController().navigate(
                                         ReminderListFragmentDirections.actionReminderListFragmentToReminderFragment(
                                             idReminder,
                                         ),

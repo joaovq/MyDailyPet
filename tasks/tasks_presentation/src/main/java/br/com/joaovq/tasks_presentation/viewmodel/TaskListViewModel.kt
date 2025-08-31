@@ -1,8 +1,8 @@
 package br.com.joaovq.tasks_presentation.viewmodel
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.joaovq.core.di.IODispatcher
-import br.com.joaovq.core_ui.presenter.BaseViewModel
 import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.pet_domain.usecases.GetAllPetsUseCase
 import br.com.joaovq.tasks_domain.model.Task
@@ -15,9 +15,13 @@ import br.com.joaovq.tasks_presentation.viewstate.TaskListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,22 +30,24 @@ class TaskListViewModel @Inject constructor(
     private val createTaskUseCase: CreateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val getAllPets: GetAllPetsUseCase,
+    getAllPets: GetAllPetsUseCase,
     @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
-) : BaseViewModel<TaskListAction, TaskListState?>() {
-    override val _state: MutableStateFlow<TaskListState?> = MutableStateFlow(null)
+) : ViewModel() {
+    private val log = Timber.tag(this::class.java.simpleName)
+    private val _state: MutableStateFlow<TaskListState?> = MutableStateFlow(null)
     val state = _state.asStateFlow()
-    private val _pets: MutableStateFlow<List<Pet>?> =
-        MutableStateFlow(null)
-    val pets = _pets.asStateFlow()
+    val pets: StateFlow<List<Pet>> = getAllPets.invoke().stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        listOf()
+    )
 
-    init {
-        getTasks()
-    }
+    init { getTasks() }
 
-    override fun dispatchIntent(intent: TaskListAction) {
+    fun dispatchIntent(intent: TaskListAction) {
         when (intent) {
             is TaskListAction.CreateTask -> {
+                log.d("Create task from action")
                 createTask(
                     intent.task,
                 )
@@ -49,10 +55,12 @@ class TaskListViewModel @Inject constructor(
 
             TaskListAction.GetAllTasks -> getTasks()
             is TaskListAction.DeleteTask -> {
+                log.d("Delete task from action")
                 deleteTask(intent.id, intent.task)
             }
 
             is TaskListAction.UpdateStatusCompletedTask -> {
+                log.d("Update status task from action")
                 updateStatusCompletedTask(
                     intent.id,
                     intent.task,
@@ -100,9 +108,7 @@ class TaskListViewModel @Inject constructor(
     private fun createTask(task: Task) {
         viewModelScope.launch(coroutineDispatcher) {
             try {
-                createTaskUseCase(
-                    task,
-                )
+                createTaskUseCase(task)
                 _state.value = TaskListState.SubmittedSuccess
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -116,7 +122,6 @@ class TaskListViewModel @Inject constructor(
     private fun getTasks() {
         viewModelScope.launch(coroutineDispatcher) {
             try {
-                getPets()
                 getAllTasksUseCase().collectLatest {
                     _state.value = TaskListState.Success(
                         it,
@@ -127,19 +132,6 @@ class TaskListViewModel @Inject constructor(
                 _state.value = TaskListState.Error(
                     exception = e,
                 )
-            }
-        }
-    }
-
-    private fun getPets() {
-        viewModelScope.launch(coroutineDispatcher) {
-            try {
-                getAllPets().collectLatest {
-                    _pets.value = it
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _pets.value = listOf()
             }
         }
     }

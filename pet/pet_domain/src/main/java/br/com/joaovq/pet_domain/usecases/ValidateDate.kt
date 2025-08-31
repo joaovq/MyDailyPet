@@ -15,7 +15,6 @@ class ValidateDate @Inject constructor(
     @br.com.joaovq.core.di.DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ValidateDateUseCase {
     override suspend fun invoke(date: Date?): ValidateState {
-        val calendar = Calendar.getInstance()
         return withContext(dispatcher) {
             when (date) {
                 null -> ValidateState(

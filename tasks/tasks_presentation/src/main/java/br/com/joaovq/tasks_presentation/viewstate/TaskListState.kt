@@ -16,7 +16,7 @@ sealed class TaskListState(
     object DeleteSuccess : TaskListState(br.com.joaovq.core_ui.R.string.message_success)
     object UpdateSuccess : TaskListState(br.com.joaovq.core_ui.R.string.message_success)
     data class Error(
-        val exception: Exception,
+        val exception: Throwable,
         private val messageError: Int = br.com.joaovq.core_ui.R.string.message_error,
     ) :
         TaskListState(messageError)
