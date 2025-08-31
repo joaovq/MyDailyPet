@@ -75,7 +75,6 @@ class DateExtensionKtTest {
     }
 
     @Test
-    @RequiresApi(value = Build.VERSION_CODES.O)
     fun `GIVEN yesterday date  WHEN Date calculateInterval() THEN equal days 1`() {
         val yesterdayCalendar = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)

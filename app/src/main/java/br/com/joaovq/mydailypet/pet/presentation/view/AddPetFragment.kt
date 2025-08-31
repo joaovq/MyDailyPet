@@ -34,7 +34,6 @@ import br.com.joaovq.core_ui.extension.snackbar
 import br.com.joaovq.core_ui.extension.toast
 import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.core_ui.permission.CameraPermissionManager
-import br.com.joaovq.core_ui.permission.PickImagePermissionManager
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
@@ -56,7 +55,6 @@ class AddPetFragment : Fragment() {
 
     private val addPetViewModel: AddPetViewModel by viewModels()
     private lateinit var cameraPermissionManager: CameraPermissionManager
-    private lateinit var pickImagePermissionManager: PickImagePermissionManager
     private lateinit var registerPickImage: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var registerCaptureImage: ActivityResultLauncher<Void?>
     private var isImageSelected: Boolean = false
@@ -81,18 +79,6 @@ class AddPetFragment : Fragment() {
                 binding.ivPhotoAddPet.ivPhoto.setImageBitmap(bitmap)
                 isImageSelected = true
             }
-        pickImagePermissionManager = PickImagePermissionManager.from(this) { isGranted ->
-            if (isGranted) {
-                registerPickImage.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly,
-                    ),
-                )
-            }
-        }
-        pickImagePermissionManager.setOnShowRationale {
-            showSettingsDialog(br.com.joaovq.core_ui.R.string.rationale_message_pick_image)
-        }
         cameraPermissionManager = CameraPermissionManager.from(this) {
             if (it) {
                 registerCaptureImage.launch(null)
@@ -213,9 +199,9 @@ class AddPetFragment : Fragment() {
         val weightValue = value.replace(".", "")
         currentWeight = if (value.isNotBlank()) {
             (
-                weightValue.toBigDecimal().divide(BigDecimal.valueOf(100))
-                    .setScale(2, RoundingMode.HALF_UP)
-                ).toString()
+                    weightValue.toBigDecimal().divide(BigDecimal.valueOf(100))
+                        .setScale(2, RoundingMode.HALF_UP)
+                    ).toString()
         } else {
             ""
         }
@@ -233,7 +219,12 @@ class AddPetFragment : Fragment() {
             R.array.picture_alert_items,
         ) { _, position ->
             when (position) {
-                0 -> pickImagePermissionManager.checkPermission()
+                0 -> registerPickImage.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly,
+                    ),
+                )
+
                 1 -> cameraPermissionManager.checkPermission()
             }
         }

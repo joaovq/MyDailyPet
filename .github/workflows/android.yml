@@ -17,6 +17,7 @@ env:
 
 jobs:
   test:
+    name: Unit tests & Lint
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
@@ -36,8 +37,8 @@ jobs:
         shell: bash
       - name: Unit tests
         run: ./gradlew test lint --stacktrace
-  apk:
-    name: Generate APK
+  build:
+    name: Generate Artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

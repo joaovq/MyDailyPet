@@ -1,6 +1,7 @@
 package br.com.joaovq.core_ui.permission
 
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -9,7 +10,12 @@ class NotificationPermissionManager private constructor(
     private val fragment: Fragment,
     private val action: (Boolean) -> Unit,
 ) : PermissionManager {
-    private val permission: Permissions = Permissions.Notification
+    private val permission: Permissions? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Permissions.Notification
+        } else {
+            null
+        }
     private var rationale: () -> Unit = {
     }
     private val registerForActivity =
@@ -24,20 +30,20 @@ class NotificationPermissionManager private constructor(
 
     override fun checkPermission() {
         when {
-            !permission.permissions.map {
+            permission?.permissions?.map {
                 ContextCompat.checkSelfPermission(
                     fragment.requireContext(),
                     it,
                 ) == PackageManager.PERMISSION_GRANTED
-            }.contains(false) -> {
+            }?.contains(false) == true -> {
                 action(true)
             }
 
-            fragment.shouldShowRequestPermissionRationale(Permissions.POST_NOTIFICATION) -> {
-                rationale()
-            }
+            permission?.permissions?.first()?.let {
+                fragment.shouldShowRequestPermissionRationale(it)
+            } == true -> rationale()
 
-            else -> registerForActivity.launch(Permissions.Notification.permissions)
+            else -> registerForActivity.launch(permission?.permissions)
         }
     }
 

@@ -2,7 +2,6 @@ package br.com.joaovq.mydailypet.pet.presentation.view
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.LayoutInflater
@@ -53,7 +52,6 @@ class PetFragment : Fragment() {
     private val petArg: PetFragmentArgs by navArgs()
     private val petViewModel: PetScreenViewModel by viewModels()
     private var mImagePet: Uri? = null
-    private lateinit var pickImagePermissionManager: br.com.joaovq.core_ui.permission.PickImagePermissionManager
     private lateinit var mAdapter: DetailsPetAdapter
     private lateinit var bitmapHelperProvider: BitmapHelperProvider
     private lateinit var fileProviderPath: String
@@ -61,14 +59,6 @@ class PetFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pickImagePermissionManager =
-            br.com.joaovq.core_ui.permission.PickImagePermissionManager.from(this) { isGranted ->
-                if (isGranted) {
-                    lifecycleScope.launch {
-                        shareImage()
-                    }
-                }
-            }
         bitmapHelperProvider = BitmapHelperProvider(requireActivity())
         fileProviderPath = requireActivity().packageName + ".fileprovider"
     }
@@ -164,12 +154,8 @@ class PetFragment : Fragment() {
                 }
 
                 R.id.item_share_pet -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        pickImagePermissionManager.checkPermission()
-                    } else {
-                        lifecycleScope.launch {
-                            shareImage()
-                        }
+                    lifecycleScope.launch {
+                        shareImage()
                     }
                     true
                 }
@@ -210,7 +196,7 @@ class PetFragment : Fragment() {
         }
     }
 
-    private fun setDetailsPetInView(pet: br.com.joaovq.pet_domain.model.Pet) {
+    private fun setDetailsPetInView(pet: Pet) {
         pet.apply {
             binding.laytPhotoPet.ivPhoto.loadImage(imageUrl)
             mImagePet = imageUrl.toUri()

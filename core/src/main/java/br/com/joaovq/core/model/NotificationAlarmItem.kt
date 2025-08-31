@@ -1,7 +1,9 @@
 package br.com.joaovq.core.model
 
+import kotlinx.parcelize.Parcelize
 import java.util.UUID
 
+@Parcelize
 data class NotificationAlarmItem(
     val timeForNotification: Long,
     val messageNotification: String,
