@@ -25,7 +25,6 @@ import br.com.joaovq.core.util.extension.format
 import br.com.joaovq.core.util.extension.formatWeightToLocale
 import br.com.joaovq.core_ui.extension.gone
 import br.com.joaovq.core_ui.extension.loadImage
-import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.core_ui.extension.snackbar
 import br.com.joaovq.core_ui.extension.toast
 import br.com.joaovq.core_ui.extension.viewBinding
@@ -145,10 +144,8 @@ class PetFragment : Fragment() {
 
     private fun onNavigateToReminder() {
         binding.llAddReminderPetFrag.setOnClickListener {
-            findNavController().navWithAnim(
-                action = PetFragmentDirections.actionPetFragmentToAddReminderFragment(pet = pet),
-                animEnter = br.com.joaovq.core_ui.NavAnim.slideInLeft,
-                animPopExit = br.com.joaovq.core_ui.NavAnim.slideOutLeft,
+            findNavController().navigate(
+                PetFragmentDirections.actionPetFragmentToAddReminderFragment(pet = pet),
             )
         }
     }
@@ -160,10 +157,8 @@ class PetFragment : Fragment() {
         binding.tbPetScreen.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_edit_pet -> {
-                    findNavController().navWithAnim(
+                    findNavController().navigate(
                         PetFragmentDirections.actionPetFragmentToAddPetFragment(pet = pet),
-                        animEnter = br.com.joaovq.core_ui.NavAnim.slideInLeft,
-                        animPopExit = br.com.joaovq.core_ui.NavAnim.slideOutLeft,
                     )
                     true
                 }

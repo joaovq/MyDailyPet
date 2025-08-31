@@ -1,37 +1,4 @@
 buildscript {
-    ext {
-        kotlin_version = "1.8.20"
-        ktx_version_core = "1.8.20"
-        appcompat_version = "1.6.1"
-        material_version = "1.11.0"
-        constraint_layout_version = "2.1.4"
-        junit_version = "4.13.2"
-        ext_junit_version = "1.1.5"
-        espresso_version = "3.5.1"
-        nav_version = "2.7.6"
-        mockkVersion = '1.13.9'
-        jacoco_version = '0.8.11'
-        fragment_version = "1.5.6"
-        fragment_testing_version = '1.6.2'
-        room_version = "2.6.1"
-        glide_version = "4.15.0"
-        datastore_version = "1.0.0"
-        timber_version = "5.0.1"
-        coroutines_version = "1.6.4"
-        gson_version ="2.10.1"
-        circular_image_view_version ="3.1.0"
-        work_version ="2.9.0"
-        hilt_work_version = "1.1.0"
-        firebase_bom_version = "32.2.0"
-        ads_version = "22.2.0"
-        crashlytics_version = "2.9.7"
-        lottieVersion = "6.1.0"
-        in_app_updateVersion = "2.1.0"
-        hilt_version = "2.50"
-        hilt_compiler_version = "1.1.0"
-        compose_bom_version = "2024.05.00"
-        activity_version = "1.9.0"
-    }
     dependencies {
         classpath(libs.androidx.navigation.safe.args.gradle.plugin)
         classpath(libs.firebase.crashlytics.gradle)
@@ -41,11 +8,12 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '8.11.1' apply false
-    id 'com.android.library' version '8.11.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
-    id "com.google.dagger.hilt.android" version "2.50" apply false
-    id("com.google.gms.google-services") version "4.3.15" apply false
-    id 'com.android.test' version '8.11.1' apply false
-    id("com.google.devtools.ksp") version "1.8.20-1.0.10" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.hilt.android) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.kotlin.ksp) apply false
+    alias(libs.plugins.kotlin.compose) apply false
 }

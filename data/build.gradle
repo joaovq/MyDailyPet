@@ -1,10 +1,11 @@
 plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
-    id("com.google.dagger.hilt.android")
-    id 'jacoco'
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.jacoco)
 }
 
 android {
@@ -42,24 +43,23 @@ dependencies {
     implementation(project(":pet:pet_data"))
     implementation(project(":reminder:reminder_data"))
     implementation(project(":tasks:tasks_data"))
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation project(path: ':pet:pet_domain')
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    kapt("androidx.room:room-compiler:$room_version")
-    testImplementation("androidx.room:room-testing:$room_version")
+    implementation(project(":pet:pet_domain"))
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    implementation(libs.androidx.appcompat)
+    ksp(libs.androidx.room.compiler)
+    testImplementation(libs.androidx.room.testing)
 
-    implementation("androidx.datastore:datastore-preferences:" + datastore_version)
-    implementation("com.jakewharton.timber:timber:" + timber_version)
-    implementation("org.jacoco:org.jacoco.core:$jacoco_version")
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.timber)
+    implementation(libs.org.jacoco.core)
 
     //Gson
-    implementation "com.google.code.gson:gson:$gson_version"
+    implementation(libs.gson)
 
-    implementation("androidx.work:work-runtime-ktx:$work_version")
-    implementation("androidx.hilt:hilt-work:$hilt_work_version")
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
 
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }

@@ -19,7 +19,6 @@ import br.com.joaovq.core.util.extension.stringOrBlank
 import br.com.joaovq.core_ui.extension.createHelpDialog
 import br.com.joaovq.core_ui.extension.hideKeyboard
 import br.com.joaovq.core_ui.extension.loadImage
-import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.core_ui.extension.simpleAlertDialog
 import br.com.joaovq.core_ui.extension.toast
 import br.com.joaovq.core_ui.extension.viewBinding
@@ -139,7 +138,7 @@ class ReminderFragment : Fragment() {
 
                 R.id.item_menu_repeat_detail_reminder -> {
                     reminder?.let {
-                        findNavController().navWithAnim(
+                        findNavController().navigate(
                             ReminderFragmentDirections.actionReminderFragmentToAddReminderFragment(
                                 it.name,
                                 it.description,
@@ -157,6 +156,7 @@ class ReminderFragment : Fragment() {
                     }
                     true
                 }
+
                 else -> false
             }
         }

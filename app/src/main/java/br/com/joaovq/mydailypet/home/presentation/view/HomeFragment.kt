@@ -14,10 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import br.com.joaovq.core.util.extension.compareSameDate
-import br.com.joaovq.core_ui.NavAnim
 import br.com.joaovq.core_ui.extension.animateView
 import br.com.joaovq.core_ui.extension.createHelpDialog
-import br.com.joaovq.core_ui.extension.navWithAnim
 import br.com.joaovq.core_ui.extension.simpleAlertDialog
 import br.com.joaovq.core_ui.permission.NotificationPermissionManager
 import br.com.joaovq.mydailypet.MainViewModel
@@ -86,8 +84,8 @@ class HomeFragment : Fragment() {
                                 )
                             }
                         },
-                        onClickCategory = {
-                            findNavController().navWithAnim(it, NavAnim.slideUpPop)
+                        onClickCategory = { categoryRoute ->
+                            findNavController().navigate(categoryRoute)
                         }
                     )
                 }
@@ -132,7 +130,7 @@ class HomeFragment : Fragment() {
         binding.tbHome.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.settings_item -> {
-                    findNavController().navWithAnim(
+                    findNavController().navigate(
                         HomeFragmentDirections.actionHomeFragmentToSettingsFragment(),
                     )
                 }
@@ -140,10 +138,8 @@ class HomeFragment : Fragment() {
             true
         }
         binding.llAddReminder.setOnClickListener {
-            findNavController().navWithAnim(
+            findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToSuggestedReminderFragment(),
-                animEnter = NavAnim.slideInLeft,
-                animPopExit = NavAnim.slideOutLeft,
             )
         }
         binding.btnHelpTodayReminders.ivBtnHelp.setOnClickListener {
@@ -175,14 +171,12 @@ class HomeFragment : Fragment() {
     private fun setTodayReminders(reminders: List<Reminder>?) {
         val todayReminder = reminders.filterTodayReminders()
         val isNotEmptyTodayReminders = todayReminder?.isNotEmpty() == true
-        if (isNotEmptyTodayReminders && todayReminder != null) {
+        if (isNotEmptyTodayReminders) {
             binding.vpReminders.adapter = RemindersAdapter(
                 todayReminder,
             ) { idReminder ->
-                findNavController().navWithAnim(
-                    animEnter = br.com.joaovq.core_ui.R.anim.slide_in_left,
-                    animPopExit = br.com.joaovq.core_ui.R.anim.slide_in_right,
-                    action = HomeFragmentDirections
+                findNavController().navigate(
+                    HomeFragmentDirections
                         .actionHomeFragmentToReminderFragment(
                             idReminder,
                         ),

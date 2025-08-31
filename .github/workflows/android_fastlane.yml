@@ -1,0 +1,57 @@
+name: test-android-app
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Config enviroment
+        run: |
+          chmod +x ./.github/workflows/scripts.sh
+          ./.github/workflows/scripts.sh
+      - run: |
+          chmod +x ./gradlew
+      - name: Test with Fastlane
+        run: fastlane test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Config enviroment
+        run: |
+          chmod +x ./.github/workflows/scripts.sh
+          ./.github/workflows/scripts.sh
+      - run: |
+          chmod +x ./gradlew
+      - name: Build Release aab
+        run: fastlane android build_release
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release aab
+          path: |
+            app/build/outputs/bundle/release/app-release.aab
+    needs: test
+  gplay:
+    if: ${{ !endsWith(github.ref, 'beta') && !contains(github.ref, 'beta') }}
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy in play store
+        run: fastlane android deploy --json-key-data=${{ secrets.CREDENTIALS_RAW_JSON }}
+    needs: build

@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.joaovq.core_ui.extension.snackbar
-import br.com.joaovq.core_ui.extension.viewBinding
 import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.tasks_domain.model.Task
 import br.com.joaovq.tasks_presentation.R
@@ -28,9 +27,11 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
-    private val binding: FragmentTaskBinding by viewBinding(FragmentTaskBinding::inflate)
+    private val binding: FragmentTaskBinding by lazy {
+        FragmentTaskBinding.inflate(layoutInflater)
+    }
     private lateinit var taskListAdapter: TaskListAdapter
-    private val taskListViewModel by viewModels<TaskListViewModel>()
+    private val taskListViewModel: TaskListViewModel by viewModels()
     private var allTasks: List<Task>? = null
 
     override fun onCreateView(
@@ -77,14 +78,12 @@ class TaskFragment : Fragment() {
     private fun observeState() {
         lifecycleScope.launch {
             taskListViewModel.pets.collectLatest { pets ->
-                pets?.let {
-                    binding.spSelectPetTaskList.adapter =
-                        SelectorPetsAdapter(
-                            requireContext(),
-                            it,
-                        )
-                    filterTasksByPetSelected()
-                }
+                binding.spSelectPetTaskList.adapter =
+                    SelectorPetsAdapter(
+                        requireContext(),
+                        pets,
+                    )
+                filterTasksByPetSelected()
             }
         }
         lifecycleScope.launch {
