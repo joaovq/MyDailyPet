@@ -1,4 +1,4 @@
-name: test-android-app
+name: Android CI and CD with Fastlane Automation
 on:
   push:
     tags:
@@ -13,6 +13,7 @@ env:
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 jobs:
   test:
+    name: Unit tests & Gradle Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -22,7 +23,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - &BuildEnv
+      - &Env
         name: Config environment
         run: |
           chmod +x ./.github/workflows/scripts.sh
@@ -31,7 +32,30 @@ jobs:
         shell: bash
       - name: Test with Fastlane
         run: fastlane test
-  build:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v5
+#      - name: set up JDK 17
+#        uses: actions/setup-java@v5
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#          cache: gradle
+#      - *Env
+#      - name: Build Release aab
+#        run: fastlane android build_release
+#      - name: Upload AAB
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Release aab
+#          path: |
+#            app/build/outputs/bundle/release/app-release.aab
+#    needs: test
+  gplay:
+    if: ${{ !endsWith(github.ref, 'beta') && !contains(github.ref, 'beta') }}
+    name: Build & Deploy GPlay
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -41,21 +65,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - *BuildEnv
-      - name: Build Release aab
-        run: fastlane android build_release
-      - name: Upload AAB
-        uses: actions/upload-artifact@v4
-        with:
-          name: Release aab
-          path: |
-            app/build/outputs/bundle/release/app-release.aab
-    needs: test
-  gplay:
-    if: ${{ !endsWith(github.ref, 'beta') && !contains(github.ref, 'beta') }}
-    environment: production
-    runs-on: ubuntu-latest
-    steps:
+      - *Env
       - name: Deploy in play store
         run: fastlane android deploy --json-key-data=${{ secrets.CREDENTIALS_RAW_JSON }}
-    needs: build
+    needs: test
