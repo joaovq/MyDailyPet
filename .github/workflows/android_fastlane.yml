@@ -22,12 +22,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - name: Config enviroment
+      - &BuildEnv
+        name: Config environment
         run: |
           chmod +x ./.github/workflows/scripts.sh
           ./.github/workflows/scripts.sh
-      - run: |
           chmod +x ./gradlew
+        shell: bash
       - name: Test with Fastlane
         run: fastlane test
   build:
@@ -40,12 +41,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - name: Config enviroment
-        run: |
-          chmod +x ./.github/workflows/scripts.sh
-          ./.github/workflows/scripts.sh
-      - run: |
-          chmod +x ./gradlew
+      - *BuildEnv
       - name: Build Release aab
         run: fastlane android build_release
       - name: Upload AAB

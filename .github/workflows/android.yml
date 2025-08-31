@@ -22,63 +22,41 @@ jobs:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is running on a ${{ runner.os }} server hosted by GitHub!"
       - uses: actions/checkout@v5
-      - name: set up JDK 17
-        uses: actions/setup-java@v5
+      - uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - name: Config enviroment
+      - &BuildEnv
+        name: Config enviroment
         run: |
           chmod +x ./.github/workflows/scripts.sh
           ./.github/workflows/scripts.sh
+          chmod +x gradlew
         shell: bash
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug --stacktrace
       - name: Unit tests
-        run: ./gradlew test
+        run: ./gradlew test lint --stacktrace
   apk:
     name: Generate APK
     runs-on: ubuntu-latest
     steps:
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-      - run: echo "Generating apk"
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Setup JDK
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 17
-      - name: Config enviroment
+          cache: gradle
+      - *BuildEnv
+      - name: Android Build
         run: |
-          chmod +x ./.github/workflows/scripts.sh
-          ./.github/workflows/scripts.sh
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      - name: Build APK
-        run: |
-          ./gradlew assembleRelease --stacktrace
+          ./gradlew assembleRelease app:bundleRelease --parallel --build-cache --stacktrace
         env:
           KEY_STORE_PASSWORD: $KEY_STORE_PASSWORD
           KEY_PASSWORD: $KEY_PASSWORD
-      - name: Build AAB
-        run: |
-          ./gradlew app:bundleRelease --stacktrace
-        env:
-          KEY_STORE_PASSWORD: $KEY_STORE_PASSWORD
-          KEY_PASSWORD: $KEY_PASSWORD
-      - name: Upload AAB
+      - name: Upload artifacts from release (aab e apk)
         uses: actions/upload-artifact@v4
         with:
-          name: Release aab
+          name: Release apk e aab-${{ github.ref_name }}
           path: |
             app/build/outputs/bundle/release/app-release.aab
             app/build/outputs/apk/release/app-release.apk
