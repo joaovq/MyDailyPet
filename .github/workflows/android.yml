@@ -7,10 +7,13 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 env:
-  keyAlias: ${{ secrets.KEY_ALIAS }}
-  keyBase64: ${{ secrets.KEYSTORE }}
-  keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-  keyPassword: ${{ secrets.KEY_PASSWORD }}
+  AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
+  BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
+  GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+  KEYSTORE: ${{ secrets.KEYSTORE }}
+  KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+  KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
 jobs:
   test:
@@ -25,15 +28,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      #      - name: Create service_account.json
-      #        run: |
-      #          cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
-      #          echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
       - name: Config enviroment
-        #        env:
-        #          AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
-        #          BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
-        #          GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         run: |
           chmod +x ./.github/workflows/scripts.sh
           ./.github/workflows/scripts.sh
@@ -62,32 +57,24 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      #- name: Create service_account.json
-          #        run: |
-          #          cat /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json | base64
-          #          echo $GOOGLE_SERVICES_DATA > /home/runner/work/MyDailyPet/MyDailyPet/app/google-services.json
       - name: Config enviroment
-          #        env:
-          #          AD_MOB_ID: ${{ secrets.AD_MOB_ID }}
-          #          BANNER_AD_MOB_ID: ${{ secrets.BANNER_AD_MOB_ID }}
-          #          GOOGLE_SERVICES_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         run: |
-            chmod +x ./.github/workflows/scripts.sh
-            ./.github/workflows/scripts.sh
+          chmod +x ./.github/workflows/scripts.sh
+          ./.github/workflows/scripts.sh
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Build APK
         run: |
           ./gradlew assembleRelease --stacktrace
         env:
-          KEY_STORE_PASSWORD: $keyStorePassword
-          KEY_PASSWORD: $keyPassword
+          KEY_STORE_PASSWORD: $KEY_STORE_PASSWORD
+          KEY_PASSWORD: $KEY_PASSWORD
       - name: Build AAB
         run: |
           ./gradlew app:bundleRelease --stacktrace
         env:
-          KEY_STORE_PASSWORD: $keyStorePassword
-          KEY_PASSWORD: $keyPassword
+          KEY_STORE_PASSWORD: $KEY_STORE_PASSWORD
+          KEY_PASSWORD: $KEY_PASSWORD
       - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
