@@ -2,7 +2,6 @@ package br.com.joaovq.mydailypet.tasks.presentation.viewmodel
 
 import br.com.joaovq.mydailypet.testrule.MainDispatcherRule
 import br.com.joaovq.mydailypet.testutil.TestUtilTask
-import br.com.joaovq.pet_domain.model.Pet
 import br.com.joaovq.pet_domain.usecases.GetAllPets
 import br.com.joaovq.tasks_domain.model.Task
 import br.com.joaovq.tasks_domain.usecases.CreateTaskUseCase
@@ -21,6 +20,7 @@ import io.mockk.junit4.MockKRule
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -55,6 +55,7 @@ class TaskListViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        coEvery { getAllPets.invoke() } returns flowOf(listOf())
         taskListViewModel = TaskListViewModel(
             getAllTasksUseCase,
             createTaskUseCase,
@@ -67,7 +68,7 @@ class TaskListViewModelTest {
 
     @Test
     fun `GIVEN user intent create task WHEN createTask() THEN state SubmittedSuccess`() = runTest {
-        coEvery { createTaskUseCase(ofType(Task::class)) } returns Unit
+        coEvery { createTaskUseCase.invoke(ofType(Task::class)) } returns Unit
         taskListViewModel.dispatchIntent(
             TaskListAction.CreateTask(
                 TestUtilTask.task,
@@ -78,7 +79,7 @@ class TaskListViewModelTest {
             taskListViewModel.state.value,
         )
         coVerifyAll {
-            createTaskUseCase(ofType(Task::class))
+            createTaskUseCase.invoke(ofType(Task::class))
         }
     }
 
@@ -86,23 +87,23 @@ class TaskListViewModelTest {
     fun `GIVEN user intent create task WHEN createTask() throws exception THEN state Error `() =
         runTest {
             val exception = Exception("Error ")
-            coEvery { createTaskUseCase(ofType(Task::class)) } throws exception
+            coEvery { createTaskUseCase.invoke(ofType(Task::class)) } throws exception
             taskListViewModel.dispatchIntent(
                 TaskListAction.CreateTask(
                     TestUtilTask.task,
                 ),
             )
             assertEquals(
-                br.com.joaovq.tasks_presentation.viewstate.TaskListState.Error(exception),
+                TaskListState.Error(exception),
                 taskListViewModel.state.value,
             )
-            coVerifyAll { createTaskUseCase(ofType(Task::class)) }
+            coVerifyAll { createTaskUseCase.invoke(ofType(Task::class)) }
         }
 
     @Test
     fun `GIVEN user intent update task WHEN updateTask() THEN state UpdateSuccess  `() =
         runTest {
-            coEvery { updateTask(0, ofType(Task::class), true) } returns Unit
+            coEvery { updateTask.invoke(0, ofType(Task::class), true) } returns Unit
             taskListViewModel.dispatchIntent(
                 TaskListAction.UpdateStatusCompletedTask(
                     TestUtilTask.task.id,
@@ -114,14 +115,14 @@ class TaskListViewModelTest {
                 TaskListState.UpdateSuccess,
                 taskListViewModel.state.value,
             )
-            coVerifyAll { updateTask(0, ofType(Task::class), true) }
+            coVerifyAll { updateTask.invoke(0, ofType(Task::class), true) }
         }
 
     @Test
     fun `GIVEN user intent update task WHEN updateTask() THEN throw Exception `() =
         runTest {
             val exception = Exception()
-            coEvery { updateTask(0, ofType(Task::class), true) } throws exception
+            coEvery { updateTask.invoke(0, ofType(Task::class), true) } throws exception
             taskListViewModel.dispatchIntent(
                 TaskListAction.UpdateStatusCompletedTask(
                     TestUtilTask.task.id,
@@ -133,14 +134,14 @@ class TaskListViewModelTest {
                 TaskListState.Error(exception),
                 taskListViewModel.state.value,
             )
-            coVerifyAll { updateTask(0, ofType(Task::class), true) }
+            coVerifyAll { updateTask.invoke(0, ofType(Task::class), true) }
         }
 
     @Test
     fun `GIVEN user intent update task WHEN updateTask() THEN error message `() =
         runTest {
             val exception = Exception()
-            coEvery { updateTask(0, ofType(Task::class), true) } throws exception
+            coEvery { updateTask.invoke(0, ofType(Task::class), true) } throws exception
             taskListViewModel.dispatchIntent(
                 TaskListAction.UpdateStatusCompletedTask(
                     TestUtilTask.task.id,
@@ -152,14 +153,14 @@ class TaskListViewModelTest {
                 br.com.joaovq.core_ui.R.string.message_error,
                 taskListViewModel.state.value?.message
             )
-            coVerifyAll { updateTask(0, ofType(Task::class), true) }
+            coVerifyAll { updateTask.invoke(0, ofType(Task::class), true) }
         }
 
     @Test
     fun `GIVEN user intent delete task WHEN deleteTask() THEN error message `() =
         runTest {
             val exception = Exception()
-            coEvery { deleteTaskUseCase(0, ofType(Task::class)) } throws exception
+            coEvery { deleteTaskUseCase.invoke(0, ofType(Task::class)) } throws exception
             taskListViewModel.dispatchIntent(
                 TaskListAction.DeleteTask(
                     TestUtilTask.task.id,
@@ -176,7 +177,7 @@ class TaskListViewModelTest {
     @Test
     fun `GIVEN user intent delete task WHEN deleteTask() THEN state DeleteSuccess `() =
         runTest {
-            coEvery { deleteTaskUseCase(0, ofType(Task::class)) } returns Unit
+            coEvery { deleteTaskUseCase.invoke(0, ofType(Task::class)) } returns Unit
             taskListViewModel.dispatchIntent(
                 TaskListAction.DeleteTask(
                     TestUtilTask.task.id,
@@ -187,17 +188,14 @@ class TaskListViewModelTest {
                 TaskListState.DeleteSuccess,
                 taskListViewModel.state.value,
             )
-            coVerifyAll { deleteTaskUseCase(0, ofType(Task::class)) }
+            coVerifyAll { deleteTaskUseCase.invoke(0, ofType(Task::class)) }
         }
 
     @Test
     fun `GIVEN user intent get task WHEN getTasks() THEN state Success `() =
         runTest {
             val tasks = listOf(TestUtilTask.task)
-            coEvery { getAllPets() } returns flow {
-                emit(listOf())
-            }
-            coEvery { getAllTasksUseCase() } returns flow {
+            coEvery { getAllTasksUseCase.invoke() } returns flow {
                 emit(tasks)
             }
             taskListViewModel.dispatchIntent(
@@ -208,19 +206,15 @@ class TaskListViewModelTest {
                 taskListViewModel.state.value,
             )
             coVerifyOrder {
-                getAllPets()
-                getAllTasksUseCase()
+                getAllTasksUseCase.invoke()
             }
         }
 
     @Test
     fun `GIVEN user intent get task WHEN getTasks() throw Exception THEN state Error `() =
         runTest {
-            coEvery { getAllPets() } returns flow {
-                emit(listOf())
-            }
             val exception = Exception()
-            coEvery { getAllTasksUseCase() } throws exception
+            coEvery { getAllTasksUseCase.invoke() } throws exception
             taskListViewModel.dispatchIntent(
                 TaskListAction.GetAllTasks,
             )
@@ -229,20 +223,7 @@ class TaskListViewModelTest {
                 taskListViewModel.state.value,
             )
             coVerifyOrder {
-                getAllPets()
-                getAllTasksUseCase()
-            }
-        }
-
-    @Test
-    fun `GIVEN user intent getPets WHEN getPets() THEN state Error `() =
-        runTest {
-            val exception = Exception()
-            coEvery { getAllPets() } throws exception
-            taskListViewModel.dispatchIntent(TaskListAction.GetAllTasks)
-            assertEquals(listOf<Pet>(), taskListViewModel.pets.value)
-            coVerifyOrder {
-                getAllPets()
+                getAllTasksUseCase.invoke()
             }
         }
 }
