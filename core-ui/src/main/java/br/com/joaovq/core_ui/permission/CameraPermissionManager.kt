@@ -1,6 +1,7 @@
 package br.com.joaovq.core_ui.permission
 
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -26,21 +27,23 @@ class CameraPermissionManager private constructor(
     }
 
     override fun checkPermission() {
-        when {
-            !permissions.permissions.map {
-                ContextCompat.checkSelfPermission(
-                    fragment.requireContext(),
-                    it,
-                ) == PackageManager.PERMISSION_GRANTED
-            }.contains(false) -> {
-                action(true)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            when {
+                !permissions.permissions.map {
+                    ContextCompat.checkSelfPermission(
+                        fragment.requireContext(),
+                        it,
+                    ) == PackageManager.PERMISSION_GRANTED
+                }.contains(false) -> {
+                    action(true)
+                }
 
-            fragment.shouldShowRequestPermissionRationale(Permissions.CAMERA) -> {
-                rationale()
-            }
+                fragment.shouldShowRequestPermissionRationale(Permissions.CAMERA) -> {
+                    rationale()
+                }
 
-            else -> registerForActivity.launch(Permissions.Camera.permissions)
+                else -> registerForActivity.launch(Permissions.Camera.permissions)
+            }
         }
     }
 
