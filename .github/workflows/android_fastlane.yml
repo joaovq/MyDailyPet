@@ -46,8 +46,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - *Env
-      - name: Create Google Services Json
-        run: echo "${{ secrets.CREDENTIALS_RAW_JSON }}" > ./fastlane/my_daily_pet.json
+      - name: Setup Google Play credentials
+        run: echo "${{ secrets.CREDENTIALS_RAW_JSON }}" > fastlane/my_daily_pet.json
       - name: Deploy in play store
-        run: fastlane android deploy --json_key ./fastlane/my_daily_pet.json
+        run: fastlane android deploy
     needs: test
