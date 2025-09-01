@@ -27,9 +27,6 @@ platform :android do
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     gradle(task: "clean bundleRelease")
-    upload_to_play_store(
-        json_key_data: ENV['CREDENTIALS_RAW_JSON']
-#         track: 'beta'
-    )
+    upload_to_play_store()
   end
 end
