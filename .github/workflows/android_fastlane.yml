@@ -47,7 +47,7 @@ jobs:
           cache: gradle
       - *Env
       - name: Setup Google Play credentials
-        run: echo "${{ secrets.CREDENTIALS_RAW_JSON }}" > fastlane/my_daily_pet.json
+        run: echo '${{ secrets.CREDENTIALS_RAW_JSON }}' > fastlane/my_daily_pet.json
       - name: Deploy in play store
         run: fastlane android deploy
     needs: test
