@@ -44,7 +44,7 @@ android {
         release {
             keyAlias "joaovqapps"
             keyPassword keyAliasPassword
-            storeFile file("my-daily-pet.jks")
+            storeFile file("app/my-daily-pet.jks")
             storePassword keystorePassword
         }
     }
