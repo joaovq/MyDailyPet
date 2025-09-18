@@ -43,7 +43,11 @@ class NotificationPermissionManager private constructor(
                 fragment.shouldShowRequestPermissionRationale(it)
             } == true -> rationale()
 
-            else -> registerForActivity.launch(permission?.permissions)
+            else -> {
+                permission?.permissions?.let {
+                    registerForActivity.launch(it)
+                }
+            }
         }
     }
 
