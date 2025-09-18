@@ -42,10 +42,10 @@ android {
 
     signingConfigs {
         release {
+            storeFile file("my-daily-pet.jks")
+            storePassword keystorePassword
             keyAlias "joaovqapps"
             keyPassword keyAliasPassword
-            storeFile file("app/my-daily-pet.jks")
-            storePassword keystorePassword
         }
     }
 
@@ -57,7 +57,7 @@ android {
             resValue("string", "AD_MOB_ID", adModId)
             resValue("string", "BANNER_ID", bannerId)
             _isDebuggable = false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             buildConfigField("Boolean","DEBUG", "false")
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
