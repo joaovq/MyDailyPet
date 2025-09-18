@@ -35,19 +35,15 @@ class NotificationPermissionManager private constructor(
                     fragment.requireContext(),
                     it,
                 ) == PackageManager.PERMISSION_GRANTED
-            }?.contains(false) == true -> {
+            }?.contains(false) != true -> {
                 action(true)
             }
 
-            permission?.permissions?.first()?.let {
+            permission.permissions.first().let {
                 fragment.shouldShowRequestPermissionRationale(it)
-            } == true -> rationale()
+            } -> rationale()
 
-            else -> {
-                permission?.permissions?.let {
-                    registerForActivity.launch(it)
-                }
-            }
+            else -> registerForActivity.launch(permission.permissions)
         }
     }
 
