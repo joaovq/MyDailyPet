@@ -1,15 +1,20 @@
 package br.com.joaovq.mydailypet
 
 import android.os.Bundle
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import br.com.joaovq.core.data.datastore.setNightThemeApp
 import br.com.joaovq.mydailypet.databinding.ActivityMainBinding
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -33,13 +38,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     private var updateType: Int = AppUpdateType.FLEXIBLE
-    private val appUpdateManager by lazy {
-        AppUpdateManagerFactory.create(applicationContext).apply {
-            if (updateType == AppUpdateType.FLEXIBLE) {
-                registerListener(installUpdateStateListener)
-            }
-        }
-    }
+    private lateinit var appUpdateManager: AppUpdateManager
 
 
     private val updateResultLauncher = registerForActivityResult(
@@ -49,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             result.resultCode == PlayActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
                 log.e("Result in app update failed! Result code: %s", result.resultCode)
             }
+
             result.resultCode != RESULT_OK -> {
                 log.e("Update flow failed! Result code: %s", result.resultCode)
             }
@@ -59,6 +59,21 @@ class MainActivity : AppCompatActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.top
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext).apply {
+            if (updateType == AppUpdateType.FLEXIBLE) {
+                registerListener(installUpdateStateListener)
+            }
+        }
         lifecycleScope.launch {
             viewModel.isNewUser.collectLatest { isNewUser ->
                 splashScreen.setKeepOnScreenCondition { isNewUser == null }
