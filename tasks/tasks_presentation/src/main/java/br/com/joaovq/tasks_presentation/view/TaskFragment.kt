@@ -113,8 +113,7 @@ class TaskFragment : Fragment() {
     private fun filterTasksByPetSelected() {
         allTasks?.let { safeTasks ->
             try {
-                val pet =
-                    binding.spSelectPetTaskList.selectedItem as br.com.joaovq.pet_domain.model.Pet
+                val pet = binding.spSelectPetTaskList.selectedItem as Pet
                 val filteredTasksPetSelected = safeTasks.filter { task ->
                     task.pet == pet
                 }
