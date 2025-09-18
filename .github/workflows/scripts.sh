@@ -7,5 +7,5 @@ echo "$KEYSTORE" | base64 --decode > ./app/my-daily-pet.jks
 cat ./app/my-daily-pet.jks
 echo keystore-file=my-daily-pet.jks > ./keystore.properties
 echo keystore-pswd="$KEY_STORE_PASSWORD" >> ./keystore.properties
-echo keystore-alias-pswd="$KEY_ALIAS" >> ./keystore.properties
+echo keystore-alias-pswd="$KEY_PASSWORD" >> ./keystore.properties
 cat ./keystore.properties
