@@ -49,9 +49,6 @@ jobs:
       - name: Android Build
         run: |
           ./gradlew assembleRelease app:bundleRelease --parallel --build-cache --stacktrace
-        env:
-          KEY_STORE_PASSWORD: $KEY_STORE_PASSWORD
-          KEY_PASSWORD: $KEY_PASSWORD
       - name: Upload artifacts from release (aab e apk)
         uses: actions/upload-artifact@v4
         with:
