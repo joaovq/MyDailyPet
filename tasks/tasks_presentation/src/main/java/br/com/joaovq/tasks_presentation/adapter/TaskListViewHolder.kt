@@ -44,7 +44,9 @@ sealed class TaskListViewHolder(binding: ViewBinding) :
                 binding.tilTaskListEditable.endIconDrawable?.setVisible(isOnFocused, false)
             }
             binding.tilTaskListEditable.setEndIconOnClickListener {
-                setOnSendTask(binding.etTaskListName.text.toString())
+                binding.etTaskListName.text.toString().takeIf { it.isNotEmpty() }?.let {
+                    setOnSendTask(it)
+                }
                 binding.etTaskListName.apply {
                     clearFocus()
                     text?.clear()

@@ -214,8 +214,8 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui)
-//    Play integrity
-    implementation(libs.integrity)
+    implementation(libs.play.integrity)
+    testImplementation(libs.turbine)
 }
 kapt {
     correctErrorTypes true

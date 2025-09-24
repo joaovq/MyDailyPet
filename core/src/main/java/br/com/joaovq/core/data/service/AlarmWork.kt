@@ -1,7 +1,6 @@
 package br.com.joaovq.core.data.service
 
 import android.content.Context
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -21,7 +20,7 @@ import timber.log.Timber
 class AlarmWork @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParameters: WorkerParameters,
-    @IODispatcher private  val coroutineDispatcher: CoroutineDispatcher,
+    @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
     private val navLinksApp: NavLinksApp
 ) : CoroutineWorker(context, workerParameters) {
     private val log = Timber.tag(this::class.java.simpleName)

@@ -23,9 +23,9 @@ import br.com.joaovq.core_ui.permission.NotificationPermissionManager
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentAddReminderBinding
 import br.com.joaovq.mydailypet.pet.presentation.adapter.SelectorPetsAdapter
-import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderEvents
+import br.com.joaovq.mydailypet.reminder.presentation.viewintent.AddReminderIntents
 import br.com.joaovq.mydailypet.reminder.presentation.viewmodel.AddPetReminderViewModel
-import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderUiState
+import br.com.joaovq.mydailypet.reminder.presentation.viewstate.AddReminderEvents
 import br.com.joaovq.pet_domain.model.Pet
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -68,67 +68,47 @@ class AddReminderFragment : Fragment() {
         setToolbarView()
         setListenersOfView()
         animateShrinkExtendedFabButton(fabButton = binding.fabAddReminder)
+        getArgs()
+        setInitialView()
     }
 
     private fun initStates() {
         lifecycleScope.launch {
-            addPetReminderViewModel.state.collectLatest { petState ->
+            addPetReminderViewModel.event.collectLatest { petState ->
                 when (petState) {
-                    is AddReminderUiState.Error -> {
+                    is AddReminderEvents.Error -> {
                         snackbar(message = getString(petState.message))
                         binding.spSelectPetReminder.isEnabled = false
                     }
 
-                    is AddReminderUiState.Success -> {
-                        initSelectorPet(petState.data)
-                        getArgs()
-                    }
-
-                    AddReminderUiState.SubmittedSuccess -> {
+                    AddReminderEvents.SubmittedSuccess -> {
                         simpleBottomSheetDialog(text = getString(R.string.text_message_success_reminder_was_added))
                         notificationPermissionManager.checkPermission()
                         binding.etNameReminder.text?.clear()
                         binding.etDescriptionReminder.text?.clear()
                         setInitialView()
                     }
-
-                    null -> {
-                        setInitialView()
-                    }
                 }
             }
         }
         lifecycleScope.launch {
-            addPetReminderViewModel.validateStateDate.collectLatest {
-                binding.tilToDateReminder.error =
-                    it.errorMessage.stringOrBlank(requireContext())
-                binding.tilTimeReminder.error = it.errorMessage.stringOrBlank(requireContext())
-            }
-        }
-        lifecycleScope.launch {
-            addPetReminderViewModel.validateStateName.collectLatest {
-                binding.tilNameReminder.error = it.errorMessage.stringOrBlank(requireContext())
-            }
-        }
-        lifecycleScope.launch {
-            addPetReminderViewModel.validateStateDescription.collectLatest {
-                binding.tilDescriptionReminder.error =
-                    it.errorMessage.stringOrBlank(requireContext())
-            }
-        }
-    }
+            addPetReminderViewModel.state.collectLatest {
+                it.pets.takeIf { allPets -> allPets.isNotEmpty() }?.let { safePets ->
+                    initSelectorPet(safePets)
 
-    private fun getArgs() {
-        args.let {
-            binding.etNameReminder.setText(it.name)
-            binding.etDescriptionReminder.setText(it.description)
-            it.pet?.let { petSafe ->
-                binding.spSelectPetReminder.adapter =
-                    SelectorPetsAdapter(
-                        requireContext(),
-                        listOf(petSafe),
-                    )
-                binding.spSelectPetReminder.isEnabled = false
+                }
+
+                it.validateStateDescription.apply {
+                    binding.tilDescriptionReminder.error =
+                        errorMessage.stringOrBlank(requireContext())
+                }
+                it.validateStateName.apply {
+                    binding.tilNameReminder.error = errorMessage.stringOrBlank(requireContext())
+                }
+                it.validateStateDate.apply {
+                    binding.tilToDateReminder.error = errorMessage.stringOrBlank(requireContext())
+                    binding.tilTimeReminder.error = errorMessage.stringOrBlank(requireContext())
+                }
             }
         }
     }
@@ -137,7 +117,7 @@ class AddReminderFragment : Fragment() {
         calendar = Calendar.getInstance()
         binding.etToDateReminder.setText(calendar.time.format())
         binding.etTimeReminder.setText(
-            adjustTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)),
+            adjustTime(calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE]),
         )
     }
 
@@ -156,12 +136,26 @@ class AddReminderFragment : Fragment() {
             true
         }
     }
+    private fun getArgs() {
+        args.let {
+            binding.etNameReminder.setText(it.name)
+            binding.etDescriptionReminder.setText(it.description)
+            it.pet?.let { petSafe ->
+                binding.spSelectPetReminder.adapter =
+                    SelectorPetsAdapter(
+                        requireContext(),
+                        listOf(petSafe),
+                    )
+                binding.spSelectPetReminder.isEnabled = false
+            }
+        }
+    }
 
     private fun setListenersOfView() {
         binding.fabAddReminder.setOnClickListener {
             binding.spSelectPetReminder.selectedItem?.let { selectedPet ->
                 addPetReminderViewModel.dispatchIntent(
-                    AddReminderEvents.SubmitData(
+                    AddReminderIntents.SubmitData(
                         binding.etNameReminder.text.toString(),
                         binding.etDescriptionReminder.text.toString(),
                         calendar.time,
@@ -178,7 +172,9 @@ class AddReminderFragment : Fragment() {
                 title = getString(R.string.text_select_date),
                 calendarConstraints = calendarConstraintsBuilder,
             ) { year, month, day ->
-                calendar.set(year, month, day)
+                calendar[Calendar.YEAR] = year
+                calendar[Calendar.MONTH] = month
+                calendar[Calendar.DAY_OF_MONTH] = day
                 binding.etToDateReminder.setText(calendar.time.format())
             }
         }
@@ -191,8 +187,8 @@ class AddReminderFragment : Fragment() {
             simpleTimePicker(
                 timeFormat = timeFormat,
             ) { hour, minute ->
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
+                calendar[Calendar.HOUR_OF_DAY] = hour
+                calendar[Calendar.MINUTE] = minute
                 binding.etTimeReminder.setText(
                     adjustTime(hour, minute),
                 )
@@ -201,7 +197,7 @@ class AddReminderFragment : Fragment() {
     }
 
     private fun adjustTime(hour: Int, minute: Int): String {
-        return if (minute < 10) {
+        return if (minute < TEN_MINUTES_DELIMITER) {
             "$hour${DELIMITER_TIMER}0$minute"
         } else {
             "$hour$DELIMITER_TIMER$minute"
@@ -219,5 +215,6 @@ class AddReminderFragment : Fragment() {
 
     companion object {
         const val DELIMITER_TIMER = ":"
+        const val TEN_MINUTES_DELIMITER = 10
     }
 }

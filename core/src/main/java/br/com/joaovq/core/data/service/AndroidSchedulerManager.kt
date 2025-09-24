@@ -3,7 +3,6 @@ package br.com.joaovq.core.data.service
 import android.content.Context
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -24,7 +23,6 @@ class AndroidSchedulerManager @Inject constructor(
 ) : AlarmScheduler {
 
     private val log = Timber.tag(this::class.java.simpleName)
-
 
     private val manager = WorkManager
         .getInstance(context)
@@ -68,8 +66,7 @@ class AndroidSchedulerManager @Inject constructor(
             .setInputData(alarmWorkData)
             .setInitialDelay(alarmItem.time, timeUnit = TimeUnit.DAYS)
             .build()
-        manager
-            .enqueue(workRequest)
+        manager.enqueue(workRequest)
     }
 
     override fun cancel(alarmItem: AlarmItem) {
