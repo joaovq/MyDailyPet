@@ -18,6 +18,7 @@ import br.com.joaovq.core_ui.extension.animateView
 import br.com.joaovq.core_ui.extension.createHelpDialog
 import br.com.joaovq.core_ui.extension.simpleAlertDialog
 import br.com.joaovq.core_ui.permission.NotificationPermissionManager
+import br.com.joaovq.mydailypet.BuildConfig
 import br.com.joaovq.mydailypet.MainViewModel
 import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentHomeBinding
@@ -120,7 +121,7 @@ class HomeFragment : Fragment() {
     private fun loadAds() {
         MobileAds.initialize(requireContext()) {}
         MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder().setTestDeviceIds(listOf()).build()
+            RequestConfiguration.Builder().setTestDeviceIds(BuildConfig.AD_TEST_DEVICES.split(",")).build()
         )
         val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
