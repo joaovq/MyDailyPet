@@ -1,5 +1,6 @@
 package br.com.joaovq.mydailypet.pet.presentation.view
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +12,6 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
@@ -27,6 +27,7 @@ import br.com.joaovq.core.model.SexType
 import br.com.joaovq.core.util.extension.calculateIntervalNextBirthday
 import br.com.joaovq.core.util.extension.format
 import br.com.joaovq.core.util.extension.stringOrBlank
+import br.com.joaovq.core_ui.TextWatcherProvider
 import br.com.joaovq.core_ui.extension.animateShrinkExtendedFabButton
 import br.com.joaovq.core_ui.extension.goToSettingsAlertDialogForPermission
 import br.com.joaovq.core_ui.extension.simpleDatePickerDialog
@@ -38,19 +39,31 @@ import br.com.joaovq.mydailypet.R
 import br.com.joaovq.mydailypet.databinding.FragmentAddPetBinding
 import br.com.joaovq.mydailypet.pet.presentation.viewintent.AddPetAction
 import br.com.joaovq.mydailypet.pet.presentation.viewmodel.AddPetViewModel
+import br.com.joaovq.pet_domain.model.AddPetChoices.CREATE
+import br.com.joaovq.pet_domain.model.AddPetChoices.UPDATE
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.Calendar
 import java.util.Date
 import java.util.UUID
+import br.com.joaovq.core.R as CoreRes
+import br.com.joaovq.core_ui.R as CoreUiRes
 
 @AndroidEntryPoint
 class AddPetFragment : Fragment() {
+    private val log = Timber.tag(this::class.java.simpleName)
     private val binding by viewBinding(FragmentAddPetBinding::inflate)
 
     private val addPetViewModel: AddPetViewModel by viewModels()
@@ -63,6 +76,7 @@ class AddPetFragment : Fragment() {
     private lateinit var bitmapWriterProvider: ImageProvider<Bitmap, File?>
 
     private val args: AddPetFragmentArgs by navArgs()
+    private var interstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,15 +99,9 @@ class AddPetFragment : Fragment() {
             }
         }
         cameraPermissionManager.setOnShowRationale {
-            showSettingsDialog(br.com.joaovq.core_ui.R.string.rationale_message_capture_image)
+            goToSettingsAlertDialogForPermission(CoreUiRes.string.rationale_message_capture_image)
         }
         bitmapWriterProvider = BitmapHelperProvider(requireContext())
-    }
-
-    private fun showSettingsDialog(@StringRes message: Int) {
-        goToSettingsAlertDialogForPermission(
-            message,
-        )
     }
 
     override fun onCreateView(
@@ -106,12 +114,57 @@ class AddPetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        animateView()
+        animateShrinkExtendedFabButton(fabButton = binding.btnAddPet)
+        loadAds()
         setUpdateView()
         setUpToolbar()
         setListenersOfView()
         setAdapterType()
         initStates()
+    }
+
+    fun loadAds() {
+        InterstitialAd.load(
+            requireContext(),
+            getString(R.string.INTERSTICIAL_ID),
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    log.d("Ad was loaded.")
+                    interstitialAd = ad
+                    interstitialAd?.fullScreenContentCallback =
+                        object : FullScreenContentCallback() {
+                            override fun onAdDismissedFullScreenContent() {
+                                log.d("Ad was dismissed.")
+                                interstitialAd = null
+                                findNavController().popBackStack()
+                            }
+
+                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                log.d("Ad failed to show.")
+                                interstitialAd = null
+                            }
+
+                            override fun onAdShowedFullScreenContent() {
+                                log.d("Ad showed fullscreen content.")
+                            }
+
+                            override fun onAdImpression() {
+                                log.d("Ad recorded an impression.")
+                            }
+
+                            override fun onAdClicked() {
+                                log.d("Ad was clicked.")
+                            }
+                        }
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    log.d(adError.message)
+                    interstitialAd = null
+                }
+            },
+        )
     }
 
     private fun setUpdateView() {
@@ -131,10 +184,6 @@ class AddPetFragment : Fragment() {
                 },
             )
         }
-    }
-
-    private fun animateView() {
-        animateShrinkExtendedFabButton(fabButton = binding.btnAddPet)
     }
 
     private fun setAdapterType() {
@@ -161,8 +210,11 @@ class AddPetFragment : Fragment() {
             simpleDatePickerDialog(
                 title = getString(R.string.text_select_birth),
             ) { year, month, day ->
-                val calendar = Calendar.getInstance()
-                calendar.set(year, month, day)
+                val calendar = Calendar.getInstance().apply {
+                    this[Calendar.YEAR] = year
+                    this[Calendar.MONTH] = month
+                    this[Calendar.DAY_OF_MONTH] = day
+                }
                 mBirth = calendar.time
                 binding.etBirthAddPet.setText(mBirth.format())
             }
@@ -174,7 +226,7 @@ class AddPetFragment : Fragment() {
             submitForms()
         }
         binding.etWeightAddPet.addTextChangedListener(
-            br.com.joaovq.core_ui.TextWatcherProvider { editable ->
+            TextWatcherProvider { editable ->
                 formatDoubleValueEditable(editable)
             },
         )
@@ -186,8 +238,8 @@ class AddPetFragment : Fragment() {
             if (value != currentWeight) {
                 doubleTreatment(value, editable)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (e: Throwable) {
+            log.e(e)
             when (e) {
                 is NumberFormatException -> binding.tilWeightAddPet.error = "Weight are need number"
                 else -> snackbar(message = "unexpected error")
@@ -212,9 +264,9 @@ class AddPetFragment : Fragment() {
     private fun showAlertDialog() {
         val materialAlertDialogBuilder =
             MaterialAlertDialogBuilder(requireContext())
-        materialAlertDialogBuilder.setIcon(br.com.joaovq.core_ui.R.drawable.ic_round_logo_2)
+        materialAlertDialogBuilder.setIcon(CoreUiRes.drawable.ic_round_logo_2)
 
-        materialAlertDialogBuilder.setTitle(getString(br.com.joaovq.core_ui.R.string.text_select_option))
+        materialAlertDialogBuilder.setTitle(getString(CoreUiRes.string.text_select_option))
         materialAlertDialogBuilder.setItems(
             R.array.picture_alert_items,
         ) { _, position ->
@@ -232,17 +284,17 @@ class AddPetFragment : Fragment() {
     }
 
     private fun submitForms() {
-        val sexType = mapSexType()
+        val sexType = (binding.spSexAddPet.selectedItem as String).mapSexType(requireContext())
         val path = getPathPhotoUrl()
         val bitmap = if (isImageSelected) binding.ivPhotoAddPet.ivPhoto.drawToBitmap() else null
         try {
-            if (mapChoicesAction() == br.com.joaovq.pet_domain.model.AddPetChoices.UPDATE) {
+            if (mapChoicesAction() == UPDATE) {
                 updatePet(sexType, path, bitmap)
             } else {
                 createPet(sexType, path, bitmap)
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            log.e(e)
             when (e) {
                 is NumberFormatException ->
                     binding.tilWeightAddPet.error = getString(R.string.message_error_weight_null)
@@ -251,8 +303,8 @@ class AddPetFragment : Fragment() {
     }
 
     private fun mapChoicesAction() = when (args.pet != null) {
-        true -> br.com.joaovq.pet_domain.model.AddPetChoices.UPDATE
-        false -> br.com.joaovq.pet_domain.model.AddPetChoices.CREATE
+        true -> UPDATE
+        false -> CREATE
     }
 
     private fun getPathPhotoUrl() = if (isImageSelected) {
@@ -306,7 +358,7 @@ class AddPetFragment : Fragment() {
                 ),
             )
         }
-            ?: snackbar(message = getString(br.com.joaovq.core.R.string.message_date_is_cannot_be_null))
+            ?: snackbar(message = getString(CoreRes.string.message_date_is_cannot_be_null))
     }
 
     private fun createNotificationForBirthday(it: Long) = NotificationAlarmItem(
@@ -316,12 +368,6 @@ class AddPetFragment : Fragment() {
         id = UUID.randomUUID()
     )
 
-    private fun mapSexType() = when (binding.spSexAddPet.selectedItem as String) {
-        getString(br.com.joaovq.core.R.string.text_male) -> SexType.MALE
-        getString(br.com.joaovq.core.R.string.text_female) -> SexType.FEMALE
-        else -> SexType.MALE
-    }
-
     private fun initStates() {
         lifecycleScope.launch {
             addPetViewModel.state.collectLatest { stateCollected ->
@@ -329,7 +375,7 @@ class AddPetFragment : Fragment() {
                 binding.ctlAddPet.isVisible = !stateCollected.isLoading
                 if (stateCollected.isSuccesful) {
                     stateCollected.message?.let { toast(text = getString(it)) }
-                    findNavController().popBackStack()
+                    interstitialAd?.show(requireActivity()) ?: findNavController().popBackStack()
                 }
             }
         }
@@ -349,4 +395,17 @@ class AddPetFragment : Fragment() {
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (interstitialAd != null) {
+            interstitialAd = null
+        }
+    }
+}
+
+private fun String.mapSexType(context: Context) = when (this) {
+    context.getString(CoreRes.string.text_male) -> SexType.MALE
+    context.getString(CoreRes.string.text_female) -> SexType.FEMALE
+    else -> SexType.MALE
 }

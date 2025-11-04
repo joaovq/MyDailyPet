@@ -1,6 +1,8 @@
 package br.com.joaovq.mydailypet.home.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import br.com.joaovq.core.di.IODispatcher
+import br.com.joaovq.core_ui.presenter.BaseViewModel
 import br.com.joaovq.mydailypet.home.presentation.viewintent.HomeAction
 import br.com.joaovq.mydailypet.home.presentation.viewstate.HomeUiState
 import br.com.joaovq.pet_domain.model.Pet
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +25,9 @@ class HomeViewModel @Inject constructor(
     private val getAllPetsUseCase: GetAllPetsUseCase,
     private val getAllReminderUseCase: GetAllReminderUseCase,
     private val deletePetUseCase: DeletePetUseCase,
-    @br.com.joaovq.core.di.IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
-) : br.com.joaovq.core_ui.presenter.BaseViewModel<HomeAction, HomeUiState?>() {
+    @IODispatcher private val coroutineDispatcher: CoroutineDispatcher,
+) : BaseViewModel<HomeAction, HomeUiState?>() {
+    private val log = Timber.tag(this::class.java.simpleName)
 
     override val _state: MutableStateFlow<HomeUiState?> = MutableStateFlow(null)
     val homeState = _state.asStateFlow()
@@ -39,10 +43,7 @@ class HomeViewModel @Inject constructor(
 
     override fun dispatchIntent(intent: HomeAction) {
         when (intent) {
-            HomeAction.GetPets -> {
-                getPets()
-            }
-
+            HomeAction.GetPets -> getPets()
             is HomeAction.DeletePet -> deletePet(intent.pet)
             HomeAction.GetReminders -> getReminders()
         }
@@ -54,16 +55,12 @@ class HomeViewModel @Inject constructor(
                 getAllPetsUseCase().onStart {
                     _isLoading.value = true
                 }.collectLatest { pets ->
-                    _state.value = HomeUiState.Success(
-                        data = pets,
-                    )
+                    _state.value = HomeUiState.Success(data = pets)
                     _isLoading.value = false
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                _state.value = HomeUiState.Error(
-                    e,
-                )
+                log.e(e)
+                _state.value = HomeUiState.Error(e)
                 _isLoading.value = false
             }
         }
@@ -79,7 +76,7 @@ class HomeViewModel @Inject constructor(
                     _isLoading.value = false
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                log.e(e)
                 _reminders.value = listOf()
                 _isLoading.value = false
             }
@@ -92,10 +89,8 @@ class HomeViewModel @Inject constructor(
                 deletePetUseCase(pet)
                 _state.value = HomeUiState.DeleteSuccess
             } catch (e: Exception) {
-                e.printStackTrace()
-                _state.value = HomeUiState.Error(
-                    e,
-                )
+                log.e(e)
+                _state.value = HomeUiState.Error(e)
                 _isLoading.value = false
             }
         }
