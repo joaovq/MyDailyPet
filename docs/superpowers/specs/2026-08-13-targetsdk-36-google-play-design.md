@@ -101,25 +101,51 @@ verificação; cada item vira correção apenas se a verificação falhar.
 
 ## Verificação
 
-1. **Build limpo** — `./gradlew clean assembleRelease app:bundleRelease`.
-   Confirma que os 13 módulos compilam em `compileSdk 36` e que a subida do
-   AdMob não quebrou nada.
+### Limitação de ambiente
+
+Builds de **release não rodam localmente**. Não existem `app/my-daily-pet.jks`
+nem `app/google-services.json` de produção em nenhuma cópia do repositório —
+apenas `app/src/debug/google-services.json`, que é versionado. O
+`local.properties` contém somente `sdk.dir`, sem `AD_MOB_ID` nem
+`BANNER_AD_MOB_ID`. Esses secrets existem apenas no GitHub Actions.
+
+Por isso a verificação local usa **debug**, e o AAB de release assinado é
+validado no CI. A cobertura real não é perdida: o debug tem
+`google-services.json` versionado e usa os IDs de teste do AdMob definidos em
+`app/build.gradle`.
+
+Também é preciso preparar o ambiente antes de qualquer build: a platform
+`android-36` não está instalada (build-tools 36.1.0 está), e o pacote do
+emulador está em `Sdk/emulator.backup` em vez de `Sdk/emulator`.
+
+### Passos
+
+1. **Build limpo** — `./gradlew clean assembleDebug --stacktrace`. Confirma que
+   os 13 módulos compilam em `compileSdk 36` e que a subida do AdMob não
+   quebrou nada. O `targetSdk` efetivo é conferido no manifest mesclado, não no
+   `build.gradle`.
 2. **Lint e testes** — `./gradlew test lint --stacktrace`, idêntico ao CI.
-3. **16 KB page size** — extrair os `.so` do `app-release.aab` e checar o
-   alinhamento de segmento LOAD de cada um. Esta checagem substitui qualquer
-   suposição sobre quais dependências têm problema; a lista real de libs a
-   atualizar sai daqui.
-4. **Emulador API 36** — instalar o release e percorrer home (com o banner do
-   AdMob), onboarding, cadastro de pet, lembretes e settings, em retrato e
-   paisagem, tema claro e escuro. Foco em corte/sobreposição nas barras de
-   sistema.
-5. **Regressão de anúncios** — confirmar que o banner da home carrega na 24.x.
+3. **16 KB page size** — extrair os `.so` do APK debug e checar o alinhamento
+   de segmento LOAD de cada um com o `llvm-readelf` do NDK 29. Válido apesar de
+   ser debug: os `.so` são copiados das mesmas dependências, sem recompilação,
+   então o alinhamento ELF é idêntico ao do release. Esta checagem substitui
+   qualquer suposição sobre quais dependências têm problema; a lista real de
+   libs a atualizar sai daqui.
+4. **Emulador API 36** — AVD sobre `system-images;android-36;google_apis_playstore;x86_64`
+   (já instalada). Instalar o debug e percorrer home (com o banner do AdMob),
+   onboarding, cadastro de pet, lembretes e settings, em retrato e paisagem,
+   tema claro e escuro. Foco em corte/sobreposição nas barras de sistema.
+5. **Regressão de anúncios** — confirmar que o banner da home carrega na 25.4.0,
+   com os IDs de teste do Google.
+6. **AAB de release no CI** — abrir PR para `main` e confirmar que o job
+   `build` de `.github/workflows/android.yml` produz o `app-release.aab`
+   assinado.
 
 ### Critério de aceite
 
 - AAB de release assinado gerado com sucesso
 - `test` e `lint` passando
-- Todos os `.so` do AAB alinhados a 16 KB
+- Todos os `.so` do app alinhados a 16 KB
 - Nenhuma regressão visual nas telas principais no emulador API 36
 
 ## Fora de escopo
