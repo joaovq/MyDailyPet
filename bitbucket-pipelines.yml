@@ -1,42 +1,64 @@
-# Bitbucket Pipelines Template to build, test your Android Application.
-
-# This template contains 3 parallel steps to build Android application, run Android code scanning tool and run unit tests.
-# For more details see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
-
-# Docker for Android SDK 30 with pre-installed build tools and emulator image.
-# Note: This docker image is created and maintained by a non official third party. For more details see: https://hub.docker.com/r/androidsdk/android-30
-image: androidsdk/android-30
+# Bitbucket Pipelines: builds and tests the Android app.
+#
+# Image: mingc/android-build-box is actively maintained and ships a current
+# Android SDK. The previous androidsdk/android-30 image was abandoned -- its
+# packages date to 2021 and it only carries SDK 30, while this project needs
+# compileSdk 36. The same author never published an android-36 equivalent.
+#
+# The `latest` tag is deliberate: the newest numbered release (1.29.0, Apr 2025)
+# predates Android 16 and would not have API 36. Pin to a numbered tag once one
+# ships with SDK 36, so CI stops being a moving target.
+image: mingc/android-build-box:latest
 
 definitions:
   caches:
     - gradle
 
 pipelines:
-  default: # pipeline definition for all branches
-    - parallel: # running a set of steps at the same time https://support.atlassian.com/bitbucket-cloud/docs/set-up-or-run-parallel-steps/
-        - step: # step to build Android debug application
-            name: &AndroidDebugApplication
-            caches: # caching speed up subsequent execution https://support.atlassian.com/bitbucket-cloud/docs/cache-dependencies/
+  default: # runs for every branch
+    - parallel:
+        - step:
+            name: Debug build
+            caches:
               - gradle
             script:
+              # app/build.gradle reads local.properties and keystore.properties
+              # at configuration time, so the build fails before it evaluates
+              # the android block if either is missing. Debug does not need real
+              # values: ad unit IDs are hardcoded test IDs in the debug build
+              # type, and the keystore keys fall back to "" via ?:.
+              - echo "AD_MOB_ID=${AD_MOB_ID:-}" > local.properties
+              - echo "BANNER_AD_MOB_ID=${BANNER_AD_MOB_ID:-}" >> local.properties
+              - printf 'keystore-pswd=\nkeystore-alias-pswd=\n' > keystore.properties
               - chmod +x gradlew
               - ./gradlew assembleDebug
             artifacts:
-              - app/build/outputs/**        # artifacts are files that are produced by a step https://support.atlassian.com/bitbucket-cloud/docs/use-artifacts-in-steps/
-        - step: # step to run lint (Android code scanning tool)
+              - app/build/outputs/**
+        - step:
             name: Lint
-            caches: # caching speed up subsequent execution https://support.atlassian.com/bitbucket-cloud/docs/cache-dependencies/
+            caches:
               - gradle
             script:
-              - ./gradlew lint
+              - echo "AD_MOB_ID=${AD_MOB_ID:-}" > local.properties
+              - echo "BANNER_AD_MOB_ID=${BANNER_AD_MOB_ID:-}" >> local.properties
+              - printf 'keystore-pswd=\nkeystore-alias-pswd=\n' > keystore.properties
+              - chmod +x gradlew
+              # lintDebug, not lint: the full task also analyses the release and
+              # benchmark variants, which need the production google-services.json.
+              # That file is not in the repository -- only app/src/debug/ is.
+              - ./gradlew lintDebug
             artifacts:
-              - app/build/reports/**        # artifacts are files that are produced by a step https://support.atlassian.com/bitbucket-cloud/docs/use-artifacts-in-steps/
-        - step: # step to run unit tests
+              - app/build/reports/**
+        - step:
             name: Unit Tests
             caches:
-              - gradle    # caching speed up subsequent execution https://support.atlassian.com/bitbucket-cloud/docs/cache-dependencies/
+              - gradle
             script:
-              - ./gradlew testDebugUnitTest # test reporting is automatically enabled https://support.atlassian.com/bitbucket-cloud/docs/test-reporting-in-pipelines/
+              - echo "AD_MOB_ID=${AD_MOB_ID:-}" > local.properties
+              - echo "BANNER_AD_MOB_ID=${BANNER_AD_MOB_ID:-}" >> local.properties
+              - printf 'keystore-pswd=\nkeystore-alias-pswd=\n' > keystore.properties
+              - chmod +x gradlew
+              # Test reporting is picked up automatically from the JUnit XML.
+              - ./gradlew testDebugUnitTest
 clone:
   depth: full
-
