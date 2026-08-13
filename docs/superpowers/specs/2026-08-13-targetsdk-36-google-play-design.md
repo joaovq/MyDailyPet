@@ -162,7 +162,56 @@ emulador está em `Sdk/emulator.backup` em vez de `Sdk/emulator`.
 - AAB de release assinado gerado com sucesso
 - `test` e `lint` passando
 - Todos os `.so` do app alinhados a 16 KB
-- Nenhuma regressão visual nas telas principais no emulador API 36
+- ~~Nenhuma regressão visual nas telas principais no emulador API 36~~ —
+  **não verificado**, ver abaixo
+
+### Resultado de lint e testes
+
+Executado em 2026-08-13: `./gradlew testDebugUnitTest lintDebug` →
+`BUILD SUCCESSFUL in 2m 28s`, 614 tasks.
+
+O comando do CI (`./gradlew test lint`) **não roda localmente**: falha em
+`:app:processBenchmarkGoogleServices`, porque o build type `benchmark` herda do
+`release` e exige o `app/google-services.json` de produção. No CI o
+`.github/workflows/scripts.sh` escreve esse arquivo a partir do secret
+`GOOGLE_SERVICES_DATA`, então lá o comando completo funciona. A limitação é de
+ambiente e independe da migração.
+
+O `lint` em API 36 **não sinalizou** `window.statusBarColor` nem
+`android:statusBarColor` — zero ocorrências no relatório. O gatilho previsto
+para removê-los não disparou, então permanecem no código, como manda o escopo
+mínimo.
+
+### Verificação no emulador API 36 — NÃO REALIZADA
+
+Decisão do usuário em 2026-08-13, após o emulador não subir por falta de espaço
+em disco:
+
+```
+FATAL | Not enough space to create userdata partition.
+        Available: 4306.92 MB, need 7372.80 MB.
+```
+
+O disco estava em 99% (4,3 GB livres). As alternativas oferecidas — reduzir a
+partição do AVD, apagar um AVD antigo (`Nexus_5`, 12,3 GB), ou liberar espaço
+manualmente — foram recusadas em favor de seguir sem essa verificação. O único
+dispositivo físico conectado é um Samsung SM_T510 com Android 11 (API 30), que
+não serve para testar API 36.
+
+**Risco assumido.** Nada do comportamento de runtime no Android 16 foi
+observado. Continuam sem evidência:
+
+- edge-to-edge — se o tratamento de insets em `MainActivity.kt:62` cobre todas
+  as telas sob a imposição do Android 16, sem corte nem sobreposição
+- orientação — comportamento em paisagem, agora que o A16 ignora restrições de
+  orientação acima de 600dp
+- tema escuro — o caminho de `values-night/themes.xml`
+- **AdMob 22.2.0 em runtime na API 36** — o banner da home carregar. Este é o
+  item mais sensível, porque a decisão de não subir o AdMob foi tomada com base
+  em compilação, não em execução
+
+Todos são verificáveis depois num emulador API 36, ou no canal de teste interno
+do Play antes da promoção para produção.
 
 ### Resultado da verificação de 16 KB
 
