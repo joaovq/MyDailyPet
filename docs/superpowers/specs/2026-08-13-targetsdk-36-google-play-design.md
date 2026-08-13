@@ -267,8 +267,26 @@ código, sem execução.
   que expõe campos de texto ancorados na base — formulários de cadastro de pet,
   lembretes e tarefas.
 
-Ambas ficam fora do escopo mínimo. Registradas aqui para que a decisão de não
-mexer seja explícita, em vez de parecer que o caso foi coberto.
+**Resolução.** O `displayCutout()` foi adicionado (commit `c20b703`), por
+decisão do usuário, saindo do escopo mínimo. O `CONSUMED` e os insets de
+teclado **permanecem como estão** — continuam sendo limitação conhecida e não
+verificada.
+
+## Risco não mitigado: publicação direta em produção
+
+`fastlane/Fastfile`, lane `deploy`, chama `upload_to_play_store` sem argumento
+`track:`. O default do `supply` é **`production`**, e
+`.github/workflows/android_fastlane.yml` dispara em tags `v*`.
+
+Ou seja: `git tag v1.3.0 && git push --tags` publica para 100% dos usuários um
+build cujo comportamento em Android 16 nunca foi observado.
+
+Foi oferecida a troca para `track: 'internal'` e **recusada** — a decisão foi
+manter o fluxo de publicação como está. Registrado para que a escolha seja
+rastreável.
+
+Quem for publicar deve, em vez disso, promover manualmente pelo Play Console a
+partir de um canal de teste, ou usar `rollout` gradual.
 
 ## Fora de escopo
 
