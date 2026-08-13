@@ -80,14 +80,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Only ever reached by explicit intents from AndroidAlarmScheduler,
+             so it needs no intent-filter. The previous filter declared a
+             category with no action and could never match anything. -->
         <receiver
             android:name="br.com.joaovq.core.data.receivers.NotificationReceiver"
-            android:exported="false"
-            >
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

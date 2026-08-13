@@ -3,6 +3,11 @@ name: Android CI
 on:
   push:
     branches: [ "main" ]
+  # Runs on PRs so bundleRelease, R8 and lintVitalRelease are exercised
+  # before merge, not after. Only works for branches in this repository,
+  # since the jobs need the signing and Firebase secrets.
+  pull_request:
+    branches: [ "main", "develop" ]
   workflow_dispatch:
 
 env:
