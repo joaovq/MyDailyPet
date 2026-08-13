@@ -54,30 +54,45 @@ Os valores no arquivo são os efetivamente usados — nem `.github/workflows/and
 nem o Fastlane definem `VERSION_CODE`/`VERSION_NAME` no ambiente, apesar do
 `System.getenv` no `build.gradle`.
 
-### play-services-ads
+### play-services-ads — permanece em 22.2.0
 
-`22.2.0` (jul/2023) → `25.4.0` (17/06/2026, última estável).
+**Correção.** Uma versão anterior deste spec afirmava que a 22.2.0 não atendia
+ao requisito de **16 KB page size** e que o upgrade para 25.4.0 era obrigatório.
+Isso estava errado, e a afirmação foi feita sem medição.
 
-Obrigatório: a versão atual não atende ao requisito de **16 KB page size**,
-vigente para submissões ao Play desde 01/11/2025.
+O requisito de 16 KB se aplica a bibliotecas nativas. Nenhum artefato do AdMob
+empacota `.so` — contagem de `.so` dentro dos AARs no cache do Gradle:
 
-Requisitos da 25.4.0, ambos já satisfeitos: `minSdk` 23 (o app está em 24) e
-`compileSdk` 34+ (o app irá para 36).
+```
+0  play-services-ads-22.2.0.aar
+0  play-services-ads-25.4.0.aar
+0  play-services-ads-api-25.4.0.aar
+0  play-services-ads-base-22.2.0.aar
+0  play-services-ads-lite-22.2.0.aar
+```
 
-Superfície de API em uso, toda em `HomeFragment.kt` e `fragment_home.xml`:
-`MobileAds.initialize`, `MobileAds.setRequestConfiguration`, `AdRequest.Builder`,
-e a view `com.google.android.gms.ads.AdView`.
+As release notes do AdMob também não mencionam 16 KB em nenhuma versão. Sem
+código nativo, o requisito não se aplica, e não resta justificativa de prazo
+para o upgrade.
 
-As remoções das majors 24.0.0 e 25.0.0 (`SearchAdView`, `NativeAdViewHolder`,
-APIs de interscroller, classes de mediação, métodos de orientação do
-`AppOpenAd`) não tocam nada do que o app usa. Migração esperada como mecânica —
-apenas a troca de versão no catalog.
+A tentativa de subir para 25.4.0 também não era gratuita: o `-api.jar` da
+25.4.0 traz metadata compilada com Kotlin 2.3.0, enquanto o projeto está em
+`kotlin = "2.0.0"`. O `:app:kspDebugKotlin` falha com 19 erros de versão de
+metadata. Corrigir exigiria subir Kotlin, KSP e o plugin do Compose juntos —
+acoplados pela mesma chave do catalog — com risco real de regressão em
+Hilt/Room/Compose e nenhum ganho para a validação do Play.
+
+A 22.2.0 compila normalmente em `compileSdk 36` (comprovado pelo build da
+migração de SDK). O comportamento em runtime no Android 16 é verificado no
+emulador; se o banner falhar lá, o upgrade volta à mesa com evidência.
+
+Os `.so` que o app de fato empacota vêm de `datastore-core` e `graphics-path`,
+não do AdMob. São esses que a verificação de 16 KB precisa medir.
 
 **Não migrar para o Google Mobile Ads Next-Gen SDK.** Desde 06/07/2026 ele é o
 SDK "preferido" da Google, mas é um artefato diferente
 (`com.google.android.libraries.ads.mobile.sdk:ads-mobile-sdk`) com API
-reescrita. É um projeto próprio, não parte desta migração — e o
-`play-services-ads` 25.4.0 continua suportado e atende ao prazo do Play.
+reescrita. É projeto próprio, não parte desta migração.
 
 ### Sem mudança
 
@@ -121,9 +136,8 @@ emulador está em `Sdk/emulator.backup` em vez de `Sdk/emulator`.
 ### Passos
 
 1. **Build limpo** — `./gradlew clean assembleDebug --stacktrace`. Confirma que
-   os 13 módulos compilam em `compileSdk 36` e que a subida do AdMob não
-   quebrou nada. O `targetSdk` efetivo é conferido no manifest mesclado, não no
-   `build.gradle`.
+   os 13 módulos compilam em `compileSdk 36`. O `targetSdk` efetivo é conferido
+   no manifest mesclado, não no `build.gradle`.
 2. **Lint e testes** — `./gradlew test lint --stacktrace`, idêntico ao CI.
 3. **16 KB page size** — extrair os `.so` do APK debug e checar o alinhamento
    de segmento LOAD de cada um com o `llvm-readelf` do NDK 29. Válido apesar de
@@ -135,8 +149,10 @@ emulador está em `Sdk/emulator.backup` em vez de `Sdk/emulator`.
    (já instalada). Instalar o debug e percorrer home (com o banner do AdMob),
    onboarding, cadastro de pet, lembretes e settings, em retrato e paisagem,
    tema claro e escuro. Foco em corte/sobreposição nas barras de sistema.
-5. **Regressão de anúncios** — confirmar que o banner da home carrega na 25.4.0,
-   com os IDs de teste do Google.
+5. **Anúncios no Android 16** — confirmar que o banner da home carrega com o
+   AdMob 22.2.0 rodando em API 36, usando os IDs de teste do Google. Este é o
+   único ponto onde a decisão de manter a 22.2.0 pode se mostrar errada; se o
+   banner falhar aqui, o upgrade volta à mesa com evidência de runtime.
 6. **AAB de release no CI** — abrir PR para `main` e confirmar que o job
    `build` de `.github/workflows/android.yml` produz o `app-release.aab`
    assinado.

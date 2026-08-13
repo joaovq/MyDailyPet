@@ -2,9 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Subir o My Daily Pet de `targetSdk 35` para `targetSdk 36` (Android 16) e atualizar o AdMob, para que o app continue aceito no Google Play após 31/08/2026.
+**Goal:** Subir o My Daily Pet de `targetSdk 35` para `targetSdk 36` (Android 16), para que o app continue aceito no Google Play após 31/08/2026.
 
-**Architecture:** As versões de SDK saem dos 13 `build.gradle` e passam a viver como entradas no version catalog, referenciadas por todos os módulos. O `play-services-ads` sobe de 22.2.0 para 25.4.0 para atender ao requisito de 16 KB page size. Nenhuma mudança de código de runtime é esperada — o trabalho restante é verificação em emulador API 36.
+**Architecture:** As versões de SDK saem dos 13 `build.gradle` e passam a viver como entradas no version catalog, referenciadas por todos os módulos. Nenhuma mudança de dependência nem de código de runtime é esperada — o trabalho restante é verificação em emulador API 36.
+
+**Histórico:** este plano tinha uma Task 2 que subia o `play-services-ads` de 22.2.0 para 25.4.0, justificada pelo requisito de 16 KB page size. A tarefa foi **removida**: nenhum artefato do AdMob empacota `.so`, então o requisito não se aplica a ele. Detalhes e a medição no spec, seção "play-services-ads — permanece em 22.2.0". As tarefas seguintes mantêm a numeração original.
 
 **Tech Stack:** Gradle 8.13, AGP 8.11.1, JDK 17, Kotlin 2.0.0, Groovy DSL, version catalog (`gradle/libs.versions.toml`).
 
@@ -13,7 +15,7 @@
 ## Global Constraints
 
 - `compileSdk` e `targetSdk` finais: **36**. `minSdk` permanece **24**.
-- `play-services-ads` final: **25.4.0**. Não migrar para o Next-Gen SDK (`ads-mobile-sdk`) — fora de escopo.
+- `play-services-ads` permanece em **22.2.0**. Não subir de versão e não migrar para o Next-Gen SDK (`ads-mobile-sdk`).
 - `versionCode` final: **16**. `versionName` final: **"1.3.0"**.
 - Não atualizar Firebase BOM, Compose BOM, Material, Hilt ou Room, **salvo** se a Task 4 acusar `.so` desalinhado vindo dessas libs.
 - Não remover `window.statusBarColor` (`Theme.kt:57`) nem `android:statusBarColor` (ambos `themes.xml`), **salvo** se o `lint` falhar por causa deles na Task 5.
@@ -41,7 +43,7 @@ de segmento ELF é idêntico ao do release.
 
 | Arquivo | Responsabilidade | Tarefa |
 |---|---|---|
-| `gradle/libs.versions.toml` | Fonte única das versões de SDK e do AdMob | 1, 2 |
+| `gradle/libs.versions.toml` | Fonte única das versões de SDK | 1 |
 | `app/build.gradle` | Referencia o catalog; carrega `versionCode`/`versionName` | 1, 3 |
 | `benchmark/build.gradle` | Referencia o catalog | 1 |
 | `core/build.gradle`, `core-ui/build.gradle`, `data/build.gradle` | Referenciam o catalog | 1 |
@@ -177,7 +179,7 @@ Nada a commitar nesta tarefa — `local.properties` está no `.gitignore`.
 
 **Interfaces:**
 - Consumes: ambiente da Task 0.
-- Produces: as chaves `compileSdk`, `targetSdk` e `minSdk` no catalog, lidas como `libs.versions.<chave>.get().toInteger()`. A Task 2 adiciona outra chave ao mesmo bloco.
+- Produces: as chaves `compileSdk`, `targetSdk` e `minSdk` no catalog, lidas como `libs.versions.<chave>.get().toInteger()`.
 
 - [ ] **Step 1: Adicionar as chaves ao version catalog**
 
@@ -281,84 +283,6 @@ next bump is a single line instead of 13 edits."
 
 ---
 
-### Task 2: Atualizar play-services-ads para 25.4.0
-
-A 22.2.0 é de julho/2023 e não atende ao requisito de 16 KB page size, vigente
-para submissões ao Play desde 01/11/2025.
-
-**Files:**
-- Modify: `gradle/libs.versions.toml:37` (`playServicesAds = "22.2.0"`)
-
-**Interfaces:**
-- Consumes: catalog da Task 1.
-- Produces: `com.google.android.gms:play-services-ads:25.4.0` no classpath. Nenhuma mudança de API — os consumidores em `HomeFragment.kt` e `fragment_home.xml` permanecem intactos.
-
-- [ ] **Step 1: Registrar a superfície de API em uso**
-
-Antes de mexer, confirme que nada além disto usa AdMob:
-
-```bash
-grep -rn "com.google.android.gms.ads" --include=*.kt --include=*.xml . | grep -v "/build/"
-```
-
-Esperado: exatamente 6 ocorrências — 4 imports/chamadas em
-`app/src/main/java/br/com/joaovq/mydailypet/home/presentation/view/HomeFragment.kt`
-(linhas 31–33 e 122–126), a view `com.google.android.gms.ads.AdView` em
-`app/src/main/res/layout/fragment_home.xml:201`, e o meta-data
-`com.google.android.gms.ads.APPLICATION_ID` em
-`app/src/main/AndroidManifest.xml:44`.
-
-Se aparecer qualquer uso de `SearchAdView`, `NativeAdViewHolder`,
-`VersionInfo`, `MediationUtils` ou APIs de interscroller, **pare**: essas foram
-removidas nas majors 24.0.0/25.0.0 e a migração deixa de ser mecânica.
-
-- [ ] **Step 2: Subir a versão no catalog**
-
-Em `gradle/libs.versions.toml`, linha 37, trocar:
-
-```toml
-playServicesAds = "22.2.0"
-```
-
-por:
-
-```toml
-playServicesAds = "25.4.0"
-```
-
-Requisitos da 25.4.0, ambos já satisfeitos: `minSdk` 23 (o app está em 24) e
-`compileSdk` 34+ (o app está em 36 após a Task 1).
-
-- [ ] **Step 3: Confirmar a resolução da dependência**
-
-```bash
-./gradlew :app:dependencies --configuration debugRuntimeClasspath 2>&1 | grep "play-services-ads"
-```
-
-Esperado: linhas com `com.google.android.gms:play-services-ads:25.4.0`.
-Se aparecer `22.2.0 -> 25.4.0`, também está correto. Se ainda aparecer 22.2.0
-sozinho, o catalog não foi lido.
-
-- [ ] **Step 4: Compilar**
-
-```bash
-./gradlew clean assembleDebug --stacktrace
-```
-
-Esperado: `BUILD SUCCESSFUL`. Erros de símbolo não resolvido aqui apontam para
-uma API removida que o Step 1 não pegou.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add gradle/libs.versions.toml
-git commit -m "build: update play-services-ads 22.2.0 -> 25.4.0
-
-Required for 16 KB page size compliance, mandatory for Play
-submissions since 2025-11-01. The removals in the 24.0.0 and 25.0.0
-majors do not touch the APIs this app uses."
-```
-
 ---
 
 ### Task 3: Bump de versão para 1.3.0
@@ -418,7 +342,7 @@ recompilação, então o alinhamento ELF é idêntico ao do release.
 - Nenhum modificado, a menos que a medição acuse desalinhamento.
 
 **Interfaces:**
-- Consumes: `app/build/outputs/apk/debug/app-debug.apk` das Tasks 1–3.
+- Consumes: `app/build/outputs/apk/debug/app-debug.apk` das Tasks 1 e 3.
 - Produces: a lista real de bibliotecas nativas a atualizar (idealmente vazia).
 
 - [ ] **Step 1: Gerar o APK debug**
@@ -493,7 +417,7 @@ git commit -m "docs: record 16 KB page size verification result"
 - Nenhum modificado, a menos que a verificação encontre regressão.
 
 **Interfaces:**
-- Consumes: AVD `MyDailyPet_API36` da Task 0; APK debug das Tasks 1–3.
+- Consumes: AVD `MyDailyPet_API36` da Task 0; APK debug das Tasks 1 e 3.
 - Produces: confirmação de que edge-to-edge, orientação e o banner do AdMob funcionam no Android 16.
 
 - [ ] **Step 1: Rodar testes e lint**
@@ -644,9 +568,9 @@ Esperado: **nenhuma saída**. `local.properties` não aparece porque está no
 git diff main...HEAD --stat && git diff main...HEAD -- gradle/libs.versions.toml app/build.gradle
 ```
 
-Esperado: 14 arquivos de build alterados mais os 2 documentos. Confira à vista
-que `compileSdk`/`targetSdk` são 36, `playServicesAds` é 25.4.0 e a versão é
-16/1.3.0.
+Esperado: 14 arquivos de build alterados mais os documentos. Confira à vista
+que `compileSdk`/`targetSdk` são 36, que `playServicesAds` continua 22.2.0 e
+que a versão é 16/1.3.0.
 
 - [ ] **Step 3: Push do branch**
 
