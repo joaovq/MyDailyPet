@@ -63,13 +63,13 @@ pacote do emulador está numa pasta com nome errado. Sem isso, nenhuma tarefa
 seguinte roda.
 
 **Files:**
-- Create: `local.properties` (não versionado — está no `.gitignore`)
+- Create: `local.properties` e `keystore.properties` (ambos não versionados — estão no `.gitignore`)
 
 **Interfaces:**
 - Consumes: nada.
 - Produces: ambiente capaz de rodar `./gradlew assembleDebug` e um AVD chamado `MyDailyPet_API36`.
 
-- [ ] **Step 1: Confirmar que o build falha sem `local.properties`**
+- [ ] **Step 1: Confirmar que o build falha sem os arquivos de propriedades**
 
 ```bash
 ./gradlew :app:tasks --offline 2>&1 | tail -20
@@ -79,13 +79,23 @@ Esperado: FALHA. O `app/build.gradle:16` faz
 `properties.load(rootProject.file('local.properties').newDataInputStream())`,
 que lança `FileNotFoundException` quando o arquivo não existe.
 
-- [ ] **Step 2: Criar `local.properties` no worktree**
+- [ ] **Step 2: Criar `local.properties` e `keystore.properties` no worktree**
 
-Copia o do repositório principal, que já tem o `sdk.dir` correto:
+Ambos vêm do repositório principal. O `local.properties` tem o `sdk.dir`
+correto; o `keystore.properties` do repositório principal está vazio (0 bytes),
+o que basta — `app/build.gradle:22-23` usa `?: ""` como fallback para cada
+chave ausente.
 
 ```bash
 cp /c/Users/Horizon/Desktop/projetos/MyDailyPet/local.properties local.properties
+cp /c/Users/Horizon/Desktop/projetos/MyDailyPet/keystore.properties keystore.properties
 ```
+
+O `keystore.properties` é igualmente obrigatório: `app/build.gradle:19-24` o
+carrega em tempo de configuração sempre que a variável de ambiente
+`KEY_PASSWORD` não está definida — o que é o caso local, inclusive para builds
+debug. Sem ele o build falha com "O sistema não pode encontrar o arquivo
+especificado" antes mesmo de avaliar o bloco `android`.
 
 - [ ] **Step 3: Corrigir a pasta do emulador**
 
