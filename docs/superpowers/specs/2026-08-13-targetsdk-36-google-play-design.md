@@ -164,6 +164,27 @@ emulador está em `Sdk/emulator.backup` em vez de `Sdk/emulator`.
 - Todos os `.so` do app alinhados a 16 KB
 - Nenhuma regressão visual nas telas principais no emulador API 36
 
+### Resultado da verificação de 16 KB
+
+Medido em 2026-08-13, sobre o APK debug (`./gradlew clean assembleDebug`,
+`BUILD SUCCESSFUL in 1m 35s`), extraído e analisado com o `llvm-readelf` do
+NDK 29.0.13113456. Nenhum artefato do AdMob (`play-services-ads` 22.2.0)
+empacota `.so` — confirmado por contagem zero em todos os AARs em cache. Os
+únicos `.so` do APK vêm de `androidx.graphics:graphics-path:1.0.1`
+(`libandroidx.graphics.path.so`), uma dependência transitiva, presente nas
+quatro ABIs:
+
+```
+ok  0x4000   lib/arm64-v8a/libandroidx.graphics.path.so
+ok  0x4000   lib/armeabi-v7a/libandroidx.graphics.path.so
+ok  0x4000   lib/x86/libandroidx.graphics.path.so
+ok  0x4000   lib/x86_64/libandroidx.graphics.path.so
+```
+
+Todas as quatro bibliotecas nativas têm o segmento `LOAD` alinhado a
+`0x4000` (16384 bytes) — **PASSA** o requisito de 16 KB page size da Google
+Play. Nenhuma dependência precisa de upgrade por este critério.
+
 ## Fora de escopo
 
 Registrado aqui por ter sido levantado durante o diagnóstico, mas
