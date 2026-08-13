@@ -48,11 +48,34 @@ version catalog para todo o resto, e centralizar elimina a classe de erro
 
 ### Versão do app
 
-Em `app/build.gradle`: `versionCode 16`, `versionName "1.3.0"`.
+Em `app/build.gradle`: `versionCode 25`, `versionName "1.3.0"`.
 
 Os valores no arquivo são os efetivamente usados — nem `.github/workflows/android.yml`
 nem o Fastlane definem `VERSION_CODE`/`VERSION_NAME` no ambiente, apesar do
 `System.getenv` no `build.gradle`.
+
+**Correção: por que não é 16.** A primeira tentativa usou `versionCode 16`,
+escolhido porque a `develop` estava em 15. O build passou inteiro e o deploy
+falhou no upload:
+
+```
+Google Api Error: Invalid request - Version code 16 has already been used.
+```
+
+O repositório não contava a história toda. A branch
+`origin/hotfix/fix_crash_in_app_update` (commit `0ee9c66`, nov/2025) declara
+`versionCode 21` / `versionName "1.2.3"` e nunca foi mesclada na `develop`.
+Releases saíram dessa linha, consumindo códigos a partir do 16 sem que a
+`develop` registrasse.
+
+Daí o salto para **25**: acima do 21 conhecido, com folga para códigos que a
+linha de hotfix possa ter consumido sem deixar rastro no repositório. Buracos
+na numeração não custam nada — o `versionCode` só precisa crescer, e o usuário
+nunca o vê.
+
+**Para o próximo bump:** não deduza o `versionCode` do `build.gradle` da
+`develop`. Consulte o painel de releases do Play Console, a única fonte que
+conhece todas as branches de onde já se publicou.
 
 ### play-services-ads — permanece em 22.2.0
 
@@ -281,12 +304,26 @@ verificada.
 Ou seja: `git tag v1.3.0 && git push --tags` publica para 100% dos usuários um
 build cujo comportamento em Android 16 nunca foi observado.
 
-Foi oferecida a troca para `track: 'internal'` e **recusada** — a decisão foi
-manter o fluxo de publicação como está. Registrado para que a escolha seja
-rastreável.
+**Confirmado em execução**, não mais por inferência. O deploy da tag `v1.3.0`
+rodou em 2026-08-13 e o resumo do `supply` reportou:
 
-Quem for publicar deve, em vez disso, promover manualmente pelo Play Console a
-partir de um canal de teste, ou usar `rollout` gradual.
+```
+track            | production
+release_status   | completed
+rollout          | (ausente)
+```
+
+Esse deploy **não publicou** — falhou no upload por colisão de `versionCode`
+(ver "Versão do app"). A colisão foi o único motivo pelo qual um build sem
+verificação de runtime em Android 16 não chegou a todos os usuários.
+
+A troca para `track: 'internal'` e o `rollout` gradual foram oferecidos **duas
+vezes** e recusados nas duas — a segunda já com o log acima em mãos. A decisão
+é manter o fluxo como está, e está registrada para ser rastreável.
+
+Quem publicar deve compensar manualmente: acompanhar Crashlytics e os vitals do
+Play nas primeiras horas após a tag, com atenção às telas que dependem de
+edge-to-edge e ao carregamento do banner do AdMob.
 
 ## Fora de escopo
 
