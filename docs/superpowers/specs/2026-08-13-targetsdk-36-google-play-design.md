@@ -108,7 +108,7 @@ verificação; cada item vira correção apenas se a verificação falhar.
 
 | Mudança do A16 | Estado atual | Ação |
 |---|---|---|
-| Edge-to-edge obrigatório, sem opt-out | `MainActivity.kt:62` aplica `systemBars` como margem na raiz e retorna `CONSUMED` — tratamento válido | Validar tela a tela no emulador; corrigir só se houver corte ou sobreposição |
+| Edge-to-edge obrigatório, sem opt-out | `MainActivity.kt:62` aplica `systemBars` como margem na raiz e retorna `CONSUMED`. Trata as barras de sistema, mas **não** `displayCutout()` nem `ime()` — ver "Limitações conhecidas do tratamento de insets" | Validar tela a tela no emulador; corrigir só se houver corte ou sobreposição |
 | `statusBarColor` / `navigationBarColor` deprecados | `Theme.kt:57` e ambos os `themes.xml` — já são no-op desde a API 35 | Manter. Se o `lint` em API 36 falhar por isso, remover |
 | Predictive back | `enableOnBackInvokedCallback="true"` no manifest; `OnBoardingFragment.kt:92` usa `OnBackPressedDispatcher` | Nenhuma |
 | `screenOrientation` ignorado acima de 600dp | Nada travado no projeto | Validar em paisagem no emulador |
@@ -230,9 +230,45 @@ ok  0x4000   lib/x86/libandroidx.graphics.path.so
 ok  0x4000   lib/x86_64/libandroidx.graphics.path.so
 ```
 
-Todas as quatro bibliotecas nativas têm o segmento `LOAD` alinhado a
-`0x4000` (16384 bytes) — **PASSA** o requisito de 16 KB page size da Google
-Play. Nenhuma dependência precisa de upgrade por este critério.
+Todas as quatro bibliotecas nativas têm o segmento `LOAD` alinhado a `0x4000`
+(16384 bytes). Nenhuma dependência precisa de upgrade por este critério.
+
+**Ressalva sobre o alcance desta medição.** O requisito de 16 KB do Play tem
+duas partes, e esta mede uma:
+
+1. alinhamento do segmento `LOAD` no ELF ≥ 16 KB — **medido, passa**;
+2. os `.so` gravados sem compressão e alinhados a 16 KB dentro do APK/AAB —
+   **não medido**. É responsabilidade do AGP, que faz isso automaticamente
+   desde a 8.5.1 (o projeto usa 8.11.1), mas isso é inferência, não medição.
+
+Confirmar a parte 2 no AAB produzido pelo CI, com
+`zipalign -c -P 16 -v app-release.aab`.
+
+## Limitações conhecidas do tratamento de insets
+
+Levantadas na revisão final. Nenhuma é regressão desta migração — todas já
+valiam em `targetSdk 35` — mas o Android 16 aumenta a exposição de duas delas,
+e o spec antes chamava o tratamento de "válido" com base apenas em leitura de
+código, sem execução.
+
+`MainActivity.kt:62` consulta somente `WindowInsetsCompat.Type.systemBars()`:
+
+- **`displayCutout()` não é consultado.** Desde o `targetSdk 35` o modo padrão
+  de recorte é `LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS`, e `systemBars()` não
+  inclui o recorte. Em paisagem, num aparelho com notch, o conteúdo passa por
+  baixo dele. O Android 16 torna isso mais provável: acima de 600dp ele ignora
+  restrições de orientação, então paisagem vira caminho de primeira classe — e
+  o projeto não tem `layout-land` nem `values-sw600dp` em nenhum módulo.
+  Correção de uma linha:
+  `systemBars() or WindowInsetsCompat.Type.displayCutout()`.
+- **`CONSUMED` na raiz impede qualquer filho de ver insets**, inclusive os do
+  teclado. `setOnApplyWindowInsetsListener` aparece uma única vez em todo o
+  código. Com edge-to-edge, `adjustResize` não redimensiona mais a janela, o
+  que expõe campos de texto ancorados na base — formulários de cadastro de pet,
+  lembretes e tarefas.
+
+Ambas ficam fora do escopo mínimo. Registradas aqui para que a decisão de não
+mexer seja explícita, em vez de parecer que o caso foi coberto.
 
 ## Fora de escopo
 

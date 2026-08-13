@@ -241,8 +241,13 @@ Esperado: 13 linhas, cada uma com contagem `3`.
 
 - [ ] **Step 5: Confirmar que o Gradle resolve o catalog**
 
+Use `:core:tasks`, **não** `:app:tasks`. O `:app:tasks` não pode passar neste
+repositório por causa de um bug pré-existente em `app/build.gradle:229`
+(`dependsOn['a','b']`, que o Groovy interpreta como leitura de índice em vez de
+chamada de método). O bug é anterior a este trabalho e está fora de escopo.
+
 ```bash
-./gradlew :app:tasks --stacktrace 2>&1 | tail -20
+./gradlew :core:tasks --stacktrace 2>&1 | tail -20
 ```
 
 Esperado: `BUILD SUCCESSFUL`. Um erro de `Unknown property 'compileSdk'` aqui
@@ -578,14 +583,43 @@ que a versão é 16/1.3.0.
 git push -u origin claude/maxsdk-google-play-update-d7830e
 ```
 
-- [ ] **Step 4: Acompanhar o workflow**
+- [ ] **Step 4: Habilitar o disparo manual do workflow**
 
-O `.github/workflows/android.yml` dispara em push para `main`, não neste
-branch. Então dispare o build de release abrindo um PR para `main`, ou peça ao
-usuário para rodar o workflow manualmente.
+**Correção.** Uma versão anterior deste passo mandava "abrir um PR para `main`,
+ou rodar o workflow manualmente". As duas coisas são impossíveis hoje:
+`.github/workflows/android.yml:3-5` declara apenas
 
-**Pare aqui e confirme com o usuário** antes de abrir PR ou fazer merge —
-publicar é ação de fora, e a decisão é dele.
+```yaml
+on:
+  push:
+    branches: [ "main" ]
+```
+
+Um pull request não dispara um workflow de `push`, e sem `workflow_dispatch`
+não existe botão de execução manual. Como está, o **primeiro** build de release
+em `compileSdk 36` só aconteceria depois do merge, já em `main`.
+
+Isso importa porque `bundleRelease` exercita caminhos que nada verificou ainda:
+R8 com `minifyEnabled`/`shrinkResources` no SDK novo, o `lintVitalRelease`
+(fatal por padrão, e que **não** roda no `lintDebug`), e o
+`:app:processBenchmarkGoogleServices`.
+
+Adicione o disparo manual a `.github/workflows/android.yml`:
+
+```yaml
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+```
+
+`workflow_dispatch` é a mudança menor e suficiente: permite rodar o workflow
+neste branch, com os secrets, sem abrir PR. (Um gatilho `pull_request` também
+funcionaria, mas só para branches do próprio repositório, já que o job precisa
+dos secrets.)
+
+**Pare aqui e confirme com o usuário** antes de alterar o workflow, abrir PR ou
+fazer merge — publicar é ação de fora, e a decisão é dele.
 
 - [ ] **Step 5: Verificar o artefato**
 
