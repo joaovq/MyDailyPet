@@ -86,8 +86,8 @@ A 22.2.0 compila normalmente em `compileSdk 36` (comprovado pelo build da
 migração de SDK). O comportamento em runtime no Android 16 é verificado no
 emulador; se o banner falhar lá, o upgrade volta à mesa com evidência.
 
-Os `.so` que o app de fato empacota vêm de `datastore-core` e `graphics-path`,
-não do AdMob. São esses que a verificação de 16 KB precisa medir.
+Os `.so` que o app de fato empacota não vêm do AdMob. A medição está em
+"Resultado da verificação de 16 KB", mais abaixo.
 
 **Não migrar para o Google Mobile Ads Next-Gen SDK.** Desde 06/07/2026 ele é o
 SDK "preferido" da Google, mas é um artefato diferente
